@@ -29,5 +29,6 @@
 #define ROCKETEXT_H
 
 #include <Rocket/Ext/PluginUtils.h>
+#include <Rocket/Ext/ElementProgressBar.h>
 
 #endif

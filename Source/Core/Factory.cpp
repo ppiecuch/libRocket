@@ -30,6 +30,7 @@
 #include <Rocket/Core/StreamMemory.h>
 #include "ContextInstancerDefault.h"
 #include "DecoratorNoneInstancer.h"
+#include "DecoratorAliasInstancer.h"
 #include "DecoratorTiledBoxInstancer.h"
 #include "DecoratorTiledHorizontalInstancer.h"
 #include "DecoratorTiledImageInstancer.h"
@@ -109,6 +110,7 @@ bool Factory::Initialise()
 	RegisterDecoratorInstancer("tiled-vertical", new DecoratorTiledVerticalInstancer())->RemoveReference();
 	RegisterDecoratorInstancer("tiled-box", new DecoratorTiledBoxInstancer())->RemoveReference();
 	RegisterDecoratorInstancer("image", new DecoratorTiledImageInstancer())->RemoveReference();
+	RegisterDecoratorInstancer("alias", new DecoratorAliasInstancer())->RemoveReference();
 	RegisterDecoratorInstancer("none", new DecoratorNoneInstancer())->RemoveReference();
 
 	RegisterFontEffectInstancer("shadow", new FontEffectShadowInstancer())->RemoveReference();

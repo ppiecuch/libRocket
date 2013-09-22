@@ -26,56 +26,45 @@
  */
 
 #include "precompiled.h"
-#include <Rocket/Core/DecoratorInstancer.h>
+#include "DecoratorAliasInstancer.h"
 
 namespace Rocket {
 namespace Core {
 
-DecoratorInstancer::DecoratorInstancer()
+DecoratorAliasInstancer::DecoratorAliasInstancer()
+{
+	RegisterProperty("decorator-id", "").AddParser("string");
+}
+
+DecoratorAliasInstancer::~DecoratorAliasInstancer()
 {
 }
 
-DecoratorInstancer::~DecoratorInstancer()
+// Instances a decorator given the property tag and attributes from the RCSS file.
+Decorator* DecoratorAliasInstancer::InstanceDecorator(const String& ROCKET_UNUSED(name), const PropertyDictionary& properties)
 {
+	const Property* id_property = properties.GetProperty("decorator_id");
+	String decorator_id = id_property->Get< String >();
+
+	std::map<String, Decorator*>::iterator it = cache.find(decorator_id);
+	if (it != cache.end()) {
+	  cache[decorator_id]->AddReference();
+	  return cache[decorator_id];
+	} else
+	  return NULL;
 }
 
-// Returns the property specification associated with the instancer.
-const PropertySpecification& DecoratorInstancer::GetPropertySpecification() const
+// Releases the given decorator.
+void DecoratorAliasInstancer::ReleaseDecorator(Decorator* decorator)
 {
-	return properties;
-}
-
-// Registers a property for the decorator.
-PropertyDefinition& DecoratorInstancer::RegisterProperty(const String& property_name, const String& default_value)
-{
-	return properties.RegisterProperty(property_name, default_value, false, false);
-}
-
-// Registers a shorthand property definition.
-bool DecoratorInstancer::RegisterShorthand(const String& shorthand_name, const String& property_names, PropertySpecification::ShorthandType type)
-{
-	return properties.RegisterShorthand(shorthand_name, property_names, type);
+	decorator->RemoveReference();
 }
 
 // Releases the instancer.
-void DecoratorInstancer::OnReferenceDeactivate()
+void DecoratorAliasInstancer::Release()
 {
-	Release();
+	delete this;
 }
-
-// Store decorator in cache for later reusing.
-void DecoratorInstancer::CacheDecorator(const String &name, Decorator *decorator)
-{
-	cache[name] = decorator;	
-}
-
-// Remove decorator from cache.
-void DecoratorInstancer::DecacheDecorator(const String &name)
-{
-	cache.erase(name);
-}
-
-std::map<String, Decorator*> DecoratorInstancer::cache;
 
 }
 }

@@ -32,6 +32,7 @@
 #include <Rocket/Core/Header.h>
 #include <Rocket/Core/PropertyDictionary.h>
 #include <Rocket/Core/PropertySpecification.h>
+#include <map>
 
 namespace Rocket {
 namespace Core {
@@ -83,6 +84,12 @@ protected:
 
 	// Releases the instancer.
 	virtual void OnReferenceDeactivate();
+	// Store decorator in cache for later reusing.
+	void CacheDecorator(const String &name, Decorator *decorator);
+	// Remove decorator from cache.
+	void DecacheDecorator(const String &name);
+	// Track created decorators here for reusing.
+	static std::map<String, Decorator*> cache;
 
 private:
 	PropertySpecification properties;

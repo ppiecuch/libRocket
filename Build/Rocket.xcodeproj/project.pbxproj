@@ -469,6 +469,8 @@
 		6EF3BCFE12481DD40014316D /* WString.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EF3BBFF12481DD40014316D /* WString.h */; };
 		6EF3BCFF12481DD40014316D /* XMLNodeHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EF3BC0012481DD40014316D /* XMLNodeHandler.h */; };
 		6EF3BD0012481DD40014316D /* XMLParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EF3BC0112481DD40014316D /* XMLParser.h */; };
+		FBA0ABAD17A9C57C002CF154 /* libfreetype_ios.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FBA0ABAB17A9C570002CF154 /* libfreetype_ios.a */; };
+		FBA0ABAE17A9C57D002CF154 /* libfreetype_ios.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FBA0ABAB17A9C570002CF154 /* libfreetype_ios.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -563,7 +565,7 @@
 		6E8B1C6F123AB0CC00C451C8 /* XMLNodeHandlerTabSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XMLNodeHandlerTabSet.h; path = ../Source/Controls/XMLNodeHandlerTabSet.h; sourceTree = SOURCE_ROOT; };
 		6E8B1C70123AB0CC00C451C8 /* XMLNodeHandlerTextArea.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = XMLNodeHandlerTextArea.cpp; path = ../Source/Controls/XMLNodeHandlerTextArea.cpp; sourceTree = SOURCE_ROOT; };
 		6E8B1C71123AB0CC00C451C8 /* XMLNodeHandlerTextArea.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XMLNodeHandlerTextArea.h; path = ../Source/Controls/XMLNodeHandlerTextArea.h; sourceTree = SOURCE_ROOT; };
-		6E8B1DC2123AB7A500C451C8 /* libfreetype.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libfreetype.a; path = ../../support/lib/libfreetype.a; sourceTree = SOURCE_ROOT; };
+		6E8B1DC2123AB7A500C451C8 /* libfreetype.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libfreetype.a; path = support/lib/libfreetype.a; sourceTree = SOURCE_ROOT; };
 		6E8B1DCF123ABA2200C451C8 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		6E8B1DD1123ABA3A00C451C8 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		6E8B1DDC123ABC7800C451C8 /* RocketCoreOSX.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = RocketCoreOSX.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -816,6 +818,7 @@
 		6EF3BBFF12481DD40014316D /* WString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WString.h; path = ../Include/Rocket/Core/WString.h; sourceTree = SOURCE_ROOT; };
 		6EF3BC0012481DD40014316D /* XMLNodeHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XMLNodeHandler.h; path = ../Include/Rocket/Core/XMLNodeHandler.h; sourceTree = SOURCE_ROOT; };
 		6EF3BC0112481DD40014316D /* XMLParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XMLParser.h; path = ../Include/Rocket/Core/XMLParser.h; sourceTree = SOURCE_ROOT; };
+		FBA0ABAB17A9C570002CF154 /* libfreetype_ios.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libfreetype_ios.a; path = support/lib/libfreetype_ios.a; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -832,6 +835,7 @@
 			files = (
 				6E8B1DE1123ABCA200C451C8 /* libfreetype.a in Frameworks */,
 				6E8B1DE2123ABCA200C451C8 /* libz.dylib in Frameworks */,
+				FBA0ABAE17A9C57D002CF154 /* libfreetype_ios.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -863,6 +867,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6E8B1DC3123AB7A500C451C8 /* libfreetype.a in Frameworks */,
+				FBA0ABAD17A9C57C002CF154 /* libfreetype_ios.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1215,6 +1220,7 @@
 				6E8B1DCF123ABA2200C451C8 /* libz.dylib */,
 				6E8B1DD1123ABA3A00C451C8 /* libz.dylib */,
 				6E8B1DC2123AB7A500C451C8 /* libfreetype.a */,
+				FBA0ABAB17A9C570002CF154 /* libfreetype_ios.a */,
 				6E8B1BF0123AAEE200C451C8 /* libRocketControlsiOS.a */,
 				6E8B1B0C123A0E2A00C451C8 /* libRocketCoreiOS.a */,
 			);
@@ -1971,6 +1977,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../../support/lib\"",
+					"\"$(SRCROOT)/support/lib\"",
 				);
 				PRODUCT_NAME = RocketCoreiOS;
 			};
@@ -1988,6 +1995,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../../support/lib\"",
+					"\"$(SRCROOT)/support/lib\"",
 				);
 				PRODUCT_NAME = RocketCoreiOS;
 			};
@@ -2005,7 +2013,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
 					../Include,
-					../../Support/freetype/include,
+					Support/freetype/include,
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PREBINDING = NO;
@@ -2025,7 +2033,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
 					../Include,
-					../../Support/freetype/include,
+					Support/freetype/include,
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PREBINDING = NO;
@@ -2042,6 +2050,10 @@
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREFIX_HEADER = Rocket_Prefix.pch;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/support/lib\"",
+				);
 				PREBINDING = NO;
 				PRODUCT_NAME = RocketControlsiOS;
 			};
@@ -2055,6 +2067,10 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_PREFIX_HEADER = Rocket_Prefix.pch;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/support/lib\"",
+				);
 				PREBINDING = NO;
 				PRODUCT_NAME = RocketControlsiOS;
 				ZERO_LINK = NO;
@@ -2081,6 +2097,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../../support/lib\"",
+					"\"$(SRCROOT)/support/lib\"",
 				);
 				OTHER_LDFLAGS = (
 					"-framework",
@@ -2113,6 +2130,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../../support/lib\"",
+					"\"$(SRCROOT)/support/lib\"",
 				);
 				OTHER_LDFLAGS = (
 					"-framework",

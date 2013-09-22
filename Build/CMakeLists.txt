@@ -117,12 +117,12 @@ include(FileList)
 # Build libraries ==================
 #===================================
 
-set(LIBRARIES Core Controls Debugger)
+set(LIBRARIES Core Controls Debugger Ext)
 
 foreach(library ${LIBRARIES})
     set(NAME Rocket${library})
 
-    add_library(${NAME} ${${library}_SRC_FILES}
+    add_library(${NAME} STATIC ${${library}_SRC_FILES}
                         ${${library}_HDR_FILES}
                         ${${library}_PUB_HDR_FILES}
     )
@@ -173,6 +173,7 @@ endif()
 target_link_libraries(RocketCore ${CORE_LINK_LIBS})
 target_link_libraries(RocketControls RocketCore)
 target_link_libraries(RocketDebugger RocketCore)
+target_link_libraries(RocketExt RocketCore)
 
 if(BUILD_PYTHON_BINDINGS)
     target_link_libraries(_rocketcore RocketCore ${PY_BINDINGS_LINK_LIBS})
@@ -213,6 +214,7 @@ if(BUILD_SAMPLES)
     	RocketCore 
     	RocketControls
     	RocketDebugger
+    	RocketExt 
     )
 
 	# Find OpenGL 
