@@ -34,6 +34,8 @@ namespace Core {
 
 DecoratorTiledBoxInstancer::DecoratorTiledBoxInstancer()
 {
+	RegisterProperty("decorator-id", "").AddParser("string");
+
 	RegisterTileProperty("top-left-image", false);
 	RegisterTileProperty("top-right-image", false);
 	RegisterTileProperty("bottom-left-image", false);
@@ -70,7 +72,7 @@ Decorator* DecoratorTiledBoxInstancer::InstanceDecorator(const String& ROCKET_UN
 
 	DecoratorTiledBox* decorator = new DecoratorTiledBox();
 	if (decorator->Initialise(tiles, texture_names, rcss_paths))
-		return decorator;
+	  return decorator;
 
 	decorator->RemoveReference();
 	ReleaseDecorator(decorator);

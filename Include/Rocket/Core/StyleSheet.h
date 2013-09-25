@@ -68,6 +68,10 @@ public:
 	/// caller, so another should not be added. The definition should be released by removing the reference count.
 	ElementDefinition* GetElementDefinition(const Element* element) const;
 
+	/// Returns a properties dictinary of decorator with id of decorator_id within class class_name. NULL if no such
+	/// decorator has been found. The dictionary is created and should be deleted by caller.
+	const PropertyDictionary* FindDecoratorPropertiesWithId(const String& class_name, const String& decorator_id) const;
+
 protected:
 	/// Destroys the style sheet.
 	virtual void OnReferenceDeactivate();

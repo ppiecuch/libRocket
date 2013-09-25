@@ -68,11 +68,9 @@ void ElementDefinition::Initialise(const std::vector< const StyleSheetNode* >& s
 	for (PseudoClassList::const_iterator i = volatile_pseudo_classes.begin(); i != volatile_pseudo_classes.end(); ++i)
 		pseudo_class_volatility[*i] = STRUCTURE_VOLATILE;
 
-
 	// Merge the default (non-pseudo-class) properties.
 	for (size_t i = 0; i < style_sheet_nodes.size(); ++i)
 		properties.Merge(style_sheet_nodes[i]->GetProperties());
-
 
 	// Merge the pseudo-class properties.
 	PseudoClassPropertyMap merged_pseudo_class_properties;
@@ -340,7 +338,7 @@ void ElementDefinition::OnReferenceDeactivate()
 }
 
 // Finds all propery declarations for a group.
-void ElementDefinition::BuildPropertyGroup(PropertyGroupMap& groups, const String& group_type, const PropertyDictionary& element_properties, const PropertyGroupMap* default_properties)
+void BuildPropertyGroup(PropertyGroupMap& groups, const String& group_type, const PropertyDictionary& element_properties, const PropertyGroupMap* default_properties)
 {
 	String property_suffix = "-" + group_type;
 
@@ -407,7 +405,7 @@ void ElementDefinition::BuildPropertyGroup(PropertyGroupMap& groups, const Strin
 }
 
 // Updates a property dictionary of all properties for a single group.
-int ElementDefinition::BuildPropertyGroupDictionary(PropertyDictionary& group_properties, const String& ROCKET_UNUSED(group_type), const String& group_name, const PropertyDictionary& element_properties)
+int BuildPropertyGroupDictionary(PropertyDictionary& group_properties, const String& ROCKET_UNUSED(group_type), const String& group_name, const PropertyDictionary& element_properties)
 {
 	int num_properties = 0;
 

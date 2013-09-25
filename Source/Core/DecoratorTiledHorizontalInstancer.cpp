@@ -35,6 +35,7 @@ namespace Core {
 DecoratorTiledHorizontalInstancer::DecoratorTiledHorizontalInstancer()
 {
 	RegisterProperty("decorator-id", "").AddParser("string");
+
 	RegisterTileProperty("left-image", false);
 	RegisterTileProperty("right-image", false);
 	RegisterTileProperty("center-image", true);
@@ -57,7 +58,7 @@ Decorator* DecoratorTiledHorizontalInstancer::InstanceDecorator(const String& RO
 
 	DecoratorTiledHorizontal* decorator = new DecoratorTiledHorizontal();
 	if (decorator->Initialise(tiles, texture_names, rcss_paths))
-		return decorator;
+	  return decorator;
 
 	decorator->RemoveReference();
 	ReleaseDecorator(decorator);

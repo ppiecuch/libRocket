@@ -913,7 +913,7 @@ int RocketMenuPlugin::GetNumMenuItems(Rocket::Core::ElementDocument *doc) {
 	if (dd != NULL) {
 		return dd->menu->GetNumChildren();
 	}
-	return NULL;
+	return 0;
 }
 
 Rocket::Core::Element* RocketMenuPlugin::GetActiveOption(Rocket::Core::Element *menu_item) {

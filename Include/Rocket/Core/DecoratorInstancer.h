@@ -84,12 +84,8 @@ protected:
 
 	// Releases the instancer.
 	virtual void OnReferenceDeactivate();
-	// Store decorator in cache for later reusing.
-	void CacheDecorator(const String &name, Decorator *decorator);
-	// Remove decorator from cache.
-	void DecacheDecorator(const String &name);
-	// Track created decorators here for reusing.
-	static std::map<String, Decorator*> cache;
+	// Get decorator-id property from properties or "" if not id is given.
+	String GetDecoratorIdProperty(const PropertyDictionary& properties);
 
 private:
 	PropertySpecification properties;

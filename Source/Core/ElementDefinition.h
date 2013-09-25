@@ -56,6 +56,14 @@ typedef std::map< StringList, DecoratorMap > PseudoClassDecoratorMap;
 	@author Peter Curry
  */
 
+typedef std::pair< String, PropertyDictionary > PropertyGroup;
+typedef std::map< String, PropertyGroup > PropertyGroupMap;
+
+// Finds all propery declarations for a group.
+ void BuildPropertyGroup(PropertyGroupMap& groups, const String& group_type, const PropertyDictionary& element_properties, const PropertyGroupMap* default_properties = NULL);
+ // Updates a property dictionary of all properties for a single group.
+ int BuildPropertyGroupDictionary(PropertyDictionary& group_properties, const String& group_type, const String& group_name, const PropertyDictionary& element_properties);
+
 class ElementDefinition : public ReferenceCountable
 {
 public:
@@ -127,18 +135,10 @@ protected:
 	void OnReferenceDeactivate();
 
 private:
-	typedef std::pair< String, PropertyDictionary > PropertyGroup;
-	typedef std::map< String, PropertyGroup > PropertyGroupMap;
-
 	typedef std::vector< std::pair< StringList, int > > PseudoClassFontEffectIndex;
 	typedef std::map< String, PseudoClassFontEffectIndex > FontEffectIndex;
 
 	typedef std::map< String, PseudoClassVolatility > PseudoClassVolatilityMap;
-
-	// Finds all propery declarations for a group.
-	void BuildPropertyGroup(PropertyGroupMap& groups, const String& group_type, const PropertyDictionary& element_properties, const PropertyGroupMap* default_properties = NULL);
-	// Updates a property dictionary of all properties for a single group.
-	int BuildPropertyGroupDictionary(PropertyDictionary& group_properties, const String& group_type, const String& group_name, const PropertyDictionary& element_properties);
 
 	// Builds decorator definitions from the parsed properties and instances decorators as
 	// appropriate.

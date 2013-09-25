@@ -67,6 +67,12 @@ public:
 	/// @return The selector registered with the given name, or NULL if none exists.
 	static StyleSheetNodeSelector* GetSelector(const String& name);
 
+	/// Returns decorator properties with given id - search all cached style sheets.
+	/// @param class_name[in] The name of the class with requested decorator.
+	/// @param decorator_id_name[in] The id of the desired decorator.
+	/// @return The decorator properties dictionary, or NULL if none exists.
+	static const PropertyDictionary* FindDecoratorPropertiesWithId(const String& class_name, const String& decorator_id);
+
 private:
 	StyleSheetFactory();
 	~StyleSheetFactory();

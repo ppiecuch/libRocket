@@ -63,19 +63,16 @@ void DecoratorInstancer::OnReferenceDeactivate()
 	Release();
 }
 
-// Store decorator in cache for later reusing.
-void DecoratorInstancer::CacheDecorator(const String &name, Decorator *decorator)
+// Get decorator-id property from properties or "" if not id is given.
+String DecoratorInstancer::GetDecoratorIdProperty(const PropertyDictionary& properties)
 {
-	cache[name] = decorator;	
+	const Property* id_property = properties.GetProperty("decorator-id");
+	if (id_property) {
+	  String decorator_id = id_property->Get< String >();
+	  return decorator_id;
+	}
+	return "";
 }
-
-// Remove decorator from cache.
-void DecoratorInstancer::DecacheDecorator(const String &name)
-{
-	cache.erase(name);
-}
-
-std::map<String, Decorator*> DecoratorInstancer::cache;
 
 }
 }

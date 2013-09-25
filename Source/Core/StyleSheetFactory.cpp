@@ -184,6 +184,17 @@ StyleSheetNodeSelector* StyleSheetFactory::GetSelector(const String& name)
 	return (*i).second;
 }
 
+const PropertyDictionary* StyleSheetFactory::FindDecoratorPropertiesWithId(const String& class_name, const String& decorator_id)
+{
+  for (StyleSheets::iterator i = instance->stylesheets.begin(); i != instance->stylesheets.end(); ++i) {
+    // Core::Log::Message(Core::Log::LT_DEBUG, "searching for '%s' in '%s'", class_name.CString(), (*i).first.CString());
+    const PropertyDictionary *deco = (*i).second->FindDecoratorPropertiesWithId(class_name, decorator_id);
+    if (deco)
+      return deco;
+  }
+  return NULL;
+}
+
 StyleSheet* StyleSheetFactory::LoadStyleSheet(const String& sheet)
 {
 	StyleSheet* new_style_sheet = NULL;
