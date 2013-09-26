@@ -34,8 +34,6 @@ namespace Core {
 
 DecoratorTiledBoxInstancer::DecoratorTiledBoxInstancer()
 {
-	RegisterProperty("decorator-id", "").AddParser("string");
-
 	RegisterTileProperty("top-left-image", false);
 	RegisterTileProperty("top-right-image", false);
 	RegisterTileProperty("bottom-left-image", false);

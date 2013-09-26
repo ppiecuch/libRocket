@@ -34,8 +34,6 @@ namespace Core {
 
 DecoratorTiledHorizontalInstancer::DecoratorTiledHorizontalInstancer()
 {
-	RegisterProperty("decorator-id", "").AddParser("string");
-
 	RegisterTileProperty("left-image", false);
 	RegisterTileProperty("right-image", false);
 	RegisterTileProperty("center-image", true);

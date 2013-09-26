@@ -34,8 +34,6 @@ namespace Core {
 
 DecoratorTiledImageInstancer::DecoratorTiledImageInstancer()
 {
-	RegisterProperty("decorator-id", "").AddParser("string");
-
 	RegisterTileProperty("image", false);
 }
 
