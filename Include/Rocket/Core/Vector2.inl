@@ -79,7 +79,7 @@ Type Vector2< Type >::DotProduct(const Vector2< Type >& rhs) const
 
 // Returns this vector rotated around the origin.
 template < typename Type >
-Vector2< Type > Vector2< Type >::Rotate(float theta) const
+Vector2< Type > Vector2< Type >::Rotate(float /* theta */) const
 {
 	ROCKET_STATIC_ASSERT(sizeof(Type) == 0, Invalid_Operation);
 	return *this;

@@ -34,6 +34,8 @@ namespace Core {
 
 DecoratorTiledVerticalInstancer::DecoratorTiledVerticalInstancer()
 {
+	RegisterProperty("decorator-id", "").AddParser("string");
+
 	RegisterTileProperty("top-image", false);
 	RegisterTileProperty("bottom-image", false);
 	RegisterTileProperty("center-image", true);
