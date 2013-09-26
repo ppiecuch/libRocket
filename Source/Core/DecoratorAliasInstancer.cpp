@@ -34,7 +34,6 @@ namespace Core {
 
 DecoratorAliasInstancer::DecoratorAliasInstancer()
 {
-	RegisterProperty("decorator-id", "").AddParser("string");
 }
 
 DecoratorAliasInstancer::~DecoratorAliasInstancer()
