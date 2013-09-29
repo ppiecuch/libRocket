@@ -75,6 +75,17 @@ public:
 	};
 
 	/**
+		Stores the scaling of a single-image tile.
+	 */
+	enum TileScalingMode
+	{
+		IGNORE = 0,		// Stretch image within container.
+		FILL = 1,		// Fill container with image aspect ratio.
+		FIT = 2,		// Fit image within conatiner and keep aspect ratiob.
+		CENTER = 3		// Center and crop unscaled image image within container.
+	};
+
+	/**
 		Structure for storing the different tiles the tiled decorator uses internally over its
 		surface.
 
@@ -114,6 +125,7 @@ public:
 		mutable TileDataMap data;
 
 		TileRepeatMode repeat_mode;
+		TileScalingMode scaling_mode;
 		TileOrientation orientation;
 	};
 

@@ -69,6 +69,10 @@ void DecoratorTiledInstancer::GetTileProperties(DecoratorTiled::Tile& tile, Stri
 	if (repeat_property != NULL)
 		tile.repeat_mode = (DecoratorTiled::TileRepeatMode) repeat_property->value.Get< int >();
 
+	const Property* scaling_property = properties.GetProperty(String(32, "%s-scaling", name.CString()));
+	if (scaling_property != NULL)
+		tile.scaling_mode = (DecoratorTiled::TileScalingMode) scaling_property->value.Get< int >();
+
 	const Property* texture_property = properties.GetProperty(String(32, "%s-src", name.CString()));
 	texture_name = texture_property->Get< String >();
 	rcss_path = texture_property->source;

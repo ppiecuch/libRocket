@@ -31,6 +31,9 @@
 #include <Rocket/Core/Geometry.h>
 #include <Rocket/Core/GeometryUtilities.h>
 
+using std::max;
+using std::min;
+
 namespace Rocket {
 namespace Core {
 
@@ -57,14 +60,73 @@ bool DecoratorTiledImage::Initialise(const Tile& _tile, const String& _texture_n
 // Called on a decorator to generate any required per-element data for a newly decorated element.
 DecoratorDataHandle DecoratorTiledImage::GenerateElementData(Element* element)
 {
-	// Calculate the tile's dimensions for this element.
+	// Calculate the tile's dimensions for this element.	
 	tile.CalculateDimensions(element, *GetTexture(tile.texture_index));
 
 	Geometry* data = new Geometry(element);
 	data->SetTexture(GetTexture());
 
+	Vector2f dest = element->GetBox().GetSize(Box::PADDING);
+	Vector2f source = tile.GetDimensions(element);
+
 	// Generate the geometry for the tile.
-	tile.GenerateGeometry(data->GetVertices(), data->GetIndices(), element, Vector2f(0, 0), element->GetBox().GetSize(Box::PADDING), tile.GetDimensions(element));
+	switch(tile.scaling_mode) {
+	case IGNORE /* default */: tile.GenerateGeometry(data->GetVertices(), data->GetIndices(), element, Vector2f(0, 0), dest, source); break;
+	case FILL:
+	case FIT: {
+	  Vector2f offset(0, 0); float f; 
+	  switch(tile.scaling_mode) {
+	  case FILL: {
+	    RenderInterface* render_interface = element->GetRenderInterface();
+	    Vector2i texture_dimensions = GetTexture(tile.texture_index)->GetDimensions(render_interface);
+	    f = max(dest.y / source.y, dest.x / source.x); 
+	  }; break;
+	  case FIT: 
+	    f = min(dest.y / source.y, dest.x / source.x); 
+	    source *= f;
+	    offset.x = (dest.x - source.x)/2;
+	    offset.y = (dest.y - source.y)/2;
+	    break;
+	  }
+	  tile.GenerateGeometry(data->GetVertices(), data->GetIndices(), element, offset, dest, source); 
+	}; break;
+	case CENTER: 
+	  Vector2f offset(0, 0);
+	  Vector2i texture_dimension;
+	  if (!tile.texcoords_absolute[0][0] || !tile.texcoords_absolute[1][0] || !tile.texcoords_absolute[0][1] || !tile.texcoords_absolute[1][1]) {
+	    RenderInterface* render_interface = element->GetRenderInterface();
+	    texture_dimension = GetTexture(tile.texture_index)->GetDimensions(render_interface);
+	  }
+	  if (source.x > dest.x) { // crop width of image
+	    float diff_begin = (source.x - dest.x)/2, diff_end = diff_begin;
+	    if (!tile.texcoords_absolute[0][0] || !tile.texcoords_absolute[1][0]) {
+	      if (!tile.texcoords_absolute[0][0]) diff_begin /= texture_dimension.x;
+	      if (!tile.texcoords_absolute[1][0]) diff_end /= texture_dimension.x;
+	    }
+	    tile.texcoords[0].x += diff_begin; // -s-begin
+	    tile.texcoords[1].x -= diff_end; // -s-end
+	    source.x = dest.x;
+	  } else {                 // center image
+	    offset.x = (dest.x - source.x)/2;
+	    dest.x = source.x;
+	  }
+	  if (source.y > dest.y) { // crop height of image
+	    float diff_begin = (source.y - dest.y)/2, diff_end = diff_begin;
+	    if (!tile.texcoords_absolute[0][1] || !tile.texcoords_absolute[1][1]) {
+	      if (!tile.texcoords_absolute[0][1]) diff_begin /= texture_dimension.y;
+	      if (!tile.texcoords_absolute[1][1]) diff_end /= texture_dimension.y;
+	    }
+	    tile.texcoords[0].y += diff_begin; // -s-begin
+	    tile.texcoords[1].y -= diff_end; // -s-end
+	    source.y = dest.y;
+	  } else {                 // center image
+	    offset.y = (dest.y - source.y)/2;
+	    dest.y = source.y;
+	  }
+	  Core::Log::Message(Core::Log::LT_INFO, "Centering image at offset: %f %f", offset.x, offset.y);
+	  tile.GenerateGeometry(data->GetVertices(), data->GetIndices(), element, offset, dest, source); 
+	  break;
+	}
 
 	return reinterpret_cast<DecoratorDataHandle>(data);
 }
