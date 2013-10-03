@@ -86,6 +86,7 @@ DecoratorDataHandle DecoratorTiledImage::GenerateElementData(Element* element)
 	    source *= f;
 	    offset.x = (dest.x - source.x)/2;
 	    offset.y = (dest.y - source.y)/2;
+	    dest = source;
 	    break;
 	  }
 	  tile.GenerateGeometry(data->GetVertices(), data->GetIndices(), element, offset, dest, source); 
@@ -123,7 +124,6 @@ DecoratorDataHandle DecoratorTiledImage::GenerateElementData(Element* element)
 	    offset.y = (dest.y - source.y)/2;
 	    dest.y = source.y;
 	  }
-	  Core::Log::Message(Core::Log::LT_INFO, "Centering image at offset: %f %f", offset.x, offset.y);
 	  tile.GenerateGeometry(data->GetVertices(), data->GetIndices(), element, offset, dest, source); 
 	  break;
 	}

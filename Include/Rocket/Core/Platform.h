@@ -28,7 +28,12 @@
 #ifndef ROCKETCOREPLATFORM_H
 #define ROCKETCOREPLATFORM_H
 
-#if defined __WIN32__ || defined _WIN32
+
+#if defined __S3E__
+	#define ROCKET_PLATFORM_UNIX
+	#define ROCKET_PLATFORM_S3E
+	#define ROCKET_PLATFORM_NAME "marmalade"
+#elif defined __WIN32__ || defined _WIN32
 	#define ROCKET_PLATFORM_WIN32
 	#define ROCKET_PLATFORM_NAME "win32"
 	#if !defined(__MINGW32__)

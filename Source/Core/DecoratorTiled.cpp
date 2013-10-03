@@ -51,6 +51,7 @@ DecoratorTiled::Tile::Tile()
 {
 	texture_index = -1;
 	repeat_mode = STRETCH;
+	scaling_mode = IGNORE;
 	orientation = ROTATE_0_CW;
 
 	texcoords[0].x = 0;

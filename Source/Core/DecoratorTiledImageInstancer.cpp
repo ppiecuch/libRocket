@@ -36,7 +36,7 @@ DecoratorTiledImageInstancer::DecoratorTiledImageInstancer()
 {
 	RegisterTileProperty("image", false);
 	RegisterProperty("image-scaling", "ignore")
-		  .AddParser("keyword", "ignore, fill, fit, center");
+		  .AddParser("keyword", "ignore,fill,fit,center");
 }
 
 DecoratorTiledImageInstancer::~DecoratorTiledImageInstancer()
