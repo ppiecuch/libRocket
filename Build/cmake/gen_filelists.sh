@@ -34,13 +34,12 @@ printfiles() {
 	fi
     done
     # Print main public header
-    echo '    '$srcdir/Include/Rocket/$1.h >>$file
+    echo '    '$srcdir/Include/Rocket/${main}.h >>$file
     echo -e ')\n' >>$file
     # Print source files
-    echo ${src/lib/$1} >>$file
     main=''; for x in $dr; do
 	if [ ".$main" == "." ]; then
-	    echo ${pubhdr/lib/$x} >>$file
+	    echo ${src/lib/$x} >>$file
 	    find  $srcpath/$x -maxdepth 1 -iname "*.cpp" -exec echo '    '$srcdir/{} \; >>$file
 	    main=$x
 	else

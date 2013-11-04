@@ -170,11 +170,10 @@ set(Core_PUB_HDR_FILES
     ${PROJECT_SOURCE_DIR}/Include/Rocket/Core/XMLParser.h
     ${PROJECT_SOURCE_DIR}/Include/Rocket/Core/BitmapFont/FontProvider.h
     ${PROJECT_SOURCE_DIR}/Include/Rocket/Core/FreeType/FontProvider.h
-    ${PROJECT_SOURCE_DIR}/Include/Rocket/Core;BitmapFont;FreeType.h
+    ${PROJECT_SOURCE_DIR}/Include/Rocket/Core.h
 )
 
-set(Core;BitmapFont;FreeType_SRC_FILES
-set(Core_PUB_HDR_FILES
+set(Core_SRC_FILES
     ${PROJECT_SOURCE_DIR}/Source/Core/BaseXMLParser.cpp
     ${PROJECT_SOURCE_DIR}/Source/Core/Box.cpp
     ${PROJECT_SOURCE_DIR}/Source/Core/Clock.cpp
@@ -364,7 +363,6 @@ set(Controls_PUB_HDR_FILES
 )
 
 set(Controls_SRC_FILES
-set(Controls_PUB_HDR_FILES
     ${PROJECT_SOURCE_DIR}/Source/Controls/Clipboard.cpp
     ${PROJECT_SOURCE_DIR}/Source/Controls/Controls.cpp
     ${PROJECT_SOURCE_DIR}/Source/Controls/DataFormatter.cpp
@@ -425,7 +423,6 @@ set(Debugger_PUB_HDR_FILES
 )
 
 set(Debugger_SRC_FILES
-set(Debugger_PUB_HDR_FILES
     ${PROJECT_SOURCE_DIR}/Source/Debugger/Debugger.cpp
     ${PROJECT_SOURCE_DIR}/Source/Debugger/ElementContextHook.cpp
     ${PROJECT_SOURCE_DIR}/Source/Debugger/ElementInfo.cpp
@@ -449,7 +446,6 @@ set(Ext_PUB_HDR_FILES
 )
 
 set(Ext_SRC_FILES
-set(Ext_PUB_HDR_FILES
     ${PROJECT_SOURCE_DIR}/Source/Ext/ElementProgressBar.cpp
     ${PROJECT_SOURCE_DIR}/Source/Ext/Helpers.cpp
     ${PROJECT_SOURCE_DIR}/Source/Ext/PluginUtils.cpp
