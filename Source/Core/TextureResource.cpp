@@ -27,7 +27,7 @@
 
 #include "precompiled.h"
 #include "TextureResource.h"
-#include "FontFaceHandle.h"
+#include <Rocket/Core/FontFaceHandle.h>
 #include "TextureDatabase.h"
 #include <Rocket/Core.h>
 
@@ -130,16 +130,18 @@ bool TextureResource::Load(RenderInterface* render_interface) const
 		{
 			// The requested texture is a font layer.
 			delete_data = true;
-			
+
 			FontFaceHandle* handle;
 			FontEffect* layer_id;
+			int layout_id;
 			int texture_id;
-			
-			if (sscanf(source.CString(), "?font::%p/%p/%d", &handle, &layer_id, &texture_id) == 3)
+
+			if (sscanf(source.CString(), "?font::%p/%p/%d/%d", &handle, &layer_id, &layout_id, &texture_id) == 4)
 			{
 				handle->GenerateLayerTexture(data,
 											 dimensions,
 											 layer_id,
+											 layout_id,
 											 texture_id);
 			}
 		}

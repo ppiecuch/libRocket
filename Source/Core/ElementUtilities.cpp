@@ -26,9 +26,9 @@
  */
 
 #include "precompiled.h"
+#include <Rocket/Core/ContainerWrapper.h>
 #include <Rocket/Core/ElementUtilities.h>
-#include <queue>
-#include "FontFaceHandle.h"
+#include <Rocket/Core/FontFaceHandle.h>
 #include "LayoutEngine.h"
 #include <Rocket/Core.h>
 
@@ -43,7 +43,7 @@ static void SetElementOffset(Element* element, const Vector2f& offset);
 Element* ElementUtilities::GetElementById(Element* root_element, const String& id)
 {
 	// Breadth first search on elements for the corresponding id
-	typedef std::queue<Element*> SearchQueue;
+	typedef Container::queue<Element*>::Type SearchQueue;
 	SearchQueue search_queue;
 	search_queue.push(root_element);
 
@@ -68,7 +68,7 @@ Element* ElementUtilities::GetElementById(Element* root_element, const String& i
 void ElementUtilities::GetElementsByTagName(ElementList& elements, Element* root_element, const String& tag)
 {
 	// Breadth first search on elements for the corresponding id
-	typedef std::queue< Element* > SearchQueue;
+	typedef Container::queue< Element* >::Type SearchQueue;
 	SearchQueue search_queue;
 	for (int i = 0; i < root_element->GetNumChildren(); ++i)
 		search_queue.push(root_element->GetChild(i));
@@ -90,7 +90,7 @@ void ElementUtilities::GetElementsByTagName(ElementList& elements, Element* root
 void ElementUtilities::GetElementsByClassName(ElementList& elements, Element* root_element, const String& class_name)
 {
 	// Breadth first search on elements for the corresponding id
-	typedef std::queue< Element* > SearchQueue;
+    typedef Container::queue< Element* >::Type SearchQueue;
 	SearchQueue search_queue;
 	for (int i = 0; i < root_element->GetNumChildren(); ++i)
 		search_queue.push(root_element->GetChild(i));
@@ -137,24 +137,28 @@ int ElementUtilities::GetFontSize(Element* element)
 int ElementUtilities::GetLineHeight(Element* element)
 {
 	FontFaceHandle* font_face_handle = element->GetFontFaceHandle();
+
 	if (font_face_handle == NULL)
-		return 0;
+	{
+		return Math::Round(element->GetProperty(LINE_HEIGHT)->value.Get< float >());
+	}
+	else
+	{
+		int line_height = font_face_handle->GetLineHeight();
+		const Property* line_height_property = element->GetLineHeightProperty();
+		// If the property is a straight number or an em measurement, then it scales the line height.
+		if (line_height_property->unit == Property::NUMBER ||
+			line_height_property->unit == Property::EM)
+			return Math::Round(line_height_property->value.Get< float >() * line_height);
 
-	int line_height = font_face_handle->GetLineHeight();
-	const Property* line_height_property = element->GetLineHeightProperty();
+		// If the property is a percentage, then it scales the line height.
+		else if (line_height_property->unit == Property::PERCENT)
+			return Math::Round(line_height_property->value.Get< float >() * line_height * 0.01f);
 
-	// If the property is a straight number or an em measurement, then it scales the line height.
-	if (line_height_property->unit == Property::NUMBER ||
-		line_height_property->unit == Property::EM)
-		return Math::Round(line_height_property->value.Get< float >() * line_height);
-
-	// If the property is a percentage, then it scales the line height.
-	else if (line_height_property->unit == Property::PERCENT)
-		return Math::Round(line_height_property->value.Get< float >() * line_height * 0.01f);
-
-	// Otherwise, we're a px measurement.
-	else if (line_height_property->unit == Property::PX)
-		return Math::Round(line_height_property->value.Get< float >());
+		// Otherwise, we're a px measurement.
+		else if (line_height_property->unit == Property::PX)
+			return Math::Round(line_height_property->value.Get< float >());
+	}
 
 	return 0;
 }
@@ -166,7 +170,7 @@ int ElementUtilities::GetStringWidth(Element* element, const WString& string)
 	if (font_face_handle == NULL)
 		return 0;
 
-	return font_face_handle->GetStringWidth(string);
+	return font_face_handle->GetStringWidth(string, 0, element->GetProperty<int>(FONT_DEFAULT_CHARACTER));
 }
 
 void ElementUtilities::BindEventAttributes(Element* element)

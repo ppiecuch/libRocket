@@ -83,6 +83,7 @@ bool Variant::GetInto(T& value) const
 		break;
 
 		case NONE:
+        default:
 		break;
 
 	}

@@ -209,13 +209,13 @@ void StyleSheetSpecification::RegisterDefaultProperties()
 		.AddParser("number");
 
 	RegisterProperty(WIDTH, "auto", false, true)
-		.AddParser("keyword", "auto")
+		.AddParser("keyword", "auto, auto-fill")
 		.AddParser("number");
 	RegisterProperty(MIN_WIDTH, "0px", false, true).AddParser("number");
 	RegisterProperty(MAX_WIDTH, "-1", false, true).AddParser("number");
 
 	RegisterProperty(HEIGHT, "auto", false, true)
-		.AddParser("keyword", "auto")
+		.AddParser("keyword", "auto, auto-fill")
 		.AddParser("number");
 	RegisterProperty(MIN_HEIGHT, "0px", false, true).AddParser("number");
 	RegisterProperty(MAX_HEIGHT, "-1", false, true).AddParser("number");
@@ -240,11 +240,12 @@ void StyleSheetSpecification::RegisterDefaultProperties()
 	RegisterProperty(COLOR, "white", true, false).AddParser(COLOR);
 
 	RegisterProperty(FONT_FAMILY, "", true, true).AddParser("string");
-	RegisterProperty(FONT_CHARSET, "U+0020-007E", true, false).AddParser("string");
+	RegisterProperty(FONT_CHARSET, "U+0020-0100", true, false).AddParser("string");
 	RegisterProperty(FONT_STYLE, "normal", true, true).AddParser("keyword", "normal, italic");
 	RegisterProperty(FONT_WEIGHT, "normal", true, true).AddParser("keyword", "normal, bold");
 	RegisterProperty(FONT_SIZE, "12", true, true).AddParser("number");
-	RegisterShorthand(FONT, "font-style, font-weight, font-size, font-family, font-charset");
+	RegisterProperty(FONT_DEFAULT_CHARACTER, "0", true, false).AddParser("number");
+	RegisterShorthand(FONT, "font-style, font-weight, font-size, font-family, font-charset, font-default-character");
 
 	RegisterProperty(TEXT_ALIGN, LEFT, true, true).AddParser("keyword", "left, right, center, justify");
 	RegisterProperty(TEXT_DECORATION, "none", true, false).AddParser("keyword", "none, underline"/*"none, underline, overline, line-through"*/);
@@ -261,6 +262,7 @@ void StyleSheetSpecification::RegisterDefaultProperties()
 	RegisterProperty(FOCUS, "auto", true, false).AddParser("keyword", "none, auto");
 
 	RegisterProperty(SCROLLBAR_MARGIN, "0", false, false).AddParser("number");
+	RegisterProperty(OPACITY, "1", true).AddParser("number");
 }
 
 }

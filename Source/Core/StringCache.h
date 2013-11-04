@@ -86,6 +86,7 @@ extern const String FONT_CHARSET;
 extern const String FONT_STYLE;
 extern const String FONT_WEIGHT;
 extern const String FONT_SIZE;
+extern const String FONT_DEFAULT_CHARACTER;
 extern const String FONT;
 extern const String TEXT_ALIGN;
 extern const String TEXT_DECORATION;
@@ -95,6 +96,8 @@ extern const String CURSOR;
 extern const String DRAG;
 extern const String TAB_INDEX;
 extern const String SCROLLBAR_MARGIN;
+extern const String SCROLL_DEFAULT_STEP_SIZE;
+extern const String OPACITY;
 
 extern const String MOUSEDOWN;
 extern const String MOUSESCROLL;

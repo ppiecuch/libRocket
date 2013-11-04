@@ -113,6 +113,9 @@ const int TAB_INDEX_AUTO = 1;
 const int FOCUS_NONE = 0;
 const int FOCUS_AUTO = 1;
 
+const int DIMENSION_AUTO = 0;
+const int DIMENSION_AUTO_FILL = 1;
+
 }
 }
 

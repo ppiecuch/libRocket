@@ -28,6 +28,7 @@
 #ifndef ROCKETCOREFONTEFFECT_H
 #define ROCKETCOREFONTEFFECT_H
 
+#include <Rocket/Core/ContainerWrapper.h>
 #include <Rocket/Core/FontGlyph.h>
 
 namespace Rocket {
@@ -120,8 +121,8 @@ private:
 	friend class Factory;
 };
 
-typedef std::vector< FontEffect* > FontEffectList;
-typedef std::map< String, FontEffect* > FontEffectMap;
+typedef Container::vector< FontEffect* >::Type FontEffectList;
+typedef Container::map< String, FontEffect* >::Type FontEffectMap;
 
 }
 }

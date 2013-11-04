@@ -14,7 +14,7 @@
  *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -37,6 +37,8 @@ namespace Core {
 
 class FontFaceHandle;
 
+namespace FreeType {
+
 /**
 	@author Peter Curry
  */
@@ -58,7 +60,7 @@ public:
 	/// @param[in] charset The set of characters in the handle, as a comma-separated list of unicode ranges.
 	/// @param[in] size The size of the desired handle, in points.
 	/// @return The shared font handle.
-	FontFaceHandle* GetHandle(const String& charset, int size);
+	Rocket::Core::FontFaceHandle* GetHandle(const String& charset, int size);
 
 	/// Releases the face's FreeType face structure. This will mean handles for new sizes cannot be constructed,
 	/// but existing ones can still be fetched.
@@ -71,11 +73,11 @@ private:
 
 	bool release_stream;
 
-	typedef std::vector< FontFaceHandle* > HandleList;
-	typedef std::map< int, HandleList > HandleMap;
+	typedef Container::map< int, FontFaceHandle* >::Type HandleMap;
 	HandleMap handles;
 };
 
+}
 }
 }
 

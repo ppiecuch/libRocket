@@ -28,17 +28,17 @@
 #ifndef ROCKETCORESTRING_H
 #define ROCKETCORESTRING_H
 
+#include <Rocket/Core/ContainerWrapper.h>
 #include <Rocket/Core/Header.h>
 #include <Rocket/Core/StringBase.h>
 #include <stdarg.h>
 #include <string.h>
-#include <vector>
 
 namespace Rocket {
 namespace Core {
 
 typedef StringBase< char > String;
-typedef std::vector< String > StringList;
+typedef Container::vector< String >::Type StringList;
 
 // Template specialisation of the constructor and FormatString() methods that use variable argument lists.
 template<>

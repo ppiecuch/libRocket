@@ -28,14 +28,14 @@
 #include "precompiled.h"
 #include <Rocket/Core/Element.h>
 #include <Rocket/Core/Dictionary.h>
-#include <algorithm>
+#include <Rocket/Core/ContainerWrapper.h>
 #include "ElementBackground.h"
 #include "ElementBorder.h"
 #include "ElementDefinition.h"
 #include "ElementStyle.h"
 #include "EventDispatcher.h"
 #include "ElementDecoration.h"
-#include "FontFaceHandle.h"
+#include <Rocket/Core/FontFaceHandle.h>
 #include "LayoutEngine.h"
 #include "PluginRegistry.h"
 #include "StyleSheetParser.h"
@@ -52,7 +52,7 @@ namespace Core {
 class ElementSortZOrder
 {
 public:
-	bool operator()(const std::pair< Element*, float >& lhs, const std::pair< Element*, float >& rhs)
+	bool operator()(const Container::pair< Element*, float >::Type& lhs, const Container::pair< Element*, float >::Type& rhs)
 	{
 		return lhs.second < rhs.second;
 	}
@@ -71,6 +71,8 @@ public:
 		return lhs->GetZIndex() < rhs->GetZIndex();
 	}
 };
+
+ROCKET_RTTI_Implement( Element )
 
 /// Constructs a new libRocket element.
 Element::Element(const String& _tag) : absolute_offset(0, 0), relative_offset_base(0, 0), relative_offset_position(0, 0), scroll_offset(0, 0), content_offset(0, 0), content_box(0, 0), boxes(1)
@@ -702,9 +704,14 @@ void Element::SetAttributes(const ElementAttributes* _attributes)
 	AttributeNameList changed_attributes;
 
 	while (_attributes->Iterate(index, key, value))
-	{		
-		changed_attributes.insert(key);
-		attributes.Set(key, *value);
+	{
+		Variant* iterator;
+
+		if((iterator=attributes.Get(key))==0 || (*iterator)!=(*value) )
+		{
+			changed_attributes.insert(key);
+			attributes.Set(key, *value);
+		}
 	}
 
 	OnAttributeChange(changed_attributes);
@@ -1266,6 +1273,58 @@ bool Element::RemoveChild(Element* child)
 	return false;
 }
 
+// Removes all children (except domain one)
+void Element::RemoveAllChildren()
+{
+	bool element_removed = GetNumChildren() != 0;
+	Context* context = GetContext();
+
+	for (int child_index = 0, num_children = GetNumChildren(); child_index < num_children; ++child_index)
+	{
+		Element * child = children[child_index];
+		
+		// Inform the context of the element's pending removal (if we have a valid context).
+		if (context)
+			context->OnElementRemove(child);
+
+		child->OnChildRemove(child);
+
+		deleted_children.push_back(child);
+
+		// Remove the child element as the focussed child of this element.
+		if (child == focus)
+		{
+			focus = NULL;
+
+			// If this child (or a descendant of this child) is the context's currently
+			// focussed element, set the focus to us instead.
+			if (context != NULL)
+			{
+				Element* focus_element = context->GetFocusElement();
+				while (focus_element != NULL)
+				{
+					if (focus_element == child)
+					{
+						Focus();
+						break;
+					}
+
+					focus_element = focus_element->GetParentNode();
+				}
+			}
+		}
+	}
+	
+	children.erase(children.begin(), children.begin() + GetNumChildren());
+	
+	if(element_removed)
+	{
+		DirtyLayout();
+		DirtyStackingContext();
+		DirtyStructure();
+	}
+}
+
 bool Element::HasChildNodes() const
 {
 	return (int) children.size() > num_non_dom_children;
@@ -1706,7 +1765,7 @@ void Element::ProcessEvent(Event& event)
 			if (overflow_property == OVERFLOW_AUTO ||
 				overflow_property == OVERFLOW_SCROLL)
 			{
-				SetScrollTop(GetScrollTop() + wheel_delta * ElementUtilities::GetLineHeight(this));
+				SetScrollTop(GetScrollTop() + wheel_delta * (GetFontFaceHandle() ? ElementUtilities::GetLineHeight(this) : (GetProperty(SCROLL_DEFAULT_STEP_SIZE) ? GetProperty< int >(SCROLL_DEFAULT_STEP_SIZE) : 0 )));
 				event.StopPropagation();
 			}
 		}
@@ -1792,7 +1851,7 @@ void Element::ReleaseElements(ElementList& released_elements)
 
 		// If this element has been added back into our list, then we remove our previous oustanding reference on it
 		// and continue.
-		if (std::find(children.begin(), children.end(), element) != children.end())
+		if (Container::find(children.begin(), children.end(), element) != children.end())
 		{
 			element->RemoveReference();
 			continue;
@@ -1891,7 +1950,7 @@ void Element::BuildLocalStackingContext()
 	stacking_context.clear();
 
 	BuildStackingContext(&stacking_context);
-	std::stable_sort(stacking_context.begin(), stacking_context.end(), ElementSortZIndex());
+	Rocket::Core::Container::stable_sort(stacking_context.begin(), stacking_context.end(), ElementSortZIndex());
 }
 
 void Element::BuildStackingContext(ElementList* new_stacking_context)
@@ -1899,7 +1958,7 @@ void Element::BuildStackingContext(ElementList* new_stacking_context)
 	// Build the list of ordered children. Our child list is sorted within the stacking context so stacked elements
 	// will render in the right order; ie, positioned elements will render on top of inline elements, which will render
 	// on top of floated elements, which will render on top of block elements.
-	std::vector< std::pair< Element*, float > > ordered_children;
+	Container::vector< Container::pair< Element*, float >::Type >::Type ordered_children;
 	for (size_t i = 0; i < children.size(); ++i)
 	{
 		Element* child = children[i];
@@ -1907,7 +1966,7 @@ void Element::BuildStackingContext(ElementList* new_stacking_context)
 		if (!child->IsVisible())
 			continue;
 
-		std::pair< Element*, float > ordered_child;
+		Container::pair< Element*, float >::Type ordered_child;
 		ordered_child.first = child;
 
 		if (child->GetPosition() != POSITION_STATIC)
@@ -1923,7 +1982,7 @@ void Element::BuildStackingContext(ElementList* new_stacking_context)
 	}
 
 	// Sort the list!
-	std::stable_sort(ordered_children.begin(), ordered_children.end(), ElementSortZOrder());
+	Rocket::Core::Container::stable_sort(ordered_children.begin(), ordered_children.end(), ElementSortZOrder());
 
 	// Add the list of ordered children into the stacking context in order.
 	for (size_t i = 0; i < ordered_children.size(); ++i)

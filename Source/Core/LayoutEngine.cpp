@@ -138,9 +138,9 @@ void LayoutEngine::BuildBox(Box& box, const Vector2f& containing_block, Element*
 		Vector2f original_content_area = content_area;
 
 		// The element has resized itself, so we only resize it if a RCSS width or height was set explicitly. A value of
-		// 'auto' (or 'auto-fit', ie, both keywords) means keep (or adjust) the intrinsic dimensions.
+		// 'auto' (or 'auto-fit', 'auto-fill', ie, both keywords) means keep (or adjust) the intrinsic dimensions.
 		bool auto_width = false, auto_height = false;
-		const Property* width_property, *height_property;
+		const Property *width_property, *height_property;
 
 		element->GetDimensionProperties(&width_property, &height_property);
 
@@ -181,7 +181,7 @@ void LayoutEngine::BuildBox(Box& box, const Vector2f& containing_block, Element*
 		if (replaced_element)
 		{
 			content_area.x = ClampWidth(content_area.x, element, containing_block.x);
-			content_area.y = ClampWidth(content_area.y, element, containing_block.y);
+			content_area.y = ClampHeight(content_area.y, element, containing_block.y);
 		}
 
 		// If the element was not replaced, then we leave its dimension as unsized (-1, -1) and ignore the width and

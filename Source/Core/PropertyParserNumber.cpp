@@ -41,6 +41,9 @@ PropertyParserNumber::PropertyParserNumber()
 	unit_suffixes.push_back(UnitSuffix(Property::PT, "pt"));
 	unit_suffixes.push_back(UnitSuffix(Property::PC, "pc"));
 	unit_suffixes.push_back(UnitSuffix(Property::PERCENT, "%"));
+
+	unit_suffixes.push_back(UnitSuffix(Property::SH, "sh"));
+	unit_suffixes.push_back(UnitSuffix(Property::SW, "sw"));
 }
 
 PropertyParserNumber::~PropertyParserNumber()
@@ -67,11 +70,26 @@ bool PropertyParserNumber::ParseValue(Property& property, const String& value, c
 			break;
 		}
 	}
-
+    
 	float float_value;
 	if (sscanf(value.CString(), "%f", &float_value) == 1)
 	{
 		property.value = Variant(float_value);
+        // calculate dimensions relative to screen width or height
+        if (property.unit == Property::SH || property.unit == Property::SW)
+        {
+            Context *ctx = Rocket::Core::GetContext(0);
+            if (ctx)
+            {
+                switch(property.unit)
+                {
+                    case Property::SH: property.value = Variant( float_value * ctx->GetDimensions().y ); break;
+                    case Property::SW: property.value = Variant( float_value * ctx->GetDimensions().x ); break;
+                }
+                property.unit = Property::PX;
+            } else
+                Core::Log::Message(Log::LT_WARNING, "Context 0 is not active for sh/sw calcualtion.");
+        }
 		return true;
 	}
 

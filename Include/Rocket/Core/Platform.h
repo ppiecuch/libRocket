@@ -28,6 +28,7 @@
 #ifndef ROCKETCOREPLATFORM_H
 #define ROCKETCOREPLATFORM_H
 
+#include "Config.h"
 
 #if defined __S3E__
 	#define ROCKET_PLATFORM_UNIX
@@ -72,6 +73,8 @@
 
 	// <function> was declared deprecated
 	#pragma warning(disable : 4996)
+
+	#pragma warning(disable : 4275)
 
 	#if !defined _CRT_SECURE_NO_DEPRECATE
 		#define _CRT_SECURE_NO_DEPRECATE

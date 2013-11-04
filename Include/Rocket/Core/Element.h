@@ -28,6 +28,7 @@
 #ifndef ROCKETCOREELEMENT_H
 #define ROCKETCOREELEMENT_H
 
+#include <Rocket/Core/ContainerWrapper.h>
 #include <Rocket/Core/ReferenceCountable.h>
 #include <Rocket/Core/ScriptInterface.h>
 #include <Rocket/Core/Header.h>
@@ -519,6 +520,8 @@ public:
 	/// @param[in] The element to remove.
 	/// @returns True if the element was found and removed.
 	bool RemoveChild(Element* element);
+	/// Remove all children elements from this element.
+	void RemoveAllChildren();
 	/// Returns whether or not this element has any DOM children.
 	/// @return True if the element has at least one DOM child, false otherwise.
 	bool HasChildNodes() const;
@@ -548,7 +551,7 @@ public:
 	/// @return The element's background.
 	ElementBackground* GetElementBackground() const;
 	/// Access the element border.
-	/// @return The element's boder.
+	/// @return The element's border.
 	ElementBorder* GetElementBorder() const;
 	/// Access the element decorators.
 	/// @return The element decoration.
@@ -682,7 +685,7 @@ private:
 	Vector2f scroll_offset;
 
 	// The size of the element.
-	typedef std::vector< Box > BoxList;
+	typedef Container::vector< Box >::Type BoxList;
 	BoxList boxes;
 	// And of the element's internal content.
 	Vector2f content_offset;

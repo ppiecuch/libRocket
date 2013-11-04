@@ -34,9 +34,9 @@
 namespace Rocket {
 namespace Debugger {
 
-typedef std::pair< Core::String, const Core::Property* > NamedProperty;
-typedef std::vector< NamedProperty > NamedPropertyList;
-typedef std::map< Core::PseudoClassList, NamedPropertyList > NamedPropertyMap;
+typedef Rocket::Core::Container::pair< Core::String, const Core::Property* >::Type NamedProperty;
+typedef Rocket::Core::Container::vector< NamedProperty >::Type NamedPropertyList;
+typedef Rocket::Core::Container::map< Core::PseudoClassList, NamedPropertyList >::Type NamedPropertyMap;
 
 /**
 	@author Robert Curry
@@ -45,6 +45,9 @@ typedef std::map< Core::PseudoClassList, NamedPropertyList > NamedPropertyMap;
 class ElementInfo : public Core::ElementDocument, public Core::EventListener
 {
 public:
+
+	ROCKET_RTTI_DefineWithParent(Core::ElementDocument)
+
 	ElementInfo(const Core::String& tag);
 	virtual ~ElementInfo();
 

@@ -32,7 +32,7 @@
 #include <Rocket/Core/Header.h>
 #include <Rocket/Core/PropertyDictionary.h>
 #include <Rocket/Core/PropertySpecification.h>
-#include <map>
+#include <Rocket/Core/ContainerWrapper.h>
 
 namespace Rocket {
 namespace Core {

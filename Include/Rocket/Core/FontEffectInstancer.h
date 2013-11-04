@@ -28,6 +28,7 @@
 #ifndef ROCKETCOREFONTEFFECTINSTANCER_H
 #define ROCKETCOREFONTEFFECTINSTANCER_H
 
+#include <Rocket/Core/ContainerWrapper.h>
 #include <Rocket/Core/ReferenceCountable.h>
 #include <Rocket/Core/Header.h>
 #include <Rocket/Core/PropertyDictionary.h>
@@ -89,7 +90,7 @@ private:
 	PropertySpecification properties;
 
 	// Properties that define the geometry.
-	std::set< String > volatile_properties;
+	Container::set< String >::Type volatile_properties;
 
 	friend class Factory;
 };

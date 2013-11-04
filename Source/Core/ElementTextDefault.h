@@ -28,6 +28,7 @@
 #ifndef ROCKETCOREELEMENTTEXTDEFAULT_H
 #define ROCKETCOREELEMENTTEXTDEFAULT_H
 
+#include <Rocket/Core/ContainerWrapper.h>
 #include <Rocket/Core/Header.h>
 #include <Rocket/Core/ElementText.h>
 #include <Rocket/Core/Geometry.h>
@@ -42,6 +43,9 @@ namespace Core {
 class ROCKETCORE_API ElementTextDefault : public ElementText
 {
 public:
+
+	ROCKET_RTTI_DefineWithParent(ElementText)
+
 	ElementTextDefault(const String& tag);
 	virtual ~ElementTextDefault();
 
@@ -113,7 +117,7 @@ private:
 
 	WString text;
 
-	typedef std::vector< Line > LineList;
+	typedef Container::vector< Line >::Type LineList;
 	LineList lines;
 
 	bool dirty_layout_on_change;
@@ -122,6 +126,7 @@ private:
 	bool geometry_dirty;
 
 	Colourb colour;
+	Colourb real_colour;
 
 	// The decoration geometry we've generated for this string.
 	Geometry decoration;

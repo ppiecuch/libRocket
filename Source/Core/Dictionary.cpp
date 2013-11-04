@@ -317,8 +317,7 @@ bool Dictionary::Reserve(int minused)
 	/* Find the smallest table size > minused. */
 	for (newsize = DICTIONARY_MINSIZE;
 	     newsize <= minused && newsize > 0;
-	     newsize <<= 1)
-	  ;
+	     newsize <<= 1);
 	
 	ROCKET_ASSERT(newsize > 0);
 	

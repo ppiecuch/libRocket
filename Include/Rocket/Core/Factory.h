@@ -28,9 +28,9 @@
 #ifndef ROCKETCOREFACTORY_H
 #define ROCKETCOREFACTORY_H
 
+#include <Rocket/Core/ContainerWrapper.h>
 #include <Rocket/Core/XMLParser.h>
 #include <Rocket/Core/Header.h>
-#include <map>
 
 namespace Rocket {
 namespace Core {

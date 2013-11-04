@@ -60,7 +60,7 @@ bool DecoratorTiledImage::Initialise(const Tile& _tile, const String& _texture_n
 // Called on a decorator to generate any required per-element data for a newly decorated element.
 DecoratorDataHandle DecoratorTiledImage::GenerateElementData(Element* element)
 {
-	// Calculate the tile's dimensions for this element.	
+	// Calculate the tile's dimensions for this element.
 	tile.CalculateDimensions(element, *GetTexture(tile.texture_index));
 
 	Geometry* data = new Geometry(element);
@@ -71,7 +71,7 @@ DecoratorDataHandle DecoratorTiledImage::GenerateElementData(Element* element)
 
 	// Generate the geometry for the tile.
 	switch(tile.scaling_mode) {
-	case IGNORE /* default */: tile.GenerateGeometry(data->GetVertices(), data->GetIndices(), element, Vector2f(0, 0), dest, source); break;
+	case IGNORE /* default */: tile.GenerateGeometry(data->GetVertices(), data->GetIndices(), element, Vector2f(0, 0), dest, source, color_multiplier); break;
 	case FILL:
 	case FIT: {
 	  Vector2f offset(0, 0); float f; 
@@ -89,7 +89,7 @@ DecoratorDataHandle DecoratorTiledImage::GenerateElementData(Element* element)
 	    dest = source;
 	    break;
 	  }
-	  tile.GenerateGeometry(data->GetVertices(), data->GetIndices(), element, offset, dest, source); 
+	  tile.GenerateGeometry(data->GetVertices(), data->GetIndices(), element, offset, dest, source, color_multiplier); 
 	}; break;
 	case CENTER: 
 	  Vector2f offset(0, 0);
@@ -124,7 +124,7 @@ DecoratorDataHandle DecoratorTiledImage::GenerateElementData(Element* element)
 	    offset.y = (dest.y - source.y)/2;
 	    dest.y = source.y;
 	  }
-	  tile.GenerateGeometry(data->GetVertices(), data->GetIndices(), element, offset, dest, source); 
+	  tile.GenerateGeometry(data->GetVertices(), data->GetIndices(), element, offset, dest, source, color_multiplier); 
 	  break;
 	}
 

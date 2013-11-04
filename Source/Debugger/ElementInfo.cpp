@@ -32,10 +32,11 @@
 #include "Geometry.h"
 #include "CommonSource.h"
 #include "InfoSource.h"
-#include <map>
 
 namespace Rocket {
 namespace Debugger {
+
+ROCKET_RTTI_Implement( ElementInfo )
 
 ElementInfo::ElementInfo(const Core::String& tag) : Core::ElementDocument(tag)
 {
