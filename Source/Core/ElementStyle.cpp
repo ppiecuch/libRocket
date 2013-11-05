@@ -28,7 +28,6 @@
 #include "precompiled.h"
 #include "ElementStyle.h"
 #include "ElementStyleCache.h"
-#include <algorithm>
 #include <Rocket/Core/ContainerWrapper.h>
 #include <Rocket/Core/ElementDocument.h>
 #include <Rocket/Core/ElementUtilities.h>

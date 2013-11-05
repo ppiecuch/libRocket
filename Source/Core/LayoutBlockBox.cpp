@@ -29,6 +29,7 @@
 #include "LayoutBlockBox.h"
 #include "LayoutBlockBoxSpace.h"
 #include "LayoutEngine.h"
+#include "ElementDecoration.h"
 #include <Rocket/Core/Element.h>
 #include <Rocket/Core/ElementUtilities.h>
 #include <Rocket/Core/ElementScroll.h>
@@ -82,7 +83,7 @@ LayoutBlockBox::LayoutBlockBox(LayoutEngine* _layout_engine, LayoutBlockBox* _pa
 		space->ImportSpace(*parent->space);
 
 		// Build our box if possible; if not, it will have to be set up manually.
-		layout_engine->BuildBox(box, min_height, max_height, parent, element);
+		Vector2f containing_block = layout_engine->BuildBox(box, min_height, max_height, parent, element);
 
 		// Position ourselves within our containing block (if we have a valid offset parent).
 		if (parent->GetElement() != NULL)
@@ -96,6 +97,47 @@ LayoutBlockBox::LayoutBlockBox(LayoutEngine* _layout_engine, LayoutBlockBox* _pa
 			else
 				element->SetOffset(position, NULL);
 		}
+
+        // check for auto-fill options:
+		const Property *width_property, *height_property;
+		element->GetDimensionProperties(&width_property, &height_property);
+		if (height_property->unit == Property::KEYWORD && height_property->value.Get< int >() == Core::DIMENSION_AUTO_FILL) {
+            int fill_height = containing_block.y - position.y;
+            Vector2f area = box.GetContent();
+            if (fill_height != area.y)
+            {
+                area.y = fill_height;
+                box.SetContent(area);
+                
+                // Determine if the element has automatic margins.
+                bool margins_auto[2] = { false, false };
+                int num_auto_margins = 0;
+                
+                const Property *margin_top, *margin_bottom;
+                element->GetMarginProperties(&margin_top, &margin_bottom, NULL, NULL);
+                
+                for (int i = 0; i < 2; ++i)
+                {
+                    const Property* margin_property = i == 0 ? margin_top : margin_bottom;
+                    if (margin_property != NULL &&
+                        margin_property->unit == Property::KEYWORD)
+                    {
+                        margins_auto[i] = true;
+                        num_auto_margins++;
+                    }
+                }
+                if (num_auto_margins > 0)
+                {
+                    // Reset the automatic margins.
+                    if (margins_auto[0])
+                        box.SetEdge(Box::MARGIN, Box::TOP, 0);
+                    if (margins_auto[1])
+                        box.SetEdge(Box::MARGIN, Box::BOTTOM, 0);
+                    
+                    layout_engine->BuildBoxHeight(box, element, containing_block.y);
+                }
+            }
+        }
 	}
 
 	if (element != NULL)
@@ -195,18 +237,8 @@ LayoutBlockBox::CloseResult LayoutBlockBox::Close()
 		Vector2f content_area = box.GetSize();
 		content_area.y = Math::Clamp(box_cursor, min_height, max_height);
 
-		if (element != NULL) {
+		if (element != NULL)
             content_area.y = Math::Max(content_area.y, space->GetDimensions().y);
-
-            const Property *width_property, *height_property;
-            element->GetDimensionProperties(&width_property, &height_property);
-            if (height_property->unit == Property::KEYWORD && height_property->value.Get<int>() == DIMENSION_AUTO_FILL) {
-                fprintf(stderr, "parent: h:%f, y:%f\n", parent->GetBox().GetSize().y, parent->box_cursor);
-                if (parent->box_cursor + content_area.y > parent->GetBox().GetSize().y) {
-                    content_area.y -= (parent->box_cursor + content_area.y) - parent->GetBox().GetSize().y;
-                }
-            }
-        }
 
 		box.SetContent(content_area);
 	}

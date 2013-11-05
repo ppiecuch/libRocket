@@ -131,6 +131,11 @@ foreach(library ${LIBRARIES})
                            VERSION ${PROJECT_VERSION}
                            SOVERSION ${LIBROCKET_VERSION_MAJOR}
     )
+    if(FREETYPE_FOUND)
+		set_property( TARGET ${NAME} PROPERTY
+                           COMPILE_DEFINITIONS STATIC_LIB
+                           ROCKET_WITH_FREETYPE )
+    endif()
     
     if(APPLE)
     	set_target_properties(${NAME} PROPERTIES
@@ -158,6 +163,11 @@ if(BUILD_PYTHON_BINDINGS)
         )
 
         set_target_properties(${NAME} PROPERTIES PREFIX "")
+	if(FREETYPE_FOUND)
+		set_property( TARGET ${NAME} PROPERTY
+                           COMPILE_DEFINITIONS STATIC_LIB
+                           ROCKET_WITH_FREETYPE )
+   	endif()
 
         install(TARGETS ${NAME}
                 LIBRARY DESTINATION ${PYTHON_INSTDIR}

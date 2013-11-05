@@ -51,6 +51,12 @@
 	#else
 		#define ROCKET_BREAK {__asm__("int $3\n" : : );}
 	#endif
+#else
+    #if defined __i386__ || defined __x86_64__
+        #define ROCKET_BREAK asm ("int $0x03" )
+    #else
+        #define ROCKET_BREAK
+    #endif
 #endif
 
 

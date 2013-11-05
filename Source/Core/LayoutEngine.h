@@ -64,7 +64,7 @@ public:
 	/// @param[in] containing_box The block box containing the element.
 	/// @param[in] element The element to build the box for.
 	/// @param[in] inline_element True if the element is placed in an inline context, false if not.
-	static void BuildBox(Box& box, float& min_height, float& max_height, LayoutBlockBox* containing_box, Element* element, bool inline_element = false);
+	static Vector2f BuildBox(Box& box, float& min_height, float& max_height, LayoutBlockBox* containing_box, Element* element, bool inline_element = false);
 
 	/// Clamps the width of an element based from its min-width and max-width properties.
 	/// @param[in] width The width to clamp.
@@ -131,6 +131,8 @@ private:
 
 	// The open block box containing displaying in a block-context.
 	LayoutBlockBox* block_context_box;
+    
+    friend class LayoutBlockBox;
 };
 
 }

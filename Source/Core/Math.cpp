@@ -34,17 +34,17 @@ namespace Rocket {
 namespace Core {
 namespace Math {
 
-const float PI = 3.141592653f;
-const float PI_BY_TWO = PI * 0.5f;
-const float TWO_PI_BY_THREE = PI * 1.5f;
-const float TWO_PI = PI * 2;
+const float R_PI = 3.141592653f;
+const float R_PI_BY_TWO = R_PI * 0.5f;
+const float R_TWO_PI_BY_THREE = R_PI * 1.5f;
+const float R_TWO_PI = R_PI * 2;
 
-static const float FZERO = 0.0001f;
+static const float R_FZERO = 0.0001f;
 
 // Evaluates if a number is, or close to, zero.
 ROCKETCORE_API bool IsZero(float value)
 {
-	return AbsoluteValue(value) < FZERO;
+	return AbsoluteValue(value) < R_FZERO;
 }
 
 // Evaluates if two floating-point numbers are equal, or so similar that they could be considered
@@ -99,19 +99,19 @@ ROCKETCORE_API float ATan2(float y, float x)
 // Converts an angle from radians to degrees.
 ROCKETCORE_API float RadiansToDegrees(float angle)
 {
-	return angle * (180.0f / PI);
+	return angle * (180.0f / R_PI);
 }
 
 // Converts an angle from degrees to radians.
 ROCKETCORE_API float DegreesToRadians(float angle)
 {
-	return angle * (PI / 180.0f);
+	return angle * (R_PI / 180.0f);
 }
 
 // Normalises and angle in radians
 ROCKETCORE_API float NormaliseAngle(float angle)
 {
-	return fmodf(angle, TWO_PI);
+	return fmodf(angle, R_TWO_PI);
 }
 
 // Calculates the square root of a value.

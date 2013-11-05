@@ -217,21 +217,27 @@ const PropertyDictionary* StyleSheet::FindDecoratorPropertiesWithId(const String
     if (!node) {
       StyleSheetNode *global = root->GetChildNode("", StyleSheetNode::TAG, false);
       if (global)
-	node = global->GetChildNode(class_name, StyleSheetNode::CLASS, false);
+            node = global->GetChildNode(class_name, StyleSheetNode::CLASS, false);
     }
     if (node) {
-      PropertyGroupMap decorator_definitions;
-      BuildPropertyGroup(decorator_definitions, "decorator", node->GetProperties());
-      for (PropertyGroupMap::const_iterator i=decorator_definitions.begin(); i!=decorator_definitions.end(); ++i) {
-	const PropertyGroup &group = (*i).second;
-	const PropertyMap &props = group.second.GetProperties();
-	PropertyMap::const_iterator deco_id = props.find("decorator-id");
-	if (deco_id != props.end() && (*deco_id).second.ToString() == decorator_id) {
-	  return new PropertyDictionary(group.second);
-	}
-      }
+        // Core::Log::Message(Core::Log::LT_DEBUG, "class %s found", class_name.CString());
+        PropertyGroupMap decorator_definitions;
+        BuildPropertyGroup(decorator_definitions, "decorator", node->GetProperties());
+        for (PropertyGroupMap::const_iterator i=decorator_definitions.begin(); i!=decorator_definitions.end(); ++i) {
+            // Core::Log::Message(Core::Log::LT_DEBUG, " -- group: %s found",(*i).first.CString());
+            const PropertyGroup &group = (*i).second;
+            // Core::Log::Message(Core::Log::LT_DEBUG, "  -- prop: %s", group.first.CString());
+            const PropertyMap &props = group.second.GetProperties();
+            // for (PropertyMap::const_iterator ii=props.begin(); ii!=props.end(); ++ii)
+            //   Core::Log::Message(Core::Log::LT_DEBUG, "   -- value: %s", (*ii).first.CString());
+            PropertyMap::const_iterator deco_id = props.find("decorator-id");
+            if (deco_id != props.end() && (*deco_id).second.ToString() == decorator_id) {
+                // Core::Log::Message(Core::Log::LT_DEBUG, "decorator %s definiton found", decorator_id.CString());
+                return new PropertyDictionary(group.second);
+            }
+        }
     }
-    
+
     return NULL;
 }
 

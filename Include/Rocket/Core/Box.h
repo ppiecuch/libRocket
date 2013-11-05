@@ -89,6 +89,7 @@ public:
 	/// Sets the size of the content area.
 	/// @param content[in] The size of the new content area.
 	void SetContent(const Vector2f& content);
+	Vector2f GetContent() const { return content; };
 	/// Sets the size of one of the edges of one of the box's outer areas.
 	/// @param area[in] The area to change.
 	/// @param edge[in] The area edge to change.

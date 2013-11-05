@@ -181,7 +181,7 @@ void LayoutEngine::BuildBox(Box& box, const Vector2f& containing_block, Element*
 		if (replaced_element)
 		{
 			content_area.x = ClampWidth(content_area.x, element, containing_block.x);
-			content_area.y = ClampHeight(content_area.y, element, containing_block.y);
+			content_area.y = ClampHeight(content_area.y, element, containing_block.y); // (PP)
 		}
 
 		// If the element was not replaced, then we leave its dimension as unsized (-1, -1) and ignore the width and
@@ -209,7 +209,7 @@ void LayoutEngine::BuildBox(Box& box, const Vector2f& containing_block, Element*
 }
 
 // Generates the box for an element placed in a block box.
-void LayoutEngine::BuildBox(Box& box, float& min_height, float& max_height, LayoutBlockBox* containing_box, Element* element, bool inline_element)
+Vector2f LayoutEngine::BuildBox(Box& box, float& min_height, float& max_height, LayoutBlockBox* containing_box, Element* element, bool inline_element)
 {
 	Vector2f containing_block = GetContainingBlock(containing_box);
 	BuildBox(box, containing_block, element, inline_element);
@@ -232,6 +232,7 @@ void LayoutEngine::BuildBox(Box& box, float& min_height, float& max_height, Layo
 		min_height = box_height;
 		max_height = box_height;
 	}
+    return containing_block;
 }
 
 // Clamps the width of an element based from its min-width and max-width properties.
@@ -287,7 +288,7 @@ float LayoutEngine::Round(float value)
 
 void* LayoutEngine::AllocateLayoutChunk(size_t size)
 {
-	(size);
+	(void)(size);
 	ROCKET_ASSERT(size <= LayoutChunk::size);
 
 	return layout_chunk_pool.AllocateObject();
