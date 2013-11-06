@@ -28,6 +28,7 @@
 #ifndef ROCKETCOREDECORATORTILED_H
 #define ROCKETCOREDECORATORTILED_H
 
+#include <Rocket/Core/ContainerWrapper.h>
 #include <Rocket/Core/Decorator.h>
 #include <Rocket/Core/Vertex.h>
 

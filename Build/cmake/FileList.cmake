@@ -91,6 +91,7 @@ set(Core_HDR_FILES
     ${PROJECT_SOURCE_DIR}/Source/Core/BitmapFont/FontFaceLayer.h
     ${PROJECT_SOURCE_DIR}/Source/Core/BitmapFont/FontFamily.h
     ${PROJECT_SOURCE_DIR}/Source/Core/BitmapFont/FontParser.h
+    ${PROJECT_SOURCE_DIR}/Source/Core/BitmapFont/lacuna_0.h
     ${PROJECT_SOURCE_DIR}/Source/Core/FreeType/FontFace.h
     ${PROJECT_SOURCE_DIR}/Source/Core/FreeType/FontFaceHandle.h
     ${PROJECT_SOURCE_DIR}/Source/Core/FreeType/FontFamily.h
@@ -312,6 +313,7 @@ set(Core_SRC_FILES
     ${PROJECT_SOURCE_DIR}/Source/Core/BitmapFont/FontFamily.cpp
     ${PROJECT_SOURCE_DIR}/Source/Core/BitmapFont/FontParser.cpp
     ${PROJECT_SOURCE_DIR}/Source/Core/BitmapFont/FontProvider.cpp
+    ${PROJECT_SOURCE_DIR}/Source/Core/BitmapFont/lacuna_0.cpp
     ${PROJECT_SOURCE_DIR}/Source/Core/FreeType/FontFace.cpp
     ${PROJECT_SOURCE_DIR}/Source/Core/FreeType/FontFaceHandle.cpp
     ${PROJECT_SOURCE_DIR}/Source/Core/FreeType/FontFamily.cpp

@@ -52,7 +52,7 @@ namespace Core {
 class ElementSortZOrder
 {
 public:
-	bool operator()(const Container::pair< Element*, float >::Type& lhs, const Container::pair< Element*, float >::Type& rhs)
+	bool operator()(const Container::pair< Element*, float >::Type& lhs, const Container::pair< Element*, float >::Type& rhs) const
 	{
 		return lhs.second < rhs.second;
 	}
@@ -65,7 +65,7 @@ public:
 class ElementSortZIndex
 {
 public:
-	bool operator()(const Element* lhs, const Element* rhs)
+	bool operator()(const Element* lhs, const Element* rhs) const
 	{
 		// Check the z-index.
 		return lhs->GetZIndex() < rhs->GetZIndex();

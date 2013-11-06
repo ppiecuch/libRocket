@@ -27,6 +27,7 @@
 
 #include "precompiled.h"
 #include "DecoratorTiledImage.h"
+#include <Rocket/Core/ContainerWrapper.h>
 #include <Rocket/Core/Element.h>
 #include <Rocket/Core/Geometry.h>
 #include <Rocket/Core/GeometryUtilities.h>

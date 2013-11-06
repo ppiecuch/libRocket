@@ -27,6 +27,7 @@
 
 #include "precompiled.h"
 #include "ElementBorder.h"
+#include <Rocket/Core/ContainerWrapper.h>
 #include <Rocket/Core/Element.h>
 #include <Rocket/Core/Property.h>
 
@@ -76,8 +77,8 @@ void ElementBorder::GenerateBorder()
 		}
 	}
 
-	std::vector< Vertex >& vertices = geometry.GetVertices();
-	std::vector< int >& indices = geometry.GetIndices();
+	Container::vector< Vertex >::Type& vertices = geometry.GetVertices();
+	Container::vector< int >::Type& indices = geometry.GetIndices();
 
 	int index_offset = 0;
 	vertices.resize(4 * num_edges);

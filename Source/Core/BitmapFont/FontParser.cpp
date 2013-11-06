@@ -59,8 +59,8 @@ void FontParser::HandleElementStart(const String& name, const XMLAttributes& att
         BM_face->Face.IsSmoothed = attributes.Get( "smooth" )->Get< bool >();
         BM_face->Face.SuperSamplingLevel = attributes.Get( "aa" )->Get< int >();
         //:TODO:
-        //BM_face->Face.FamilyName = attributes.Get( "padding" )->Get< String >();
-        //BM_face->Face.FamilyName = attributes.Get( "spacing" )->Get< String >();
+        //BM_face->Face.padding = attributes.Get( "padding" )->Get< String >();
+        //BM_face->Face.spacing = attributes.Get( "spacing" )->Get< String >();
         BM_face->Face.Outline = attributes.Get( "outline" )->Get< int >();
     }
     else if ( name == "common" )
