@@ -25,9 +25,9 @@
  *
  */
 
-#include <Rocket/Controls/DataQuery.h>
-#include <Rocket/Controls/DataSource.h>
-#include <Rocket/Core/ContainerWrapper.h>
+#include "../../Include/Rocket/Controls/DataQuery.h"
+#include "../../Include/Rocket/Controls/DataSource.h"
+#include <algorithm>
 
 namespace Rocket {
 namespace Controls {
@@ -40,8 +40,11 @@ class DataQuerySort
 			order_parameters = _order_parameters;
 		}
 
-		bool operator()(const Rocket::Core::StringList& ROCKET_UNUSED(left), const Rocket::Core::StringList& ROCKET_UNUSED(right))
+		bool operator()(const Rocket::Core::StringList& ROCKET_UNUSED_PARAMETER(left), const Rocket::Core::StringList& ROCKET_UNUSED_PARAMETER(right))
 		{
+			ROCKET_UNUSED(left);
+			ROCKET_UNUSED(right);
+
 			return false;
 		}
 

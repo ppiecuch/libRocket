@@ -28,7 +28,7 @@
 #ifndef ROCKETCOREMATH_H
 #define ROCKETCOREMATH_H
 
-#include <Rocket/Core/Header.h>
+#include "Header.h"
 
 namespace Rocket {
 namespace Core {
@@ -42,7 +42,6 @@ extern ROCKETCORE_API const float R_PI;
 extern ROCKETCORE_API const float R_TWO_PI_BY_THREE;
 // The constant 2 * PI.
 extern ROCKETCORE_API const float R_TWO_PI;
-
 
 template < typename Type >
 Type Max(Type a, Type b)

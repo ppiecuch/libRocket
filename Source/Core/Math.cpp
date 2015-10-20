@@ -26,7 +26,7 @@
  */
 
 #include "precompiled.h"
-#include <Rocket/Core/Math.h>
+#include "../../Include/Rocket/Core/Math.h"
 #include <time.h>
 #include <math.h>
 
@@ -38,6 +38,8 @@ const float R_PI = 3.141592653f;
 const float R_PI_BY_TWO = R_PI * 0.5f;
 const float R_TWO_PI_BY_THREE = R_PI * 1.5f;
 const float R_TWO_PI = R_PI * 2;
+
+#define ROCKET_PI = R_PI
 
 static const float R_FZERO = 0.0001f;
 
@@ -99,19 +101,19 @@ ROCKETCORE_API float ATan2(float y, float x)
 // Converts an angle from radians to degrees.
 ROCKETCORE_API float RadiansToDegrees(float angle)
 {
-	return angle * (180.0f / R_PI);
+	return angle * (180.0f / ROCKET_PI);
 }
 
 // Converts an angle from degrees to radians.
 ROCKETCORE_API float DegreesToRadians(float angle)
 {
-	return angle * (R_PI / 180.0f);
+	return angle * (ROCKET_PI / 180.0f);
 }
 
 // Normalises and angle in radians
 ROCKETCORE_API float NormaliseAngle(float angle)
 {
-	return fmodf(angle, R_TWO_PI);
+	return fmodf(angle, ROCKET_PI * 2.0f);
 }
 
 // Calculates the square root of a value.

@@ -26,11 +26,17 @@
  */
 
 #include "precompiled.h"
+<<<<<<< HEAD
 #include <Rocket/Core/ContainerWrapper.h>
 #include <Rocket/Core/ElementUtilities.h>
 #include <Rocket/Core/FontFaceHandle.h>
+=======
+#include "../../Include/Rocket/Core/ElementUtilities.h"
+#include <queue>
+#include "FontFaceHandle.h"
+>>>>>>> e6a97155b6daade40c77cec9928812a877290a6a
 #include "LayoutEngine.h"
-#include <Rocket/Core.h>
+#include "../../Include/Rocket/Core.h"
 
 namespace Rocket {
 namespace Core {
@@ -137,6 +143,7 @@ int ElementUtilities::GetFontSize(Element* element)
 int ElementUtilities::GetLineHeight(Element* element)
 {
 	FontFaceHandle* font_face_handle = element->GetFontFaceHandle();
+<<<<<<< HEAD
 
 	if (font_face_handle == NULL)
 	{
@@ -158,6 +165,45 @@ int ElementUtilities::GetLineHeight(Element* element)
 		// Otherwise, we're a px measurement.
 		else if (line_height_property->unit == Property::PX)
 			return Math::Round(line_height_property->value.Get< float >());
+=======
+	if (font_face_handle == NULL)
+		return 0;
+
+	int line_height = font_face_handle->GetLineHeight();
+	float inch = element->GetRenderInterface()->GetPixelsPerInch();
+	const Property* line_height_property = element->GetLineHeightProperty();
+
+	switch (line_height_property->unit)
+	{
+	ROCKET_UNUSED_SWITCH_ENUM(Property::UNKNOWN);
+	ROCKET_UNUSED_SWITCH_ENUM(Property::KEYWORD);
+	ROCKET_UNUSED_SWITCH_ENUM(Property::STRING);
+	ROCKET_UNUSED_SWITCH_ENUM(Property::COLOUR);
+	ROCKET_UNUSED_SWITCH_ENUM(Property::ABSOLUTE_UNIT);
+	ROCKET_UNUSED_SWITCH_ENUM(Property::PPI_UNIT);
+	ROCKET_UNUSED_SWITCH_ENUM(Property::RELATIVE_UNIT);
+	case Property::NUMBER:
+	case Property::EM:
+		// If the property is a straight number or an em measurement, then it scales the line height.
+		return Math::Round(line_height_property->value.Get< float >() * line_height);
+	case Property::PERCENT:
+		// If the property is a percentage, then it scales the line height.
+		return Math::Round(line_height_property->value.Get< float >() * line_height * 0.01f);
+	case Property::PX:
+		// A px measurement.
+		return Math::Round(line_height_property->value.Get< float >());
+	case Property::INCH:
+		// Values based on pixels-per-inch.
+		return Math::Round(line_height_property->value.Get< float >() * inch);
+	case Property::CM:
+		return Math::Round(line_height_property->value.Get< float >() * inch * (1.0f / 2.54f));
+	case Property::MM:
+		return Math::Round(line_height_property->value.Get< float >() * inch * (1.0f / 25.4f));
+	case Property::PT:
+		return Math::Round(line_height_property->value.Get< float >() * inch * (1.0f / 72.0f));
+	case Property::PC:
+		return Math::Round(line_height_property->value.Get< float >() * inch * (1.0f / 6.0f));
+>>>>>>> e6a97155b6daade40c77cec9928812a877290a6a
 	}
 
 	return 0;
@@ -364,53 +410,7 @@ bool ElementUtilities::PositionElement(Element* element, const Vector2f& offset,
 
 	return true;
 }
-/*
-// Returns true if the element is visible within the current clipping region (if any), false if not.
-static bool IsElementVisible(const Element* ROCKET_UNUSED(element))
-{
-	// Fix this when text elements have their sizes correctly set!
-	return true;
 
-	if (clip_root == NULL)
-		return true;
-
-	Vector2f element_position = element->GetAbsoluteOffset(Box::BORDER);
-	for (int i = 0; i < element->GetNumBoxes(); ++i)
-	{
-		Vector2f box_position = element_position + element->GetBox(i).GetPosition(Box::MARGIN);
-		Vector2f box_size = element->GetBox(i).GetSize(Box::MARGIN);
-
-		// If both the left and right edges of this box are to the left of the clipping region,
-		// then this box can't intersect the clipping region.
-		if (box_position.x < clipping_region.top_left.x &&
-			box_position.x + box_size.x < clipping_region.top_left.x)
-			continue;
-
-		// If both the left and right edges of this box are to the right of the clipping region,
-		// then this box can't intersect the clipping region.
-		if (box_position.x > clipping_region.bottom_right.x &&
-			box_position.x + box_size.x > clipping_region.bottom_right.x)
-			continue;
-
-		// If both the top and bottom edges of this box are to the top of the clipping region,
-		// then this box can't intersect the clipping region.
-		if (box_position.y < clipping_region.top_left.y &&
-			box_position.y + box_size.y < clipping_region.top_left.y)
-			continue;
-
-		// If both the top and bottom edges of this box are to the bottom of the clipping region,
-		// then this box can't intersect the clipping region.
-		if (box_position.y > clipping_region.bottom_right.y &&
-			box_position.y + box_size.y > clipping_region.bottom_right.y)
-			continue;
-
-		// We intersect!
-		return true;
-	}
-
-	return false;
-}
-*/
 // Builds and sets the box for an element.
 static void SetBox(Element* element)
 {

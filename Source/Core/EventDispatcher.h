@@ -28,9 +28,9 @@
 #ifndef ROCKETCOREEVENTDISPATCHER_H
 #define ROCKETCOREEVENTDISPATCHER_H
 
-#include <Rocket/Core/String.h>
-#include <Rocket/Core/Event.h>
-#include <Rocket/Core/ContainerWrapper.h>
+#include "../../Include/Rocket/Core/String.h"
+#include "../../Include/Rocket/Core/Event.h"
+#include <map>
 
 namespace Rocket {
 namespace Core {

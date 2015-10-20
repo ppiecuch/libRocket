@@ -27,8 +27,13 @@
 
 #include "precompiled.h"
 #include "StyleSheetNode.h"
+<<<<<<< HEAD
 #include <Rocket/Core/ContainerWrapper.h>
 #include <Rocket/Core/Element.h>
+=======
+#include <algorithm>
+#include "../../Include/Rocket/Core/Element.h"
+>>>>>>> e6a97155b6daade40c77cec9928812a877290a6a
 #include "StyleSheetFactory.h"
 #include "StyleSheetNodeSelector.h"
 
@@ -397,6 +402,7 @@ void StyleSheetNode::GetApplicableDescendants(Container::vector< const StyleShee
 	// Check if this node matches this element.
 	switch (type)
 	{
+		ROCKET_UNUSED_SWITCH_ENUM(NUM_NODE_TYPES);
 		case ROOT:
 		case TAG:
 		{

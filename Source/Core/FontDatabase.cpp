@@ -26,15 +26,10 @@
  */
 
 #include "precompiled.h"
-#include <Rocket/Core/FontDatabase.h>
-#include <Rocket/Core.h>
-#include <Rocket/Core/FontProvider.h>
-#include <Rocket/Core/BitmapFont/FontProvider.h>
 
-#ifdef ROCKET_WITH_FREETYPE
-	#include <Rocket/Core/FreeType/FontProvider.h>
-#endif
-
+#include "../../Include/Rocket/Core/FontDatabase.h"
+#include "../../Include/Rocket/Core.h"
+#include "FontFamily.h"
 
 namespace Rocket {
 namespace Core {
@@ -65,10 +60,7 @@ bool FontDatabase::Initialise()
 	}
 
 	BitmapFont::FontProvider::Initialise();
-
-#ifdef ROCKET_WITH_FREETYPE
 	FreeType::FontProvider::Initialise();
-#endif
 
 	return true;
 }
@@ -76,10 +68,7 @@ bool FontDatabase::Initialise()
 void FontDatabase::Shutdown()
 {
 	BitmapFont::FontProvider::Shutdown();
-
-#ifdef ROCKET_WITH_FREETYPE
 	FreeType::FontProvider::Shutdown();
-#endif
 
 	if (instance != NULL)
 	{
@@ -98,12 +87,7 @@ bool FontDatabase::LoadFontFace(const String& file_name)
 	}
 	else
 	{
-#ifdef ROCKET_WITH_FREETYPE
 		return FreeType::FontProvider::LoadFontFace( file_name );
-#else
-		Log::Message(Log::LT_ERROR, "libRocket is not compiled with FreeType support. Rebuild with ROCKET_WITH_FREETYPE");
-		return false;
-#endif
 	}
 }
 
@@ -116,12 +100,7 @@ bool FontDatabase::LoadFontFace(const String& file_name, const String& family, F
 	}
 	else
 	{
-#ifdef ROCKET_WITH_FREETYPE
 		return FreeType::FontProvider::LoadFontFace( file_name, family, style, weight );
-#else
-		Log::Message(Log::LT_ERROR, "libRocket is not compiled with FreeType support. Rebuild with ROCKET_WITH_FREETYPE");
-		return false;
-#endif
 	}
 }
 
@@ -134,12 +113,7 @@ bool FontDatabase::LoadFontFace(FontProviderType font_type, const byte* data, in
 	}
 	else if( font_type == FREETYPE_FONT )
 	{
-#ifdef ROCKET_WITH_FREETYPE
 		return FreeType::FontProvider::LoadFontFace( data, data_length, family, style, weight );
-#else
-		Log::Message(Log::LT_ERROR, "libRocket is not compiled with FreeType support. Rebuild with ROCKET_WITH_FREETYPE");
-		return false;
-#endif
 	}
 	else
 	{

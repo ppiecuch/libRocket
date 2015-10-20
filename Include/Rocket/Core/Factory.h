@@ -28,9 +28,9 @@
 #ifndef ROCKETCOREFACTORY_H
 #define ROCKETCOREFACTORY_H
 
-#include <Rocket/Core/ContainerWrapper.h>
-#include <Rocket/Core/XMLParser.h>
-#include <Rocket/Core/Header.h>
+#include "XMLParser.h"
+#include "Header.h"
+#include <map>
 
 namespace Rocket {
 namespace Core {
@@ -146,6 +146,8 @@ public:
 	static StyleSheet* InstanceStyleSheetStream(Stream* stream);
 	/// Clears the style sheet cache. This will force style sheets to be reloaded.
 	static void ClearStyleSheetCache();
+	/// Clears the template cache. This will force template to be reloaded.
+	static void ClearTemplateCache();
 
 	/// Registers an instancer for all events.
 	/// @param[in] instancer The instancer to be called.

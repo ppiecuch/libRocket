@@ -28,15 +28,16 @@
 #ifndef ROCKETCOREFONTFACEHANDLE_H
 #define ROCKETCOREFONTFACEHANDLE_H
 
-#include <Rocket/Core/Header.h>
-#include <Rocket/Core/ReferenceCountable.h>
-#include <Rocket/Core/UnicodeRange.h>
-#include <Rocket/Core/Font.h>
-#include <Rocket/Core/FontEffect.h>
-#include <Rocket/Core/FontGlyph.h>
-#include <Rocket/Core/Geometry.h>
-#include <Rocket/Core/String.h>
-#include <Rocket/Core/Texture.h>
+#include "UnicodeRange.h"
+#include "../../Include/Rocket/Core/ReferenceCountable.h"
+#include "../../Include/Rocket/Core/Font.h"
+#include "../../Include/Rocket/Core/FontEffect.h"
+#include "../../Include/Rocket/Core/FontGlyph.h"
+#include "../../Include/Rocket/Core/Geometry.h"
+#include "../../Include/Rocket/Core/String.h"
+#include "../../Include/Rocket/Core/Texture.h"
+#include <ft2build.h>
+#include FT_FREETYPE_H
 
 namespace Rocket {
 namespace Core {
@@ -119,6 +120,7 @@ protected:
 	/// Destroys the handle.
 	virtual void OnReferenceDeactivate();
 
+<<<<<<< HEAD:Include/Rocket/Core/FontFaceHandle.h
 	typedef Container::map< word, int >::Type GlyphKerningMap;
 	typedef Container::map< word, GlyphKerningMap >::Type FontKerningMap;
 
@@ -129,6 +131,25 @@ protected:
 
     // Generates (or shares) a layer derived from a font effect.
     virtual FontFaceLayer* GenerateLayer(FontEffect* font_effect);
+=======
+private:
+	void GenerateMetrics(void);
+
+	void BuildGlyphMap(const UnicodeRange& unicode_range);
+	void BuildGlyph(FontGlyph& glyph, FT_GlyphSlot ft_glyph);
+
+	int GetKerning(word lhs, word rhs) const;
+
+	// Generates (or shares) a layer derived from a font effect.
+	FontFaceLayer* GenerateLayer(FontEffect* font_effect);
+
+	typedef std::vector< int > GlyphKerningList;
+	typedef std::vector< GlyphKerningList > FontKerningList;
+
+	FT_Face ft_face;
+
+	FontGlyphList glyphs;
+>>>>>>> e6a97155b6daade40c77cec9928812a877290a6a:Source/Core/FontFaceHandle.h
 
 	typedef Container::map< const FontEffect*, FontFaceLayer* >::Type FontLayerMap;
 	typedef Container::map< String, FontFaceLayer* >::Type FontLayerCache;

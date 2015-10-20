@@ -29,12 +29,11 @@
 #include "LayoutBlockBox.h"
 #include "LayoutBlockBoxSpace.h"
 #include "LayoutEngine.h"
-#include "ElementDecoration.h"
-#include <Rocket/Core/Element.h>
-#include <Rocket/Core/ElementUtilities.h>
-#include <Rocket/Core/ElementScroll.h>
-#include <Rocket/Core/Property.h>
-#include <Rocket/Core/StyleSheetKeywords.h>
+#include "../../Include/Rocket/Core/Element.h"
+#include "../../Include/Rocket/Core/ElementUtilities.h"
+#include "../../Include/Rocket/Core/ElementScroll.h"
+#include "../../Include/Rocket/Core/Property.h"
+#include "../../Include/Rocket/Core/StyleSheetKeywords.h"
 
 namespace Rocket {
 namespace Core {

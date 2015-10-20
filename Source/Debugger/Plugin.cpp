@@ -27,9 +27,14 @@
 
 
 #include "Plugin.h"
+<<<<<<< HEAD
 #include <Rocket/Core/Types.h>
 #include <Rocket/Core.h>
 #include <Rocket/Core/FontDatabase.h>
+=======
+#include "../../Include/Rocket/Core/Types.h"
+#include "../../Include/Rocket/Core.h"
+>>>>>>> e6a97155b6daade40c77cec9928812a877290a6a
 #include "ElementContextHook.h"
 #include "ElementInfo.h"
 #include "ElementLog.h"

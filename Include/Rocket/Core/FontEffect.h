@@ -28,8 +28,7 @@
 #ifndef ROCKETCOREFONTEFFECT_H
 #define ROCKETCOREFONTEFFECT_H
 
-#include <Rocket/Core/ContainerWrapper.h>
-#include <Rocket/Core/FontGlyph.h>
+#include "FontGlyph.h"
 
 namespace Rocket {
 namespace Core {

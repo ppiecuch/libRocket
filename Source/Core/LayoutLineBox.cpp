@@ -30,12 +30,21 @@
 #include "LayoutBlockBox.h"
 #include "LayoutEngine.h"
 #include "LayoutInlineBoxText.h"
+<<<<<<< HEAD
 #include <Rocket/Core/FontFaceHandle.h>
 #include <Rocket/Core/Property.h>
 #include <Rocket/Core/ElementUtilities.h>
 #include <Rocket/Core/ElementText.h>
 #include <Rocket/Core/StyleSheetKeywords.h>
 #include <Rocket/Core/ContainerWrapper.h>
+=======
+#include "FontFaceHandle.h"
+#include "../../Include/Rocket/Core/Property.h"
+#include "../../Include/Rocket/Core/ElementUtilities.h"
+#include "../../Include/Rocket/Core/ElementText.h"
+#include "../../Include/Rocket/Core/StyleSheetKeywords.h"
+#include <stack>
+>>>>>>> e6a97155b6daade40c77cec9928812a877290a6a
 
 namespace Rocket {
 namespace Core {

@@ -28,8 +28,8 @@
 #ifndef ROCKETCORETEXTUREDATABASE_H
 #define ROCKETCORETEXTUREDATABASE_H
 
-#include <Rocket/Core/String.h>
-#include <Rocket/Core/ContainerWrapper.h>
+#include "../../Include/Rocket/Core/String.h"
+#include <map>
 
 namespace Rocket {
 namespace Core {

@@ -26,8 +26,8 @@
  */
 
 #include "precompiled.h"
-#include <Rocket/Core.h>
-#include <Rocket/Core/StreamMemory.h>
+#include "../../Include/Rocket/Core.h"
+#include "../../Include/Rocket/Core/StreamMemory.h"
 #include "ContextInstancerDefault.h"
 #include "DecoratorNoneInstancer.h"
 #include "DecoratorAliasInstancer.h"
@@ -46,6 +46,7 @@
 #include "PropertyParserColour.h"
 #include "StreamFile.h"
 #include "StyleSheetFactory.h"
+#include "TemplateCache.h"
 #include "XMLNodeHandlerBody.h"
 #include "XMLNodeHandlerDefault.h"
 #include "XMLNodeHandlerHead.h"
@@ -530,6 +531,12 @@ StyleSheet* Factory::InstanceStyleSheetStream(Stream* stream)
 void Factory::ClearStyleSheetCache()
 {
 	StyleSheetFactory::ClearStyleSheetCache();
+}
+
+/// Clears the template cache. This will force templates to be reloaded.
+void Factory::ClearTemplateCache()
+{
+	TemplateCache::Clear();
 }
 
 // Registers an instancer for all RKTEvents
