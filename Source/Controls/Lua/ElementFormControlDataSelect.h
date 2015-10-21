@@ -28,9 +28,9 @@
 #ifndef ROCKETCONTROLSLUAELEMENTFORMCONTROLDATASELECT_H
 #define ROCKETCONTROLSLUAELEMENTFORMCONTROLDATASELECT_H
 
-#include <Rocket/Core/Lua/lua.hpp>
-#include <Rocket/Core/Lua/LuaType.h>
-#include <Rocket/Controls/ElementFormControlDataSelect.h>
+#include "../../Include/Rocket/Core/Lua/lua.hpp"
+#include "../../Include/Rocket/Core/Lua/LuaType.h"
+#include "../../Include/Rocket/Controls/ElementFormControlDataSelect.h"
 
 using Rocket::Core::Lua::LuaType;
 namespace Rocket {

@@ -35,6 +35,7 @@
 #include "StyleSheetNode.h"
 #include "StyleSheetParser.h"
 #include <algorithm>
+#include <vector>
 
 namespace Rocket {
 namespace Core {
@@ -116,7 +117,7 @@ ElementDefinition* StyleSheet::GetElementDefinition(const Element* element) cons
 	}
 #endif
 	// See if there are any styles defined for this element.
-	Container::vector< const StyleSheetNode* >::Type applicable_nodes;
+	std::vector< const StyleSheetNode* > applicable_nodes;
 
 	String tags[] = {element->GetTagName(), ""};
 	for (int i = 0; i < 2; i++)
@@ -141,7 +142,7 @@ ElementDefinition* StyleSheet::GetElementDefinition(const Element* element) cons
 		}
 	}
 
-	Container::sort(applicable_nodes.begin(), applicable_nodes.end(), StyleSheetNodeSort);
+	std::sort(applicable_nodes.begin(), applicable_nodes.end(), StyleSheetNodeSort);
 
 	// Compile the list of volatile pseudo-classes for this element definition.
 	PseudoClassList volatile_pseudo_classes;
@@ -162,7 +163,7 @@ ElementDefinition* StyleSheet::GetElementDefinition(const Element* element) cons
 
 				if ((*iterator)->IsApplicable(element))
 				{
-					Container::vector< const StyleSheetNode* >::Type volatile_nodes;
+					std::vector< const StyleSheetNode* >::Type volatile_nodes;
 					(*iterator)->GetApplicableDescendants(volatile_nodes, element);
 
 					for (size_t i = 0; i < volatile_nodes.size(); ++i)

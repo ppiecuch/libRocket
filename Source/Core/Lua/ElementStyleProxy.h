@@ -28,8 +28,8 @@
 #ifndef ROCKETCORELUAELEMENTSTYLEPROXY_H
 #define ROCKETCORELUAELEMENTSTYLEPROXY_H
 
-#include <Rocket/Core/Lua/LuaType.h>
-#include <Rocket/Core/Lua/lua.hpp>
+#include "../../Include/Rocket/Core/Lua/LuaType.h"
+#include "../../Include/Rocket/Core/Lua/lua.hpp"
 
 namespace Rocket {
 namespace Core {

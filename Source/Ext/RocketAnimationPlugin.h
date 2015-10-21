@@ -5,8 +5,8 @@
 #ifndef ROCKET_ANIMATION_PLUGIN_H
 #define ROCKET_ANIMATION_PLUGIN_H
 
-#include <Rocket/Core.h>
-#include <Rocket/Core/Plugin.h>
+#include "../../Include/Rocket/Core.h"
+#include "../../Include/Rocket/Core/Plugin.h"
 #include <list>
 
 enum AnimationType {

@@ -120,18 +120,6 @@ protected:
 	/// Destroys the handle.
 	virtual void OnReferenceDeactivate();
 
-<<<<<<< HEAD:Include/Rocket/Core/FontFaceHandle.h
-	typedef Container::map< word, int >::Type GlyphKerningMap;
-	typedef Container::map< word, GlyphKerningMap >::Type FontKerningMap;
-
-	FontGlyphMap glyphs;
-	FontKerningMap kerning;
-
-	int GetKerning(word lhs, word rhs) const;
-
-    // Generates (or shares) a layer derived from a font effect.
-    virtual FontFaceLayer* GenerateLayer(FontEffect* font_effect);
-=======
 private:
 	void GenerateMetrics(void);
 
@@ -149,12 +137,11 @@ private:
 	FT_Face ft_face;
 
 	FontGlyphList glyphs;
->>>>>>> e6a97155b6daade40c77cec9928812a877290a6a:Source/Core/FontFaceHandle.h
 
-	typedef Container::map< const FontEffect*, FontFaceLayer* >::Type FontLayerMap;
-	typedef Container::map< String, FontFaceLayer* >::Type FontLayerCache;
-	typedef Container::vector< FontFaceLayer* >::Type LayerConfiguration;
-	typedef Container::vector< LayerConfiguration >::Type LayerConfigurationList;
+	typedef std::map< const FontEffect*, FontFaceLayer* > FontLayerMap;
+	typedef std::map< String, FontFaceLayer* > FontLayerCache;
+	typedef std::vector< FontFaceLayer* > LayerConfiguration;
+	typedef std::vector< LayerConfiguration > LayerConfigurationList;
 
 	// The list of all font layers, index by the effect that instanced them.
 	FontFaceLayer* base_layer;

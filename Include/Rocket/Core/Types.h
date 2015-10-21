@@ -87,10 +87,10 @@ typedef uintptr_t CompiledGeometryHandle;
 typedef uintptr_t DecoratorDataHandle;
 
 // List of elements.
-typedef Container::vector< Element* >::Type ElementList;
-typedef Container::set< String >::Type PseudoClassList;
-typedef Container::set< String >::Type PropertyNameList;
-typedef Container::set< String >::Type AttributeNameList;
+typedef std::vector< Element* > ElementList;
+typedef std::set< String > PseudoClassList;
+typedef std::set< String > PropertyNameList;
+typedef std::set< String > AttributeNameList;
 typedef Dictionary ElementAttributes;
 
 }

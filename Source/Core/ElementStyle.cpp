@@ -190,7 +190,7 @@ const PseudoClassList& ElementStyle::GetActivePseudoClasses() const
 // Sets or removes a class on the element.
 void ElementStyle::SetClass(const String& class_name, bool activate)
 {
-	StringList::iterator class_location = Container::find(classes.begin(), classes.end(), class_name);
+	StringList::iterator class_location = std::find(classes.begin(), classes.end(), class_name);
 
 	if (activate)
 	{

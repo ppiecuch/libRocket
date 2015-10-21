@@ -30,6 +30,7 @@
 
 #include "../../Include/Rocket/Core/Decorator.h"
 #include "../../Include/Rocket/Core/Vertex.h"
+#include <vector>
 
 namespace Rocket {
 namespace Core {
@@ -108,7 +109,7 @@ public:
 		/// @param[in] surface_origin The starting point of the first tile to generate.
 		/// @param[in] surface_dimensions The dimensions of the surface to be tiled.
 		/// @param[in] tile_dimensions The dimensions to render this tile at.
-		void GenerateGeometry(Container::vector< Vertex >::Type& vertices, Container::vector< int >::Type& indices, Element* element, const Vector2f& surface_origin, const Vector2f& surface_dimensions, const Vector2f& tile_dimensions, const Colourb& color_multiplier = Colourb(255, 255, 255)) const;
+		void GenerateGeometry(std::vector< Vertex >& vertices, std::vector< int >& indices, Element* element, const Vector2f& surface_origin, const Vector2f& surface_dimensions, const Vector2f& tile_dimensions, const Colourb& color_multiplier = Colourb(255, 255, 255)) const;
 
 		struct TileData
 		{

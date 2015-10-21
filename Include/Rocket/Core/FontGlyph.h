@@ -28,7 +28,7 @@
 #ifndef ROCKETCOREFONTGLYPH_H
 #define ROCKETCOREFONTGLYPH_H
 
-#include <Rocket/Core/ContainerWrapper.h>
+#include <vector>
 
 namespace Rocket {
 namespace Core {
@@ -66,7 +66,7 @@ public:
 	Vector2i bitmap_dimensions;
 };
 
-typedef Container::map< word, FontGlyph >::Type FontGlyphMap;
+typedef std::vector<FontGlyph > FontGlyphList;
 
 }
 }

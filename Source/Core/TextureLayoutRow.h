@@ -29,6 +29,7 @@
 #define TEXTURELAYOUTROW_H
 
 #include "TextureLayoutRectangle.h"
+#include <vector>
 
 namespace Rocket {
 namespace Core {
@@ -67,7 +68,7 @@ public:
 	void Unplace();
 
 private:
-	typedef Container::vector< TextureLayoutRectangle* >::Type RectangleList;
+	typedef std::vector< TextureLayoutRectangle* > RectangleList;
 
 	int height;
 	RectangleList rectangles;

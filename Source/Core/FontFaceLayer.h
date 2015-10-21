@@ -28,21 +28,15 @@
 #ifndef ROCKETCOREFONTFACELAYER_H
 #define ROCKETCOREFONTFACELAYER_H
 
-<<<<<<< HEAD
-#include <Rocket/Core/Header.h>
-#include <Rocket/Core/FontGlyph.h>
-#include <Rocket/Core/Geometry.h>
-#include <Rocket/Core/GeometryUtilities.h>
-#include <Rocket/Core/String.h>
-#include <Rocket/Core/Texture.h>
-=======
 #include "../../Include/Rocket/Core/FontGlyph.h"
 #include "../../Include/Rocket/Core/Geometry.h"
 #include "../../Include/Rocket/Core/GeometryUtilities.h"
 #include "../../Include/Rocket/Core/String.h"
 #include "../../Include/Rocket/Core/Texture.h"
->>>>>>> e6a97155b6daade40c77cec9928812a877290a6a
 #include "TextureLayout.h"
+#include <vector>
+#include <map>
+
 
 namespace Rocket {
 namespace Core {
@@ -91,8 +85,8 @@ public:
 		const Character& character = (*iterator).second;
 
 		// Generate the geometry for the character.
-		Container::vector< Vertex >::Type& character_vertices = geometry[character.texture_index].GetVertices();
-		Container::vector< int >::Type& character_indices = geometry[character.texture_index].GetIndices();
+		std::vector< Vertex >::Type& character_vertices = geometry[character.texture_index].GetVertices();
+		std::vector< int >::Type& character_indices = geometry[character.texture_index].GetIndices();
 
 		character_vertices.resize(character_vertices.size() + 4);
 		character_indices.resize(character_indices.size() + 6);
@@ -131,9 +125,9 @@ public:
 		int texture_index;
 	};
 
-	typedef Container::map< word, Character >::Type CharacterMap;
-	typedef Container::vector< Texture >::Type TextureList;
-	typedef Container::vector< TextureLayout* >::Type TextureLayoutList;
+	typedef std::map< word, Character >::Type CharacterMap;
+	typedef std::vector< Texture >::Type TextureList;
+	typedef std::vector< TextureLayout* >::Type TextureLayoutList;
 
 	const FontFaceHandle* handle;
 	FontEffect* effect;

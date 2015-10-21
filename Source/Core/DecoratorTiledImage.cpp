@@ -27,16 +27,9 @@
 
 #include "precompiled.h"
 #include "DecoratorTiledImage.h"
-<<<<<<< HEAD
-#include <Rocket/Core/ContainerWrapper.h>
-#include <Rocket/Core/Element.h>
-#include <Rocket/Core/Geometry.h>
-#include <Rocket/Core/GeometryUtilities.h>
-=======
 #include "../../Include/Rocket/Core/Element.h"
 #include "../../Include/Rocket/Core/Geometry.h"
 #include "../../Include/Rocket/Core/GeometryUtilities.h"
->>>>>>> e6a97155b6daade40c77cec9928812a877290a6a
 
 using std::max;
 using std::min;

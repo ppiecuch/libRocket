@@ -3,9 +3,9 @@
 //
 
 #include "RocketAnimationPlugin.h"
-#include <Rocket/Core.h>
-#include <Rocket/Core/Element.h>
-#include <Rocket/Ext/PluginUtils.h>
+#include "../../Include/Rocket/Core.h"
+#include "../../Include/Rocket/Core/Element.h"
+#include "../../Include/Rocket/Ext/PluginUtils.h"
 #include <math.h>
 
 enum AnimationPhase {

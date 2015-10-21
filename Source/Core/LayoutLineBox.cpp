@@ -30,21 +30,13 @@
 #include "LayoutBlockBox.h"
 #include "LayoutEngine.h"
 #include "LayoutInlineBoxText.h"
-<<<<<<< HEAD
-#include <Rocket/Core/FontFaceHandle.h>
-#include <Rocket/Core/Property.h>
-#include <Rocket/Core/ElementUtilities.h>
-#include <Rocket/Core/ElementText.h>
-#include <Rocket/Core/StyleSheetKeywords.h>
-#include <Rocket/Core/ContainerWrapper.h>
-=======
 #include "FontFaceHandle.h"
 #include "../../Include/Rocket/Core/Property.h"
 #include "../../Include/Rocket/Core/ElementUtilities.h"
 #include "../../Include/Rocket/Core/ElementText.h"
 #include "../../Include/Rocket/Core/StyleSheetKeywords.h"
 #include <stack>
->>>>>>> e6a97155b6daade40c77cec9928812a877290a6a
+#include <vector>
 
 namespace Rocket {
 namespace Core {
@@ -322,7 +314,7 @@ LayoutInlineBox* LayoutLineBox::AddBox(LayoutInlineBox* box)
 // Adds an inline box as a chained hierarchy overflowing to this line.
 void LayoutLineBox::AddChainedBox(LayoutInlineBox* chained_box)
 {
-	Rocket::Core::Container::stack< LayoutInlineBox* >::Type hierarchy;
+	std::stack< LayoutInlineBox* > hierarchy;
 	LayoutInlineBox* chain = chained_box;
 	while (chain != NULL)
 	{

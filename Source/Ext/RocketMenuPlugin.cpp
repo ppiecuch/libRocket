@@ -2,10 +2,10 @@
 // Created by Sergei Shubin <s.v.shubin@gmail.com>
 //
 
+#include "../../Include/Rocket/Core.h"
+#include "../../Include/Rocket/Core/Element.h"
+#include "../../Include/Rocket/Ext/PluginUtils.h"
 #include "RocketMenuPlugin.h"
-#include <Rocket/Core.h>
-#include <Rocket/Core/Element.h>
-#include <Rocket/Ext/PluginUtils.h>
 #include "Helpers.h"
 #include <math.h>
 

@@ -28,8 +28,8 @@
 #ifndef ROCKETCORELUAPRECOMPILED_H
 #define ROCKETCORELUAPRECOMPILED_H
 
-#include <Rocket/Core/Core.h>
-#include <Rocket/Core/Debug.h>
-#include <Rocket/Controls/Controls.h>
-#include <Rocket/Core/Lua/LuaType.h>
+#include "../../Include/Rocket/Core/Core.h"
+#include "../../Include/Rocket/Core/Debug.h"
+#include "../../Include/Rocket/Controls/Controls.h"
+#include "../../Include/Rocket/Core/Lua/LuaType.h"
 #endif

@@ -27,8 +27,8 @@
  
 #include "precompiled.h"
 #include "RocketContextsProxy.h"
-#include <Rocket/Core/Context.h>
-#include <Rocket/Core/Core.h>
+#include "../../Include/Rocket/Core/Context.h"
+#include "../../Include/Rocket/Core/Core.h"
 
 
 namespace Rocket {

@@ -31,6 +31,7 @@
 #include "../../Include/Rocket/Core/Header.h"
 #include "../../Include/Rocket/Core/ElementText.h"
 #include "../../Include/Rocket/Core/Geometry.h"
+#include <vector>
 
 namespace Rocket {
 namespace Core {
@@ -116,7 +117,7 @@ private:
 
 	WString text;
 
-	typedef Container::vector< Line >::Type LineList;
+	typedef std::vector< Line > LineList;
 	LineList lines;
 
 	bool dirty_layout_on_change;

@@ -73,7 +73,7 @@ public:
 		// These are converted to fixed pixel values.
 		SH = 1 << 13,				// number suffixed by 'sh'; fetch as < float >
 		SW = 1 << 14,				// number suffixed by 'sh'; fetch as < float >
-		SC_UNIT = SH | SW
+		SC_UNIT = SH | SW,
 
 		REM = 1 << 15,			// number suffixed by 'rem'; fetch as < float >
 		RELATIVE_UNIT = EM | REM | PERCENT

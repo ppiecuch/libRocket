@@ -95,7 +95,7 @@ public:
 	virtual void ProcessEvent(Core::Event& event);
 
 private:
-	typedef Rocket::Core::Container::vector< SelectOption >::Type OptionList;
+	typedef std::vector< SelectOption > OptionList;
 
 	// Shows or hides the selection box.
 	void ShowSelectBox(bool show);

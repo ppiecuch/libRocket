@@ -28,9 +28,9 @@
 #ifndef ROCKETCORELUAINTERPRETER_H
 #define ROCKETCORELUAINTERPRETER_H 
 
-#include "Header.h"
-#include <Rocket/Core/Lua/lua.hpp>
-#include <Rocket/Core/Plugin.h>
+#include "../Lua/Header.h"
+#include "../Lua/lua.hpp"
+#include "../Plugin.h"
 
 namespace Rocket {
 namespace Core {

@@ -351,11 +351,7 @@ void WidgetTextInput::ProcessEvent(Core::Event& event)
     				for (size_t i = 0; i < clipboard_content.Length(); ++i)
     				{
     					if (max_length > 0 &&
-<<<<<<< HEAD
-    						(int) Core::WString(GetElement()->GetAttribute< Rocket::Core::String >("value", "")).Length() >= max_length)
-=======
     						(int) Core::WString(GetElement()->GetAttribute< Rocket::Core::String >("value", "")).Length() > max_length)
->>>>>>> e6a97155b6daade40c77cec9928812a877290a6a
     						break;
 
     					AddCharacter(clipboard_content[i]);
@@ -739,8 +735,8 @@ Rocket::Core::Vector2f WidgetTextInput::FormatText()
 	// Clear the selection background geometry, and get the vertices and indices so the new geo can
 	// be generated.
 	selection_geometry.Release(true);
-	Rocket::Core::Container::vector< Core::Vertex >::Type& selection_vertices = selection_geometry.GetVertices();
-	Rocket::Core::Container::vector< int >::Type& selection_indices = selection_geometry.GetIndices();
+	std::vector< Core::Vertex >& selection_vertices = selection_geometry.GetVertices();
+	std::vector< int >& selection_indices = selection_geometry.GetIndices();
 
 	// Determine the line-height of the text element.
 	int line_height = Rocket::Core::ElementUtilities::GetLineHeight(parent);
@@ -871,10 +867,10 @@ void WidgetTextInput::GenerateCursor()
 	// Generates the cursor.
 	cursor_geometry.Release();
 
-	Rocket::Core::Container::vector< Core::Vertex >::Type& vertices = cursor_geometry.GetVertices();
+	std::vector< Core::Vertex >& vertices = cursor_geometry.GetVertices();
 	vertices.resize(4);
 
-	Rocket::Core::Container::vector< int >::Type& indices = cursor_geometry.GetIndices();
+	std::vector< int >& indices = cursor_geometry.GetIndices();
 	indices.resize(6);
 
 	cursor_size.x = 1;

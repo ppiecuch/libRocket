@@ -27,7 +27,7 @@
  
 #include "precompiled.h"
 #include "ContextDocumentsProxy.h"
-#include <Rocket/Core/ElementDocument.h>
+#include "../../Include/Rocket/Core/ElementDocument.h"
 
 namespace Rocket {
 namespace Core {

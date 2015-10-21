@@ -28,6 +28,7 @@
 #ifndef ROCKETCOREFREETYPEFONTPROVIDER_H
 #define ROCKETCOREFREETYPEFONTPROVIDER_H
 
+#include <map>
 #include <Rocket/Core/StringUtilities.h>
 #include <Rocket/Core/Font.h>
 #include <Rocket/Core/FontProvider.h>
@@ -98,7 +99,7 @@ private:
 	// Loads a FreeType face from memory.
 	void* LoadFace(const byte* data, int data_length, const String& source, bool local_data);
 
-    typedef Container::map< String, FontFamily*, StringUtilities::StringComparei >::Type FontFamilyMap;
+    typedef std::map< String, FontFamily*, StringUtilities::StringComparei > FontFamilyMap;
 	FontFamilyMap font_families;
 
 	static FontProvider* instance;

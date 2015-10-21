@@ -1,6 +1,6 @@
-#include <Rocket/Ext/ElementProgressBar.h>
-#include <Rocket/Core/GeometryUtilities.h>
-#include <Rocket/Core/ElementDocument.h>
+#include "../../Include/Rocket/Ext/ElementProgressBar.h"
+#include "../../Include/Rocket/Core/GeometryUtilities.h"
+#include "../../Include/Rocket/Core/ElementDocument.h"
 
 namespace Rocket {
 namespace ProgressBar {

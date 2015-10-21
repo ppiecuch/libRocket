@@ -27,9 +27,9 @@
  
 #include "precompiled.h"
 #include "Log.h"
-#include <Rocket/Core/Log.h>
-#include <Rocket/Core/String.h>
-#include <Rocket/Core/StringUtilities.h>
+#include "../../Include/Rocket/Core/Log.h"
+#include "../../Include/Rocket/Core/String.h"
+#include "../../Include/Rocket/Core/StringUtilities.h"
 
 
 namespace Rocket {

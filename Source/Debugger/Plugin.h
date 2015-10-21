@@ -125,7 +125,7 @@ private:
 	bool render_outlines;
 
 	// Keep track of instanced elements for leak tracking.
-	typedef Core::Container::set< Core::Element* >::Type ElementInstanceMap;
+	typedef std::set< Core::Element* > ElementInstanceMap;
 	ElementInstanceMap elements;
 
 	// Singleton instance

@@ -30,7 +30,7 @@
 /*
     This class is an ElementDocument that overrides the LoadScript function
 */
-#include <Rocket/Core/ElementDocument.h>
+#include "../../Include/Rocket/Core/ElementDocument.h"
 
 namespace Rocket {
 namespace Core {

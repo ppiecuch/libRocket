@@ -26,11 +26,11 @@
  */
  
 #include "precompiled.h"
-#include <Rocket/Core/Lua/LuaType.h>
-#include <Rocket/Core/Lua/lua.hpp>
-#include <Rocket/Core/Event.h>
-#include <Rocket/Core/Element.h>
-#include <Rocket/Core/Dictionary.h>
+#include "../../Include/Rocket/Core/Lua/LuaType.h"
+#include "../../Include/Rocket/Core/Lua/lua.hpp"
+#include "../../Include/Rocket/Core/Event.h"
+#include "../../Include/Rocket/Core/Element.h"
+#include "../../Include/Rocket/Core/Dictionary.h"
 #include "EventParametersProxy.h"
 
 

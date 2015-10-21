@@ -31,13 +31,14 @@
 #include "../../Include/Rocket/Core/PropertyDictionary.h"
 #include "../../Include/Rocket/Core/StyleSheet.h"
 #include "../../Include/Rocket/Core/Types.h"
+#include <map>
 
 namespace Rocket {
 namespace Core {
 
 class StyleSheetNodeSelector;
 
-typedef Container::map< StringList, PropertyDictionary >::Type PseudoClassPropertyMap;
+typedef std::map< StringList, PropertyDictionary > PseudoClassPropertyMap;
 
 /**
 	A style sheet is composed of a tree of nodes.

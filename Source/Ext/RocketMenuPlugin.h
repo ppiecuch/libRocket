@@ -5,8 +5,8 @@
 #ifndef ROCKET_MENU_PLUGIN_H
 #define ROCKET_MENU_PLUGIN_H
 
-#include <Rocket/Core.h>
-#include <Rocket/Core/Plugin.h>
+#include "../../Include/Rocket/Core.h"
+#include "../../Include/Rocket/Core/Plugin.h"
 #include "RocketAnimationPlugin.h"
 
 struct OptionsData;

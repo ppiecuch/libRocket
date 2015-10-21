@@ -28,8 +28,8 @@
 #ifndef ROCKETCORELUAROCKET_H
 #define ROCKETCORELUAROCKET_H
 
-#include <Rocket/Core/Lua/LuaType.h>
-#include <Rocket/Core/Lua/lua.hpp>
+#include "../../Include/Rocket/Core/Lua/LuaType.h"
+#include "../../Include/Rocket/Core/Lua/lua.hpp"
 
 namespace Rocket {
 namespace Core {

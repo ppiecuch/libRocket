@@ -60,7 +60,7 @@ private:
 	TemplateCache();
 	~TemplateCache();
 
-	typedef Container::map<String, Template*>::Type Templates;
+	typedef std::map<String, Template*> Templates;
 	Templates templates;
 	Templates template_ids;
 };

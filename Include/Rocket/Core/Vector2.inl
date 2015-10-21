@@ -79,7 +79,7 @@ Type Vector2< Type >::DotProduct(const Vector2< Type >& rhs) const
 
 // Returns this vector rotated around the origin.
 template < typename Type >
-Vector2< Type > Vector2< Type >::Rotate(float /* theta */) const
+Vector2< Type > Vector2< Type >::Rotate(float theta) const
 {
 	float cos_theta = Math::Cos(theta);
 	float sin_theta = Math::Sin(theta);

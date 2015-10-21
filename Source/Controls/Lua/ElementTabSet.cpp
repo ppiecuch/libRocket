@@ -27,8 +27,8 @@
  
 #include "precompiled.h"
 #include "ElementTabSet.h"
-#include <Rocket/Core/Element.h>
-#include <Rocket/Core/Lua/Utilities.h>
+#include "../../Include/Rocket/Core/Element.h"
+#include "../../Include/Rocket/Core/Lua/Utilities.h"
 
 
 namespace Rocket {

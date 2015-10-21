@@ -28,10 +28,10 @@
 #ifndef ROCKETCONTROLSLUALUADATASOURCE_H
 #define ROCKETCONTROLSLUALUADATASOURCE_H
 
-#include <Rocket/Core/Lua/LuaType.h>
-#include <Rocket/Core/Lua/lua.hpp>
-#include <Rocket/Controls/DataSource.h>
-#include <Rocket/Core/String.h>
+#include "../../Include/Rocket/Core/Lua/LuaType.h"
+#include "../../Include/Rocket/Core/Lua/lua.hpp"
+#include "../../Include/Rocket/Controls/DataSource.h"
+#include "../../Include/Rocket/Core/String.h"
 
 namespace Rocket {
 namespace Controls {

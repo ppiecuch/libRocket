@@ -28,9 +28,9 @@
 #ifndef ROCKETCONTROLSLUASELECTOPTIONSPROXY_H
 #define ROCKETCONTROLSLUASELECTOPTIONSPROXY_H
 
-#include <Rocket/Core/Lua/lua.hpp>
-#include <Rocket/Core/Lua/LuaType.h>
-#include <Rocket/Controls/ElementFormControlSelect.h>
+#include "../../Include/Rocket/Core/Lua/lua.hpp"
+#include "../../Include/Rocket/Core/Lua/LuaType.h"
+#include "../../Include/Rocket/Controls/ElementFormControlSelect.h"
 
 using Rocket::Core::Lua::LuaType;
 namespace Rocket {

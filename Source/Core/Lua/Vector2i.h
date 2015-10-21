@@ -28,9 +28,9 @@
 #ifndef ROCKETCORELUAVECTOR2I_H
 #define ROCKETCORELUAVECTOR2I_H
 
-#include <Rocket/Core/Lua/lua.hpp>
-#include <Rocket/Core/Lua/LuaType.h>
-#include <Rocket/Core/Types.h>
+#include "../../Include/Rocket/Core/Lua/lua.hpp"
+#include "../../Include/Rocket/Core/Lua/LuaType.h"
+#include "../../Include/Rocket/Core/Types.h"
 
 using Rocket::Core::Vector2i;
 namespace Rocket {

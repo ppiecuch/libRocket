@@ -28,11 +28,11 @@
 #include "precompiled.h"
 #include "ElementFormControlSelect.h"
 #include "SelectOptionsProxy.h"
-#include <Rocket/Controls/ElementFormControlSelect.h>
-#include <Rocket/Controls/ElementFormControl.h>
-#include <Rocket/Core/Element.h>
+#include "../../Include/Rocket/Controls/ElementFormControlSelect.h"
+#include "../../Include/Rocket/Controls/ElementFormControl.h"
+#include "../../Include/Rocket/Core/Element.h"
 #include "ElementFormControl.h"
-#include <Rocket/Core/Lua/Utilities.h>
+#include "../../Include/Rocket/Core/Lua/Utilities.h"
 
 
 namespace Rocket {

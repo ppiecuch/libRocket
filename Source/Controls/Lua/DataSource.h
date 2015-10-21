@@ -28,8 +28,8 @@
 #ifndef ROCKETCONTROLSLUADATASOURCE_H
 #define ROCKETCONTROLSLUADATASOURCE_H
 
-#include <Rocket/Core/Lua/LuaType.h>
-#include <Rocket/Core/Lua/lua.hpp>
+#include "../../Include/Rocket/Core/Lua/LuaType.h"
+#include "../../Include/Rocket/Core/Lua/lua.hpp"
 #include "LuaDataSource.h"
 
 using Rocket::Core::Lua::LuaType;

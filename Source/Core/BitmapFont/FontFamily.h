@@ -67,7 +67,7 @@ public:
 private:
 	String name;
 
-    typedef Container::vector< FontFace* >::Type FontFaceList;
+    typedef std::vector< FontFace* > FontFaceList;
 	FontFaceList font_faces;
 };
 

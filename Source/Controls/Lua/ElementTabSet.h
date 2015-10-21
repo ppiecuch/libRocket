@@ -28,9 +28,9 @@
 #ifndef ROCKETCONTROLSLUAELEMENTTABSET_H
 #define ROCKETCONTROLSLUAELEMENTTABSET_H
 
-#include <Rocket/Core/Lua/LuaType.h>
-#include <Rocket/Core/Lua/lua.hpp>
-#include <Rocket/Controls/ElementTabSet.h>
+#include "../../Include/Rocket/Core/Lua/LuaType.h"
+#include "../../Include/Rocket/Core/Lua/lua.hpp"
+#include "../../Include/Rocket/Controls/ElementTabSet.h"
 
 using Rocket::Core::Lua::LuaType;
 namespace Rocket {

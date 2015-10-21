@@ -26,10 +26,10 @@
  */
  
 #include "precompiled.h"
+#include "../../Include/Rocket/Core/Context.h"
+#include "../../Include/Rocket/Core/ElementDocument.h"
+#include "../../Include/Rocket/Core/Factory.h"
 #include "Context.h"
-#include <Rocket/Core/Context.h>
-#include <Rocket/Core/ElementDocument.h>
-#include <Rocket/Core/Factory.h>
 #include "LuaEventListener.h"
 #include "ContextDocumentsProxy.h"
 

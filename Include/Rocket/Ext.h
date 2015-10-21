@@ -28,7 +28,7 @@
 #ifndef ROCKETEXT_H
 #define ROCKETEXT_H
 
-#include <Rocket/Ext/PluginUtils.h>
-#include <Rocket/Ext/ElementProgressBar.h>
+#include "../../Include/Rocket/Ext/PluginUtils.h"
+#include "../../Include/Rocket/Ext/ElementProgressBar.h"
 
 #endif

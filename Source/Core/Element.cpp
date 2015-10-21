@@ -26,27 +26,23 @@
  */
 
 #include "precompiled.h"
-<<<<<<< HEAD
-#include <Rocket/Core/Element.h>
-#include <Rocket/Core/Dictionary.h>
-#include <Rocket/Core/ContainerWrapper.h>
-=======
+#include "../../Include/Rocket/Core/Core.h"
 #include "../../Include/Rocket/Core/Element.h"
 #include "../../Include/Rocket/Core/Dictionary.h"
-#include <algorithm>
->>>>>>> e6a97155b6daade40c77cec9928812a877290a6a
+#include "../../Include/Rocket/Core/FontFaceHandle.h"
 #include "ElementBackground.h"
 #include "ElementBorder.h"
 #include "ElementDefinition.h"
 #include "ElementStyle.h"
 #include "EventDispatcher.h"
 #include "ElementDecoration.h"
-#include <Rocket/Core/FontFaceHandle.h>
 #include "LayoutEngine.h"
 #include "PluginRegistry.h"
 #include "StyleSheetParser.h"
 #include "XMLParseTools.h"
-#include "../../Include/Rocket/Core/Core.h"
+#include <algorithm>
+#include <vector>
+
 
 namespace Rocket {
 namespace Core {
@@ -58,7 +54,7 @@ namespace Core {
 class ElementSortZOrder
 {
 public:
-	bool operator()(const Container::pair< Element*, float >::Type& lhs, const Container::pair< Element*, float >::Type& rhs) const
+	bool operator()(const std::pair< Element*, float >& lhs, const std::pair< Element*, float >& rhs) const
 	{
 		return lhs.second < rhs.second;
 	}
@@ -1864,7 +1860,7 @@ void Element::ReleaseElements(ElementList& released_elements)
 
 		// If this element has been added back into our list, then we remove our previous oustanding reference on it
 		// and continue.
-		if (Container::find(children.begin(), children.end(), element) != children.end())
+		if (std::find(children.begin(), children.end(), element) != children.end())
 		{
 			element->RemoveReference();
 			continue;
@@ -1963,7 +1959,7 @@ void Element::BuildLocalStackingContext()
 	stacking_context.clear();
 
 	BuildStackingContext(&stacking_context);
-	Rocket::Core::Container::stable_sort(stacking_context.begin(), stacking_context.end(), ElementSortZIndex());
+	std::stable_sort(stacking_context.begin(), stacking_context.end(), ElementSortZIndex());
 }
 
 void Element::BuildStackingContext(ElementList* new_stacking_context)
@@ -1971,7 +1967,7 @@ void Element::BuildStackingContext(ElementList* new_stacking_context)
 	// Build the list of ordered children. Our child list is sorted within the stacking context so stacked elements
 	// will render in the right order; ie, positioned elements will render on top of inline elements, which will render
 	// on top of floated elements, which will render on top of block elements.
-	Container::vector< Container::pair< Element*, float >::Type >::Type ordered_children;
+	std::vector< std::pair< Element*, float >::Type >::Type ordered_children;
 	for (size_t i = 0; i < children.size(); ++i)
 	{
 		Element* child = children[i];
@@ -1979,7 +1975,7 @@ void Element::BuildStackingContext(ElementList* new_stacking_context)
 		if (!child->IsVisible())
 			continue;
 
-		Container::pair< Element*, float >::Type ordered_child;
+		std::pair< Element*, float >::Type ordered_child;
 		ordered_child.first = child;
 
 		if (child->GetPosition() != POSITION_STATIC)
@@ -1995,7 +1991,7 @@ void Element::BuildStackingContext(ElementList* new_stacking_context)
 	}
 
 	// Sort the list!
-	Rocket::Core::Container::stable_sort(ordered_children.begin(), ordered_children.end(), ElementSortZOrder());
+	std::stable_sort(ordered_children.begin(), ordered_children.end(), ElementSortZOrder());
 
 	// Add the list of ordered children into the stacking context in order.
 	for (size_t i = 0; i < ordered_children.size(); ++i)

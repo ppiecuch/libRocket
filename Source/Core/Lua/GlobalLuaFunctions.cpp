@@ -28,7 +28,7 @@
 
 #include "precompiled.h"
 #include "GlobalLuaFunctions.h"
-#include <Rocket/Core/Lua/lua.hpp>
+#include "../../Include/Rocket/Core/Lua/lua.hpp"
 
 namespace Rocket {
 namespace Core {

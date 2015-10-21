@@ -31,9 +31,9 @@
     These are helper functions to fill up the Element.As table with types that are able to be casted
 */
 
-#include <Rocket/Core/Lua/LuaType.h>
-#include <Rocket/Core/Lua/lua.hpp>
-#include <Rocket/Core/Element.h>
+#include "../../Include/Rocket/Core/Lua/LuaType.h"
+#include "../../Include/Rocket/Core/Lua/lua.hpp"
+#include "../../Include/Rocket/Core/Element.h"
 
 namespace Rocket {
 namespace Controls {

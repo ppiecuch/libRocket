@@ -110,7 +110,7 @@ class ROCKETCORE_API BaseXMLParser
 		// The loose data being read.
 		String data;
 
-		Container::set< String >::Type cdata_tags;
+		std::set< String > cdata_tags;
 };
 
 }

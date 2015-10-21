@@ -57,15 +57,15 @@ namespace Rocket {
 namespace Core {
 
 // Element instancers.
-typedef Container::map< String, ElementInstancer* >::Type ElementInstancerMap;
+typedef std::map< String, ElementInstancer* > ElementInstancerMap;
 static ElementInstancerMap element_instancers;
 
 // Decorator instancers.
-typedef Container::map< String, DecoratorInstancer* >::Type DecoratorInstancerMap;
+typedef std::map< String, DecoratorInstancer* > DecoratorInstancerMap;
 static DecoratorInstancerMap decorator_instancers;
 
 // Font effect instancers.
-typedef Container::map< String, FontEffectInstancer* >::Type FontEffectInstancerMap;
+typedef std::map< String, FontEffectInstancer* > FontEffectInstancerMap;
 static FontEffectInstancerMap font_effect_instancers;
 
 // The context instancer.
@@ -454,7 +454,7 @@ FontEffect* Factory::InstanceFontEffect(const String& name, const PropertyDictio
 
 	// Compile an ordered list of the values of the properties used to generate the effect's
 	// textures and geometry.
-	typedef Container::list< Container::pair< String, String >::Type >::Type GenerationPropertyList;
+	typedef std::list< std::pair< String, String >::Type > GenerationPropertyList;
 	GenerationPropertyList generation_properties;
 	for (PropertyMap::const_iterator i = parsed_properties.GetProperties().begin(); i != parsed_properties.GetProperties().end(); ++i)
 	{

@@ -28,7 +28,7 @@
 #ifndef ROCKETCORELUALUADOCUMENTELEMENTINSTANCER_H
 #define ROCKETCORELUALUADOCUMENTELEMENTINSTANCER_H
 
-#include <Rocket/Core/ElementInstancer.h>
+#include "../../Include/Rocket/Core/ElementInstancer.h"
 
 namespace Rocket {
 namespace Core {

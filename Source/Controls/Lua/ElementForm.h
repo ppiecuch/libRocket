@@ -28,9 +28,9 @@
 #ifndef ROCKETCONTROLSLUAELEMENTFORM_H
 #define ROCKETCONTROLSLUAELEMENTFORM_H
 
-#include <Rocket/Core/Lua/LuaType.h>
-#include <Rocket/Core/Lua/lua.hpp>
-#include <Rocket/Controls/ElementForm.h>
+#include "../../Include/Rocket/Core/Lua/LuaType.h"
+#include "../../Include/Rocket/Core/Lua/lua.hpp"
+#include "../../Include/Rocket/Controls/ElementForm.h"
 
 using Rocket::Core::Lua::LuaType;
 

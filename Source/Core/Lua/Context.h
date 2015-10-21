@@ -28,9 +28,9 @@
 #ifndef ROCKETCORELUACONTEXT_H
 #define ROCKETCORELUACONTEXT_H
 
-#include <Rocket/Core/Lua/LuaType.h>
-#include <Rocket/Core/Lua/lua.hpp>
-#include <Rocket/Core/Context.h>
+#include "../../Include/Rocket/Core/Lua/LuaType.h"
+#include "../../Include/Rocket/Core/Lua/lua.hpp"
+#include "../../Include/Rocket/Core/Context.h"
 
 
 namespace Rocket {

@@ -31,7 +31,7 @@
 #include "LuaEventListener.h"
 #include "ElementAttributesProxy.h"
 #include "ElementChildNodesProxy.h"
-#include <Rocket/Core/Lua/Utilities.h>
+#include "../../Include/Rocket/Core/Lua/Utilities.h"
 
 
 namespace Rocket {

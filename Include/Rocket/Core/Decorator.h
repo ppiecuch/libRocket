@@ -119,7 +119,7 @@ private:
 	int specificity;
 
 	// Stores a list of textures in use by this decorator.
-	Container::vector< Texture >::Type textures;
+	std::vector< Texture > textures;
 
 	friend class Factory;
 };

@@ -26,11 +26,11 @@
  */
 
 #include "precompiled.h"
-#include <Rocket/Controls/Lua/Controls.h>
-#include <Rocket/Core/Lua/LuaType.h>
-#include <Rocket/Core/Lua/lua.hpp>
-#include <Rocket/Core/Lua/Interpreter.h>
-#include <Rocket/Core/Log.h>
+#include "../../Include/Rocket/Controls/Lua/Controls.h"
+#include "../../Include/Rocket/Core/Lua/LuaType.h"
+#include "../../Include/Rocket/Core/Lua/lua.hpp"
+#include "../../Include/Rocket/Core/Lua/Interpreter.h"
+#include "../../Include/Rocket/Core/Log.h"
 #include "SelectOptionsProxy.h"
 #include "DataFormatter.h"
 #include "DataSource.h"

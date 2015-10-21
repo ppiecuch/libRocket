@@ -30,6 +30,7 @@
 
 #include "../../Include/Rocket/Core/String.h"
 #include "../../Include/Rocket/Core/Event.h"
+#include <vector>
 #include <map>
 
 namespace Rocket {
@@ -87,8 +88,8 @@ private:
 		EventListener* listener;
 		bool in_capture_phase;
 	};
-	typedef Container::vector< Listener >::Type Listeners;
-	typedef Container::map< String, Listeners >::Type Events;
+	typedef std::vector< Listener >::Type Listeners;
+	typedef std::map< String, Listeners >::Type Events;
 	Events events;
 
 	void TriggerEvents(Event* event);

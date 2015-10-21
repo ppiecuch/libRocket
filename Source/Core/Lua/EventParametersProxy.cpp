@@ -27,9 +27,9 @@
  
 #include "precompiled.h"
 #include "EventParametersProxy.h"
-#include <Rocket/Core/Lua/Utilities.h>
-#include <Rocket/Core/Variant.h>
-#include <Rocket/Core/Dictionary.h>
+#include "../../Include/Rocket/Core/Lua/Utilities.h"
+#include "../../Include/Rocket/Core/Variant.h"
+#include "../../Include/Rocket/Core/Dictionary.h"
 
 
 namespace Rocket {

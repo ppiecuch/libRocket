@@ -28,9 +28,9 @@
 #ifndef ROCKETCORELUACONTEXTDOCUMENTSPROXY_H
 #define ROCKETCORELUACONTEXTDOCUMENTSPROXY_H
 
-#include <Rocket/Core/Lua/LuaType.h>
-#include <Rocket/Core/Lua/lua.hpp>
-#include <Rocket/Core/Context.h>
+#include "../../Include/Rocket/Core/Lua/LuaType.h"
+#include "../../Include/Rocket/Core/Lua/lua.hpp"
+#include "../../Include/Rocket/Core/Context.h"
 
 namespace Rocket {
 namespace Core {

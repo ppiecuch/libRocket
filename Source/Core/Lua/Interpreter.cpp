@@ -26,14 +26,14 @@
  */
  
 #include "precompiled.h"
-#include <Rocket/Core/Lua/Interpreter.h>
-#include <Rocket/Core/Lua/Utilities.h>
-#include <Rocket/Core/Log.h>
-#include <Rocket/Core/String.h>
-#include <Rocket/Core/FileInterface.h>
-#include <Rocket/Core/Lua/LuaType.h>
+#include "../../Include/Rocket/Core/Lua/Interpreter.h"
+#include "../../Include/Rocket/Core/Lua/Utilities.h"
+#include "../../Include/Rocket/Core/Log.h"
+#include "../../Include/Rocket/Core/String.h"
+#include "../../Include/Rocket/Core/FileInterface.h"
+#include "../../Include/Rocket/Core/Lua/LuaType.h"
+#include "../../Include/Rocket/Core/Factory.h"
 #include "LuaDocumentElementInstancer.h"
-#include <Rocket/Core/Factory.h>
 #include "LuaEventListenerInstancer.h"
 #include "Rocket.h"
 //the types I made

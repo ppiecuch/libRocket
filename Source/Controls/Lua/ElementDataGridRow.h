@@ -29,9 +29,9 @@
 #define ROCKETCONTROLSLUAELEMENTDATAGRIDROW_H
 
 
-#include <Rocket/Core/Lua/LuaType.h>
-#include <Rocket/Core/Lua/lua.hpp>
-#include <Rocket/Controls/ElementDataGridRow.h>
+#include "../../Include/Rocket/Core/Lua/LuaType.h"
+#include "../../Include/Rocket/Core/Lua/lua.hpp"
+#include "../../Include/Rocket/Controls/ElementDataGridRow.h"
 
 using Rocket::Core::Lua::LuaType;
 namespace Rocket {

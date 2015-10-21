@@ -101,7 +101,7 @@ public:
 	const String& GetExtension() const;
 	
 	/// Access the url parameters
-	typedef Container::map< String, String >::Type Parameters;
+	typedef std::map< String, String > Parameters;
 	const Parameters& GetParameters() const;
 	void SetParameter(const String& name, const String& value);
 	void SetParameters( const Parameters& parameters );

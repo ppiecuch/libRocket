@@ -36,6 +36,7 @@
 #include "../../Include/Rocket/Core/FontDatabase.h"
 #include "../../Include/Rocket/Core/Property.h"
 #include "../../Include/Rocket/Core/StyleSheetKeywords.h"
+#include <vector>
 
 namespace Rocket {
 namespace Core {
@@ -364,7 +365,7 @@ void ElementTextDefault::OnPropertyChange(const PropertyNameList& changed_proper
 		geometry_dirty = true;
 
 		// Re-colour the decoration geometry.
-		Container::vector< Vertex >::Type& vertices = decoration.GetVertices();
+		std::vector< Vertex >& vertices = decoration.GetVertices();
 		for (size_t i = 0; i < vertices.size(); ++i)
 			vertices[i].colour = colour;
 

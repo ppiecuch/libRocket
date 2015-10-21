@@ -64,7 +64,7 @@ private:
 		unsigned int index;
 		Core::String message;
 	};
-	typedef Rocket::Core::Container::deque< LogMessage >::Type LogMessageList;
+	typedef std::deque< LogMessage > LogMessageList;
 
 	struct LogType
 	{
