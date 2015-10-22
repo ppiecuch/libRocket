@@ -101,6 +101,7 @@ printluafiles() {
 
 pushd $basedir
 echo -e "# This file was auto-generated with gen_filelists.sh\n" >$file
+echo -e "isEmpty(PROJECT_SOURCE_DIR):PROJECT_SOURCE_DIR = ../../..\n" >>$file
 for lib in "Core;BitmapFont;FreeType" "Controls" "Debugger" "Ext"; do
     printfiles $lib
 done
@@ -111,4 +112,9 @@ done
 for lib in "Core" "Controls"; do
     printluafiles $lib
 done
+
+echo -e "" >>$file
+echo -e "INCLUDEPATH += $$PROJECT_SOURCE_DIR/Include" >>$file
+echo -e "LIBS += -lm" >>$file
+
 popd

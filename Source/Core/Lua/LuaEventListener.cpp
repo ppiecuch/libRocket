@@ -27,9 +27,9 @@
  
 #include "precompiled.h"
 #include "LuaEventListener.h"
-#include "../../Include/Rocket/Core/Lua/Interpreter.h"
-#include "../../Include/Rocket/Core/Lua/LuaType.h"
-#include "../../Include/Rocket/Core/Lua/Utilities.h"
+#include "../../../Include/Rocket/Core/Lua/Interpreter.h"
+#include "../../../Include/Rocket/Core/Lua/LuaType.h"
+#include "../../../Include/Rocket/Core/Lua/Utilities.h"
 
 namespace Rocket {
 namespace Core {

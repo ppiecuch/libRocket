@@ -27,9 +27,9 @@
  
 #include "precompiled.h"
 #include "ElementForm.h"
-#include "../../Include/Rocket/Core/Element.h"
-#include "../../Include/Rocket/Controls/ElementForm.h"
-#include "../../Include/Rocket/Core/Lua/Utilities.h"
+#include "../../../Include/Rocket/Core/Element.h"
+#include "../../../Include/Rocket/Controls/ElementForm.h"
+#include "../../../Include/Rocket/Core/Lua/Utilities.h"
 
 namespace Rocket {
 namespace Controls {

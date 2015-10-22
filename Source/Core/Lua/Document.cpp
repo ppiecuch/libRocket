@@ -28,9 +28,9 @@
 #include "precompiled.h"
 #include "Document.h"
 #include "Element.h"
-#include "../../Include/Rocket/Core/ElementDocument.h"
-#include "../../Include/Rocket/Core/Context.h"
-#include "../../Include/Rocket/Core/Lua/Utilities.h"
+#include "../../../Include/Rocket/Core/ElementDocument.h"
+#include "../../../Include/Rocket/Core/Context.h"
+#include "../../../Include/Rocket/Core/Lua/Utilities.h"
 
 namespace Rocket {
 namespace Core {

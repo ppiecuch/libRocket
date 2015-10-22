@@ -27,9 +27,9 @@
  
 #include "precompiled.h"
 #include "ElementFormControlTextArea.h"
-#include "../../Include/Rocket/Controls/ElementFormControl.h"
+#include "../../../Include/Rocket/Controls/ElementFormControl.h"
 #include "ElementFormControl.h"
-#include "../../Include/Rocket/Core/Lua/Utilities.h"
+#include "../../../Include/Rocket/Core/Lua/Utilities.h"
 
 namespace Rocket {
 namespace Controls {

@@ -31,6 +31,7 @@
 #include "../../Include/Rocket/Core/Decorator.h"
 #include "../../Include/Rocket/Core/Vertex.h"
 #include <vector>
+#include <map>
 
 namespace Rocket {
 namespace Core {
@@ -117,7 +118,7 @@ public:
 			Vector2f texcoords[2];
 		};
 
-		typedef Container::map< RenderInterface*, TileData >::Type TileDataMap;
+		typedef std::map< RenderInterface*, TileData > TileDataMap;
 
 		int texture_index;
 		Vector2f texcoords[2];

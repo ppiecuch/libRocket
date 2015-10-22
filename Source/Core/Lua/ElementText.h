@@ -28,9 +28,9 @@
 #ifndef ROCKETCORELUAELEMENTTEXT_H
 #define ROCKETCORELUAELEMENTTEXT_H
 
-#include "../../Include/Rocket/Core/Lua/lua.hpp"
-#include "../../Include/Rocket/Core/Lua/LuaType.h"
-#include "../../Include/Rocket/Core/ElementText.h"
+#include "../../../Include/Rocket/Core/Lua/lua.hpp"
+#include "../../../Include/Rocket/Core/Lua/LuaType.h"
+#include "../../../Include/Rocket/Core/ElementText.h"
 
 namespace Rocket {
 namespace Core {

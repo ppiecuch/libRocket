@@ -27,8 +27,8 @@
  
 #include "precompiled.h"
 #include "ElementAttributesProxy.h"
-#include "../../Include/Rocket/Core/Variant.h"
-#include "../../Include/Rocket/Core/Lua/Utilities.h"
+#include "../../../Include/Rocket/Core/Variant.h"
+#include "../../../Include/Rocket/Core/Lua/Utilities.h"
 
 namespace Rocket {
 namespace Core {

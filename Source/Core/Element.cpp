@@ -29,7 +29,7 @@
 #include "../../Include/Rocket/Core/Core.h"
 #include "../../Include/Rocket/Core/Element.h"
 #include "../../Include/Rocket/Core/Dictionary.h"
-#include "../../Include/Rocket/Core/FontFaceHandle.h"
+#include "../Core/FontFaceHandle.h"
 #include "ElementBackground.h"
 #include "ElementBorder.h"
 #include "ElementDefinition.h"

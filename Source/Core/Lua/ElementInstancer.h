@@ -28,8 +28,8 @@
 #ifndef ROCKETCORELUAELEMENTINSTANCER_H
 #define ROCKETCORELUAELEMENTINSTANCER_H
 
-#include "../../Include/Rocket/Core/Lua/lua.hpp"
-#include "../../Include/Rocket/Core/Lua/LuaType.h"
+#include "../../../Include/Rocket/Core/Lua/lua.hpp"
+#include "../../../Include/Rocket/Core/Lua/LuaType.h"
 #include "LuaElementInstancer.h"
 
 namespace Rocket {

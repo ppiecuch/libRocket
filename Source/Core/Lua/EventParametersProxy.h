@@ -28,9 +28,9 @@
 #ifndef ROCKETCORELUAEVENTPARAMETERSPROXY_H
 #define ROCKETCORELUAEVENTPARAMETERSPROXY_H
 
-#include "../../Include/Rocket/Core/Lua/lua.hpp"
-#include "../../Include/Rocket/Core/Lua/LuaType.h"
-#include "../../Include/Rocket/Core/Event.h"
+#include "../../../Include/Rocket/Core/Lua/lua.hpp"
+#include "../../../Include/Rocket/Core/Lua/LuaType.h"
+#include "../../../Include/Rocket/Core/Event.h"
 
 namespace Rocket {
 namespace Core {

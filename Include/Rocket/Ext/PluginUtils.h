@@ -5,8 +5,8 @@
 #ifndef PLUGIN_UTILS_H
 #define PLUGIN_UTILS_H
 
-#include "../../Include/Rocket/Core.h"
-#include "../../Include/Rocket/Core/Element.h"
+#include "../Core.h"
+#include "../Core/Element.h"
 
 void  SetElementUserData(Rocket::Core::Element *element, void *user_data, const Rocket::Core::String& key);
 void* GetElementUserData(Rocket::Core::Element *element, const Rocket::Core::String& key);

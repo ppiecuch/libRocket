@@ -29,7 +29,7 @@
 #define ROCKETCOREUNICODERANGE_H
 
 #include <vector>
-#include <Rocket/Core/Header.h>
+#include "../Core/Header.h"
 
 namespace Rocket {
 namespace Core {

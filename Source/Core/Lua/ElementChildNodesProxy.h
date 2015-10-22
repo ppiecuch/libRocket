@@ -29,9 +29,9 @@
 #ifndef ROCKETCORELUAELEMENTCHILDNODESPROXY_H
 #define ROCKETCORELUAELEMENTCHILDNODESPROXY_H
 
-#include "../../Include/Rocket/Core/Lua/lua.hpp"
-#include "../../Include/Rocket/Core/Lua/LuaType.h"
-#include "../../Include/Rocket/Core/Element.h"
+#include "../../../Include/Rocket/Core/Lua/lua.hpp"
+#include "../../../Include/Rocket/Core/Lua/LuaType.h"
+#include "../../../Include/Rocket/Core/Element.h"
 
 namespace Rocket {
 namespace Core {

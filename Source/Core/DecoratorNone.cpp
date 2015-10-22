@@ -38,11 +38,7 @@ DecoratorNone::~DecoratorNone()
 // Called on a decorator to generate any required per-element data for a newly decorated element.
 DecoratorDataHandle DecoratorNone::GenerateElementData(Element* ROCKET_UNUSED_PARAMETER(element))
 {
-<<<<<<< HEAD
-=======
 	ROCKET_UNUSED(element);
-
->>>>>>> e6a97155b6daade40c77cec9928812a877290a6a
 	return 0;
 }
 

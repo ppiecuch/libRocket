@@ -27,10 +27,10 @@
 
 #include "precompiled.h"
 #include "LuaElementInstancer.h"
-#include "../../Include/Rocket/Core/Platform.h"
-#include "../../Include/Rocket/Core/Lua/LuaType.h"
-#include "../../Include/Rocket/Core/Lua/Interpreter.h"
-#include "../../Include/Rocket/Core/Log.h"
+#include "../../../Include/Rocket/Core/Platform.h"
+#include "../../../Include/Rocket/Core/Lua/LuaType.h"
+#include "../../../Include/Rocket/Core/Lua/Interpreter.h"
+#include "../../../Include/Rocket/Core/Log.h"
 
 namespace Rocket {
 namespace Core {

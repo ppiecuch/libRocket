@@ -28,9 +28,9 @@
 #ifndef ROCKETCORELUADOCUMENT_H
 #define ROCKETCORELUADOCUMENT_H
 
-#include "../../Include/Rocket/Core/Lua/lua.hpp"
-#include "../../Include/Rocket/Core/Lua/LuaType.h"
-#include "../../Include/Rocket/Core/ElementDocument.h"
+#include "../../../Include/Rocket/Core/Lua/lua.hpp"
+#include "../../../Include/Rocket/Core/Lua/LuaType.h"
+#include "../../../Include/Rocket/Core/ElementDocument.h"
 
 
 namespace Rocket {

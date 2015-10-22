@@ -27,8 +27,8 @@
  
 #include "precompiled.h"
 #include "LuaDataFormatter.h"
-#include "../../Include/Rocket/Core/Lua/Interpreter.h"
-#include "../../Include/Rocket/Core/Log.h"
+#include "../../../Include/Rocket/Core/Lua/Interpreter.h"
+#include "../../../Include/Rocket/Core/Log.h"
 
 using Rocket::Core::Lua::Interpreter;
 using Rocket::Core::Log;

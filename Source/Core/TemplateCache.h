@@ -28,7 +28,7 @@
 #ifndef ROCKETCORETEMPLATECACHE_H
 #define ROCKETCORETEMPLATECACHE_H
 
-#include <Rocket/Core/ContainerWrapper.h>
+#include <map>
 
 namespace Rocket {
 namespace Core {

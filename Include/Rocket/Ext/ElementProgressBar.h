@@ -1,10 +1,10 @@
 #ifndef ROCKETPROGRESSBARELEMENTPROGRESSBAR_H
 #define ROCKETPROGRESSBARELEMENTPROGRESSBAR_H
 
-#include "../../Include/Rocket/Ext/Header.h"
-#include "../../Include/Rocket/Core/Element.h"
-#include "../../Include/Rocket/Core/Geometry.h"
-#include "../../Include/Rocket/Core/Texture.h"
+#include "../Ext/Header.h"
+#include "../Core/Element.h"
+#include "../Core/Geometry.h"
+#include "../Core/Texture.h"
 
 namespace Rocket {
 namespace ProgressBar {

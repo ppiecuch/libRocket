@@ -28,9 +28,9 @@
 #ifndef ROCKETCORELUACOLOURB_H
 #define ROCKETCORELUACOLOURB_H
 
-#include "../../Include/Rocket/Core/Lua/LuaType.h"
-#include "../../Include/Rocket/Core/Lua/lua.hpp"
-#include "../../Include/Rocket/Core/Types.h"
+#include "../../../Include/Rocket/Core/Lua/LuaType.h"
+#include "../../../Include/Rocket/Core/Lua/lua.hpp"
+#include "../../../Include/Rocket/Core/Types.h"
 
 using Rocket::Core::Colourb;
 namespace Rocket {

@@ -27,7 +27,7 @@
  
 #include "precompiled.h"
 #include "Vector2f.h"
-#include "../../Include/Rocket/Core/Vector2.h"
+#include "../../../Include/Rocket/Core/Vector2.h"
 
 namespace Rocket {
 namespace Core {

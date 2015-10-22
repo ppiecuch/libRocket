@@ -27,8 +27,8 @@
  
 #include "precompiled.h"
 #include "ElementDataGridRow.h"
-#include "../../Include/Rocket/Controls/ElementDataGrid.h"
-#include "../../Include/Rocket/Core/Lua/Utilities.h"
+#include "../../../Include/Rocket/Controls/ElementDataGrid.h"
+#include "../../../Include/Rocket/Core/Lua/Utilities.h"
 
 
 namespace Rocket {

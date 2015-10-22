@@ -28,7 +28,7 @@
 #ifndef ROCKETEXTHEADER_H
 #define ROCKETEXTHEADER_H
 
-#include "../../Include/Rocket/Core/Platform.h"
+#include "../Core/Platform.h"
 
 #if !defined STATIC_LIB
 	#if defined ROCKET_PLATFORM_WIN32

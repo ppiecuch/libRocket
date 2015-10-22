@@ -26,8 +26,8 @@
  */
  
 #include "precompiled.h"
-#include "../../Include/Rocket/Core/Core.h"
-#include "../../Include/Rocket/Core/Input.h"
+#include "../../../Include/Rocket/Core/Core.h"
+#include "../../../Include/Rocket/Core/Input.h"
 #include "Rocket.h"
 #include "ElementInstancer.h"
 #include "LuaElementInstancer.h"
