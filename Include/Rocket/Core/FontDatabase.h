@@ -28,9 +28,10 @@
 #ifndef ROCKETCOREFONTDATABASE_H
 #define ROCKETCOREFONTDATABASE_H
 
-#include "StringUtilities.h"
-#include "Header.h"
-#include "Font.h"
+#include "../Core/StringUtilities.h"
+#include "../Core/Header.h"
+#include "../Core/Font.h"
+#include "../Core/FontProvider.h"
 
 namespace Rocket {
 namespace Core {
@@ -50,11 +51,11 @@ class ROCKETCORE_API FontDatabase
 {
 public:
 
-	enum FontProviderType
-	{
-		FREETYPE_FONT = 0,
-		BITMAP_FONT,
-	};
+    enum FontProviderType
+    {
+        FreeType = 0,
+        BitmapFont
+    };
 
 	static bool Initialise();
 	static void Shutdown();
@@ -74,7 +75,7 @@ public:
 	/// @param[in] data The font data.
 	/// @param[in] data_length Length of the data.
 	/// @return True if the face was loaded successfully, false otherwise.
-	static bool LoadFontFace(const byte* data, int data_length);
+    static bool LoadFontFace(FontProviderType font_provider_type, const byte* data, int data_length);
 	/// Adds a new font face to the database, loading from memory.
 	/// @param[in] data The font data.
 	/// @param[in] data_length Length of the data.
@@ -82,7 +83,7 @@ public:
 	/// @param[in] style The style of the face (normal or italic).
 	/// @param[in] weight The weight of the face (normal or bold).
 	/// @return True if the face was loaded successfully, false otherwise.
-	static bool LoadFontFace(FontProviderType font_type, const byte* data, int data_length, const String& family, Font::Style style, Font::Weight weight);
+    static bool LoadFontFace(FontProviderType font_provider_type, const byte* data, int data_length, const String& family, Font::Style style, Font::Weight weight);
 
 	/// Returns a handle to a font face that can be used to position and render text. This will return the closest match
 	/// it can find, but in the event a font family is requested that does not exist, NULL will be returned instead of a
@@ -118,9 +119,11 @@ private:
 	FontDatabase(void);
 	~FontDatabase(void);
 
-	typedef std::vector< FontProvider *> FontProviderTable;
+    static FontProviderType GetFontProviderType(const String& file_name);
 
-	static FontProviderTable font_provider_table;
+    typedef std::vector< FontProvider *> FontProviderTable;
+
+    static FontProviderTable font_provider_table;
 	static FontDatabase* instance;
 };
 

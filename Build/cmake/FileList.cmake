@@ -37,6 +37,7 @@ set(Core_HDR_FILES
     ${PROJECT_SOURCE_DIR}/Source/Core/FontEffectOutlineInstancer.h
     ${PROJECT_SOURCE_DIR}/Source/Core/FontEffectShadow.h
     ${PROJECT_SOURCE_DIR}/Source/Core/FontEffectShadowInstancer.h
+    ${PROJECT_SOURCE_DIR}/Source/Core/FontFaceHandle.h
     ${PROJECT_SOURCE_DIR}/Source/Core/FontFaceLayer.h
     ${PROJECT_SOURCE_DIR}/Source/Core/GeometryDatabase.h
     ${PROJECT_SOURCE_DIR}/Source/Core/LayoutBlockBox.h
@@ -85,6 +86,7 @@ set(Core_HDR_FILES
     ${PROJECT_SOURCE_DIR}/Source/Core/XMLNodeHandlerHead.h
     ${PROJECT_SOURCE_DIR}/Source/Core/XMLNodeHandlerTemplate.h
     ${PROJECT_SOURCE_DIR}/Source/Core/XMLParseTools.h
+    ${PROJECT_SOURCE_DIR}/Source/Core/BitmapFont/BitmapFontDefinitions.h
     ${PROJECT_SOURCE_DIR}/Source/Core/BitmapFont/BM_Font.h
     ${PROJECT_SOURCE_DIR}/Source/Core/BitmapFont/FontFace.h
     ${PROJECT_SOURCE_DIR}/Source/Core/BitmapFont/FontFaceHandle.h
@@ -92,13 +94,11 @@ set(Core_HDR_FILES
     ${PROJECT_SOURCE_DIR}/Source/Core/BitmapFont/FontFamily.h
     ${PROJECT_SOURCE_DIR}/Source/Core/BitmapFont/FontParser.h
     ${PROJECT_SOURCE_DIR}/Source/Core/BitmapFont/lacuna_0.h
-    ${PROJECT_SOURCE_DIR}/Source/Core/FreeType/FontFace.h
     ${PROJECT_SOURCE_DIR}/Source/Core/FreeType/FontFaceHandle.h
-    ${PROJECT_SOURCE_DIR}/Source/Core/FreeType/FontFamily.h
 )
 
-set(MASTER_Core;BitmapFont;FreeType_PUB_HDR_FILES
-    ${PROJECT_SOURCE_DIR}/Include/Rocket/Core;BitmapFont;FreeType.h
+set(MASTER_Core_PUB_HDR_FILES
+    ${PROJECT_SOURCE_DIR}/Include/Rocket/Core.h
 )
 
 set(Core_PUB_HDR_FILES
@@ -133,7 +133,8 @@ set(Core_PUB_HDR_FILES
     ${PROJECT_SOURCE_DIR}/Include/Rocket/Core/FontDatabase.h
     ${PROJECT_SOURCE_DIR}/Include/Rocket/Core/FontEffect.h
     ${PROJECT_SOURCE_DIR}/Include/Rocket/Core/FontEffectInstancer.h
-    ${PROJECT_SOURCE_DIR}/Include/Rocket/Core/FontFaceHandle.h
+    ${PROJECT_SOURCE_DIR}/Include/Rocket/Core/FontFace.h
+    ${PROJECT_SOURCE_DIR}/Include/Rocket/Core/FontFamily.h
     ${PROJECT_SOURCE_DIR}/Include/Rocket/Core/FontGlyph.h
     ${PROJECT_SOURCE_DIR}/Include/Rocket/Core/FontProvider.h
     ${PROJECT_SOURCE_DIR}/Include/Rocket/Core/Geometry.h
@@ -175,6 +176,10 @@ set(Core_PUB_HDR_FILES
     ${PROJECT_SOURCE_DIR}/Include/Rocket/Core/XMLParser.h
     ${PROJECT_SOURCE_DIR}/Include/Rocket/Core/BitmapFont/FontProvider.h
     ${PROJECT_SOURCE_DIR}/Include/Rocket/Core/FreeType/FontProvider.h
+    ${PROJECT_SOURCE_DIR}/Include/Rocket/Core/FreeType/fontstash.h
+    ${PROJECT_SOURCE_DIR}/Include/Rocket/Core/FreeType/stb_truetype.h
+)
+
 set(Core_SRC_FILES
     ${PROJECT_SOURCE_DIR}/Source/Core/BaseXMLParser.cpp
     ${PROJECT_SOURCE_DIR}/Source/Core/Box.cpp
@@ -236,6 +241,7 @@ set(Core_SRC_FILES
     ${PROJECT_SOURCE_DIR}/Source/Core/FontEffectShadowInstancer.cpp
     ${PROJECT_SOURCE_DIR}/Source/Core/FontFaceHandle.cpp
     ${PROJECT_SOURCE_DIR}/Source/Core/FontFaceLayer.cpp
+    ${PROJECT_SOURCE_DIR}/Source/Core/FontProvider.cpp
     ${PROJECT_SOURCE_DIR}/Source/Core/Geometry.cpp
     ${PROJECT_SOURCE_DIR}/Source/Core/GeometryDatabase.cpp
     ${PROJECT_SOURCE_DIR}/Source/Core/GeometryUtilities.cpp
@@ -365,6 +371,8 @@ set(Controls_PUB_HDR_FILES
     ${PROJECT_SOURCE_DIR}/Include/Rocket/Controls/ElementTabSet.h
     ${PROJECT_SOURCE_DIR}/Include/Rocket/Controls/Header.h
     ${PROJECT_SOURCE_DIR}/Include/Rocket/Controls/SelectOption.h
+)
+
 set(Controls_SRC_FILES
     ${PROJECT_SOURCE_DIR}/Source/Controls/Clipboard.cpp
     ${PROJECT_SOURCE_DIR}/Source/Controls/Controls.cpp
@@ -426,6 +434,8 @@ set(MASTER_Debugger_PUB_HDR_FILES
 set(Debugger_PUB_HDR_FILES
     ${PROJECT_SOURCE_DIR}/Include/Rocket/Debugger/Debugger.h
     ${PROJECT_SOURCE_DIR}/Include/Rocket/Debugger/Header.h
+)
+
 set(Debugger_SRC_FILES
     ${PROJECT_SOURCE_DIR}/Source/Debugger/Debugger.cpp
     ${PROJECT_SOURCE_DIR}/Source/Debugger/ElementContextHook.cpp
@@ -450,6 +460,8 @@ set(Ext_PUB_HDR_FILES
     ${PROJECT_SOURCE_DIR}/Include/Rocket/Ext/ElementProgressBar.h
     ${PROJECT_SOURCE_DIR}/Include/Rocket/Ext/Header.h
     ${PROJECT_SOURCE_DIR}/Include/Rocket/Ext/PluginUtils.h
+)
+
 set(Ext_SRC_FILES
     ${PROJECT_SOURCE_DIR}/Source/Ext/ElementProgressBar.cpp
     ${PROJECT_SOURCE_DIR}/Source/Ext/Helpers.cpp

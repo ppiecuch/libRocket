@@ -27,7 +27,6 @@
 
 #include "precompiled.h"
 #include "TextureLayout.h"
-#include <Rocket/Core/ContainerWrapper.h>
 #include "TextureLayoutRectangle.h"
 #include "TextureLayoutTexture.h"
 

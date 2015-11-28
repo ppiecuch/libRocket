@@ -12,21 +12,6 @@
 # include <math.h>
 #endif
 
-template<typename t>
-t clamp(t v, t min, t max) {
-	if (v > max) {
-		return max;
-	} else if (v < min) {
-		return min;
-	}
-	return v;
-}
-
-template<typename t1, typename t2>
-t2 lerp(t1 a, t1 b, t2 k) {
-	return (t2)(a + (b-a)*k);
-}
-
 extern "C"
 int clampi(int v, int min, int max) {
 	return clamp(v, min, max);

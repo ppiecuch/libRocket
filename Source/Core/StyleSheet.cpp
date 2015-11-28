@@ -163,7 +163,7 @@ ElementDefinition* StyleSheet::GetElementDefinition(const Element* element) cons
 
 				if ((*iterator)->IsApplicable(element))
 				{
-					std::vector< const StyleSheetNode* >::Type volatile_nodes;
+					std::vector< const StyleSheetNode* > volatile_nodes;
 					(*iterator)->GetApplicableDescendants(volatile_nodes, element);
 
 					for (size_t i = 0; i < volatile_nodes.size(); ++i)

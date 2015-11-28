@@ -28,19 +28,30 @@
 #ifndef ROCKETCOREFREETYPEFONTFACEHANDLE_H
 #define ROCKETCOREFREETYPEFONTFACEHANDLE_H
 
-#include <Rocket/Core/UnicodeRange.h>
-#include <Rocket/Core/Font.h>
-#include <Rocket/Core/FontEffect.h>
-#include <Rocket/Core/FontGlyph.h>
-#include <Rocket/Core/Geometry.h>
-#include <Rocket/Core/String.h>
-#include <Rocket/Core/Texture.h>
-#include <Rocket/Core/FontFaceHandle.h>
+#include "../../../Include/Rocket/Core/ReferenceCountable.h"
+#include "../UnicodeRange.h"
+#include "../FontFaceHandle.h"
+#include "../../../Include/Rocket/Core/FontEffect.h"
+#include "../../../Include/Rocket/Core/FontGlyph.h"
+#include "../../../Include/Rocket/Core/Geometry.h"
+#include "../../../Include/Rocket/Core/String.h"
+#include "../../../Include/Rocket/Core/Texture.h"
+
+#if defined(WITH_SYS_FREETYPE)
 #include <ft2build.h>
 #include FT_FREETYPE_H
+#elif defined(WITH_FONTSTASH)
+#include "fontstash.h"
+#else
+// use included ft2
+#include "ft2/FreeTypeAmalgam.h"
+#endif
 
 namespace Rocket {
 namespace Core {
+
+class FontFaceLayer;
+
 namespace FreeType {
 
 /**
@@ -64,7 +75,7 @@ public:
 	/// @param[in] string The string to measure.
 	/// @param[in] prior_character The optionally-specified character that immediately precedes the string. This may have an impact on the string width due to kerning.
 	/// @return The width, in pixels, this string will occupy if rendered with this handle.
-	int GetStringWidth(const WString& string, word prior_character = 0, word default_character = 0);
+	int GetStringWidth(const WString& string, word prior_character = 0, word default_character = 0) const;
 
 	/// Generates, if required, the layer configuration for a given array of font effects.
 	/// @param[in] font_effects The list of font effects to generate the configuration for.
@@ -75,7 +86,7 @@ public:
 	/// @param[out] texture_dimensions The dimensions of the texture.
 	/// @param[in] layer_id The id of the layer to request the texture data from.
 	/// @param[in] texture_id The index of the texture within the layer to generate.
-	bool GenerateLayerTexture(const byte*& texture_data, Vector2i& texture_dimensions, FontEffect* layer_id, int layout_id, int texture_id);
+	bool GenerateLayerTexture(const byte*& texture_data, Vector2i& texture_dimensions, FontEffect* layer_id, int texture_id);
 
 	/// Generates the geometry required to render a single line of text.
 	/// @param[out] geometry An array of geometries to generate the geometry into.
@@ -83,7 +94,7 @@ public:
 	/// @param[in] position The position of the baseline of the first character to render.
 	/// @param[in] colour The colour to render the text.
 	/// @return The width, in pixels, of the string geometry.
-	int GenerateString(GeometryList& geometry, const WString& string, const Vector2f& position, const Colourb& colour, int layer_configuration = 0, word default_character = 0);
+	int GenerateString(GeometryList& geometry, const WString& string, const Vector2f& position, const Colourb& colour, int layer_configuration = 0, word default_character = 0) const;
 	/// Generates the geometry required to render a line above, below or through a line of text.
 	/// @param[out] geometry The geometry to append the newly created geometry into.
 	/// @param[in] position The position of the baseline of the lined text.
@@ -96,19 +107,15 @@ protected:
 	/// Destroys the handle.
 	virtual void OnReferenceDeactivate();
 
-private:
-	void GenerateMetrics(FT_Face ft_face);
-
-	bool BuildGlyphMap(FT_Face ft_face, const UnicodeRange& unicode_range);
-	void BuildGlyph(FontGlyph& glyph, FT_GlyphSlot ft_glyph);
-
-	void BuildKerning(FT_Face ft_face);
 	int GetKerning(word lhs, word rhs) const;
 
-	uint8_t fonts_generated[ 0xFFFF / 256 / 8 ];
+private:
+	void GenerateMetrics(void);
+
+	void BuildGlyphMap(const UnicodeRange& unicode_range);
+	void BuildGlyph(FontGlyph& glyph, FT_GlyphSlot ft_glyph);
 
 	FT_Face ft_face;
-
 };
 
 }

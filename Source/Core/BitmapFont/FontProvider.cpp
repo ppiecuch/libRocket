@@ -14,7 +14,7 @@
  *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -26,14 +26,14 @@
  */
 
 #include "../precompiled.h"
-#include <Rocket/Core/BitmapFont/FontProvider.h>
-#include "FontFaceHandle.h"
-#include <Rocket/Core/FontDatabase.h>
-#include <Rocket/Core/StreamMemory.h>
-#include "FontFamily.h"
-#include <Rocket/Core.h>
-#include "BM_Font.h"
-#include "FontParser.h"
+#include "../../../Include/Rocket/Core/BitmapFont/FontProvider.h"
+#include "../../../Include/Rocket/Core/FontDatabase.h"
+#include "../../../Include/Rocket/Core/StreamMemory.h"
+#include "../../../Include/Rocket/Core.h"
+#include "../BitmapFont/FontFaceHandle.h"
+#include "../BitmapFont/FontFamily.h"
+#include "../BitmapFont/FontParser.h"
+#include "../BitmapFont/BitmapFontDefinitions.h"
 
 namespace Rocket {
 namespace Core {
@@ -59,7 +59,7 @@ bool FontProvider::Initialise()
 	if (instance == NULL)
 	{
 		new FontProvider();
-		
+
 		FontDatabase::AddFontProvider(instance);
 	}
 
@@ -70,9 +70,6 @@ void FontProvider::Shutdown()
 {
 	if (instance != NULL)
 	{
-		for (FontFamilyMap::iterator i = instance->font_families.begin(); i != instance->font_families.end(); ++i)
-			delete (*i).second;
-
 		FontDatabase::RemoveFontProvider(instance);
 		delete instance;
 		instance = NULL;
@@ -82,8 +79,8 @@ void FontProvider::Shutdown()
 // Adds a new font face to the database, ignoring any family, style and weight information stored in the face itself.
 bool FontProvider::LoadFontFace(const String& file_name)
 {
-	BM_Font *bm_font = (BM_Font*) instance->LoadFace(file_name);
-	
+	BitmapFontDefinitions *bm_font = (BitmapFontDefinitions*) instance->LoadFace(file_name);
+
 	if (bm_font == NULL)
 	{
 		Log::Message(Log::LT_ERROR, "Failed to load font face from %s.", file_name.CString());
@@ -103,19 +100,21 @@ bool FontProvider::LoadFontFace(const String& file_name)
 		Log::Message(Log::LT_ERROR, "Failed to load font face %s (from %s).", bm_font->Face.FamilyName.CString(), file_name.CString());
 		return false;
 	}
+
+	return true;
 }
 
 // Loads a new font face.
 bool FontProvider::LoadFontFace(const String& file_name, const String& family, Font::Style style, Font::Weight weight)
 {
-	BM_Font *bm_font = (BM_Font*) instance->LoadFace(file_name);
+	BitmapFontDefinitions *bm_font = (BitmapFontDefinitions*) instance->LoadFace(file_name);
 	if (bm_font == NULL)
 	{
 		Log::Message(Log::LT_ERROR, "Failed to load font face from %s.", file_name.CString());
 		return false;
 	}
 
-	if (instance->AddFace(bm_font,  bm_font->Face.FamilyName, style, weight, true))
+	if (instance->AddFace(bm_font, family, style, weight, true))
 	{
 		Log::Message(Log::LT_INFO, "Loaded font face %s (from %s).", bm_font->Face.FamilyName.CString(), file_name.CString());
 		return true;
@@ -125,45 +124,27 @@ bool FontProvider::LoadFontFace(const String& file_name, const String& family, F
 		Log::Message(Log::LT_ERROR, "Failed to load font face %s (from %s).", bm_font->Face.FamilyName.CString(), file_name.CString());
 		return false;
 	}
+
+	return true;
+}
+
+bool FontProvider::LoadFontFace(const byte* data, int data_length)
+{
+	// TODO: Loading from memory
+	return false;
 }
 
 // Adds a new font face to the database, loading from memory.
 bool FontProvider::LoadFontFace(const byte* data, int data_length, const String& family, Font::Style style, Font::Weight weight)
 {
-	BM_Font *bm_font = (BM_Font*) instance->LoadFace(data, data_length, family, false);
-	if (bm_font == NULL)
-	{
-		Log::Message(Log::LT_ERROR, "Failed to load font face from byte stream.");
-		return false;
-	}
-
-	if (instance->AddFace(bm_font, bm_font->Face.FamilyName, style, weight, false))
-	{
-		Log::Message(Log::LT_INFO, "Loaded font face %s (from byte stream).", bm_font->Face.FamilyName.CString());
-		return true;
-	}
-	else
-	{
-		Log::Message(Log::LT_ERROR, "Failed to load font face %s (from byte stream).", bm_font->Face.FamilyName.CString());
-		return false;
-	}
+	// TODO Loading from memory
+	return false;
 }
-
-// Returns a handle to a font face that can be used to position and render text.
-Rocket::Core::FontFaceHandle* FontProvider::GetFontFaceHandle(const String& family, const String& charset, Font::Style style, Font::Weight weight, int size)
-{
-	FontFamilyMap::iterator iterator = instance->font_families.find(family);
-	if (iterator == instance->font_families.end())
-		return NULL;
-
-	return (*iterator).second->GetFaceHandle(charset, style, weight, size);
-}
-
 
 // Adds a loaded face to the appropriate font family.
 bool FontProvider::AddFace(void* face, const String& family, Font::Style style, Font::Weight weight, bool release_stream)
 {
-	FontFamily* font_family = NULL;
+	Rocket::Core::FontFamily* font_family = NULL;
 	FontFamilyMap::iterator iterator = instance->font_families.find(family);
 	if (iterator != instance->font_families.end())
 		font_family = (*iterator).second;
@@ -173,13 +154,14 @@ bool FontProvider::AddFace(void* face, const String& family, Font::Style style, 
 		instance->font_families[family] = font_family;
 	}
 
-	return font_family->AddFace((BM_Font *) face, style, weight, release_stream);
+	return font_family->AddFace((BitmapFontDefinitions *) face, style, weight, release_stream);
+	return true;
 }
 
 // Loads a FreeType face.
 void* FontProvider::LoadFace(const String& file_name)
 {
-	BM_Font *bm_face = new BM_Font();
+	BitmapFontDefinitions *bm_face = new BitmapFontDefinitions();
 	FontParser parser( bm_face );
 
 	FileInterface* file_interface = GetFileInterface();
@@ -197,31 +179,27 @@ void* FontProvider::LoadFace(const String& file_name)
 	file_interface->Close(handle);
 
 	StreamMemory* stream = new StreamMemory( buffer, length );
+	stream->SetSourceURL( file_name );
 
 	parser.Parse( stream );
 
-	bm_face->Face.Source = file_name.Substring( file_name.RFind( "/" ) + 1, file_name.RFind( "." ) - file_name.RFind( "/" ) - 1 );
-	bm_face->Face.Directory = file_name.Substring( 0, file_name.RFind( "/" ) + 1 );
-
+	bm_face->Face.Source = file_name;
 	return bm_face;
 }
 
 // Loads a FreeType face from memory.
 void* FontProvider::LoadFace(const byte* data, int data_length, const String& source, bool local_data)
 {
-	URL
-		file_url = source + ".fnt";
+	URL file_url = source + ".fnt";
 
-	BM_Font *bm_face = new BM_Font();
+	BitmapFontDefinitions *bm_face = new BitmapFontDefinitions();
 	FontParser parser( bm_face );
 	StreamMemory* stream = new StreamMemory( data, data_length );
 	stream->SetSourceURL( file_url );
 
 	parser.Parse( stream );
 
-	bm_face->Face.Source = file_url.GetFileName();
-	bm_face->Face.Directory = file_url.GetPath();
-	
+	bm_face->Face.Source = file_url.GetPathedFileName();
 	return bm_face;
 }
 

@@ -1967,7 +1967,7 @@ void Element::BuildStackingContext(ElementList* new_stacking_context)
 	// Build the list of ordered children. Our child list is sorted within the stacking context so stacked elements
 	// will render in the right order; ie, positioned elements will render on top of inline elements, which will render
 	// on top of floated elements, which will render on top of block elements.
-	std::vector< std::pair< Element*, float >::Type >::Type ordered_children;
+	std::vector< std::pair< Element*, float > > ordered_children;
 	for (size_t i = 0; i < children.size(); ++i)
 	{
 		Element* child = children[i];
@@ -1975,7 +1975,7 @@ void Element::BuildStackingContext(ElementList* new_stacking_context)
 		if (!child->IsVisible())
 			continue;
 
-		std::pair< Element*, float >::Type ordered_child;
+		std::pair< Element*, float > ordered_child;
 		ordered_child.first = child;
 
 		if (child->GetPosition() != POSITION_STATIC)

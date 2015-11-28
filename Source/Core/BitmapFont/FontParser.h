@@ -14,7 +14,7 @@
  *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -28,10 +28,10 @@
 #ifndef BITMAPFONTPARSER_H
 #define BITMAPFONTPARSER_H
 
-#include <Rocket/Core/Header.h>
-#include <Rocket/Core/Types.h>
-#include <Rocket/Core/Dictionary.h>
-#include "BM_Font.h"
+#include "../../../Include/Rocket/Core/Header.h"
+#include "../../../Include/Rocket/Core/Types.h"
+#include "../../../Include/Rocket/Core/Dictionary.h"
+#include "BitmapFontDefinitions.h"
 #include <set>
 
 namespace Rocket {
@@ -45,7 +45,7 @@ namespace BitmapFont {
 class FontParser : public BaseXMLParser
 {
 	public:
-		FontParser( BM_Font *face );
+		FontParser( BitmapFontDefinitions *face );
 		virtual ~FontParser();
 
 		/// Called when the parser finds the beginning of an element tag.
@@ -55,11 +55,11 @@ class FontParser : public BaseXMLParser
 		/// Called when the parser encounters data.
 		virtual void HandleData(const String& data);
 
-    private:
-        FontParser();
-        BM_Font *BM_face;
-        int char_id;
-        int kern_id;
+	private:
+		FontParser();
+		BitmapFontDefinitions *bm_face;
+		int char_id;
+		int kern_id;
 };
 
 }

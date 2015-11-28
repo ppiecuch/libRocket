@@ -454,7 +454,7 @@ FontEffect* Factory::InstanceFontEffect(const String& name, const PropertyDictio
 
 	// Compile an ordered list of the values of the properties used to generate the effect's
 	// textures and geometry.
-	typedef std::list< std::pair< String, String >::Type > GenerationPropertyList;
+	typedef std::list< std::pair< String, String > > GenerationPropertyList;
 	GenerationPropertyList generation_properties;
 	for (PropertyMap::const_iterator i = parsed_properties.GetProperties().begin(); i != parsed_properties.GetProperties().end(); ++i)
 	{

@@ -25,36 +25,35 @@
  *
  */
 
-#ifndef ROCKETCOREFONTFACE_H
-#define ROCKETCOREFONTFACE_H
+#ifndef ROCKETCOREFREETYPEFONTFACE_H
+#define ROCKETCOREFREETYPEFONTFACE_H
 
-#include "../../Include/Rocket/Core/Font.h"
+#include "../../../Include/Rocket/Core/FontFace.h"
+
+#if defined(WITH_SYS_FREETYPE)
 #include <ft2build.h>
 #include FT_FREETYPE_H
+#elif defined(WITH_FONTSTASH)
+#include "fontstash.h"
+#else
+// use included ft2
+#include "ft2/FreeTypeAmalgam.h"
+#endif
 
 namespace Rocket {
 namespace Core {
-
-class FontFaceHandle;
-
 namespace FreeType {
-
 /**
 	@author Peter Curry
  */
 
-class FontFace
+class FontFaceHandle;
+
+class FontFace : public Rocket::Core::FontFace
 {
 public:
 	FontFace(FT_Face face, Font::Style style, Font::Weight weight, bool release_stream);
 	~FontFace();
-
-	/// Returns the style of the font face.
-	/// @return The font face's style.
-	Font::Style GetStyle() const;
-	/// Returns the weight of the font face.
-	/// @return The font face's weight.
-	Font::Weight GetWeight() const;
 
 	/// Returns a handle for positioning and rendering this face at the given size.
 	/// @param[in] charset The set of characters in the handle, as a comma-separated list of unicode ranges.
@@ -68,13 +67,6 @@ public:
 
 private:
 	FT_Face face;
-	Font::Style style;
-	Font::Weight weight;
-
-	bool release_stream;
-
-	typedef Container::map< int, FontFaceHandle* >::Type HandleMap;
-	HandleMap handles;
 };
 
 }

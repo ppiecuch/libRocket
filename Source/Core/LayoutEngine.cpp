@@ -27,10 +27,10 @@
 
 #include "precompiled.h"
 #include "LayoutEngine.h"
-#include "../../Include/Rocket/Core/Math.h"
 #include "Pool.h"
 #include "LayoutBlockBoxSpace.h"
 #include "LayoutInlineBoxText.h"
+#include "../../Include/Rocket/Core/Math.h"
 #include "../../Include/Rocket/Core/Element.h"
 #include "../../Include/Rocket/Core/ElementScroll.h"
 #include "../../Include/Rocket/Core/ElementText.h"
@@ -293,12 +293,8 @@ float LayoutEngine::Round(float value)
 
 void* LayoutEngine::AllocateLayoutChunk(size_t ROCKET_UNUSED_ASSERT_PARAMETER(size))
 {
-<<<<<<< HEAD
-	(void)(size);
-=======
 	ROCKET_UNUSED_ASSERT(size);
 
->>>>>>> e6a97155b6daade40c77cec9928812a877290a6a
 	ROCKET_ASSERT(size <= LayoutChunk::size);
 
 	return layout_chunk_pool.AllocateObject();

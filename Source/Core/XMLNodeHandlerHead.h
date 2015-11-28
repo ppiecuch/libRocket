@@ -28,12 +28,8 @@
 #ifndef ROCKETCOREXMLNODEHANDLERHEAD_H
 #define ROCKETCOREXMLNODEHANDLERHEAD_H
 
-<<<<<<< HEAD
-#include <Rocket/Core/XMLNodeHandler.h>
-=======
 #include "../../Include/Rocket/Core/XMLNodeHandler.h"
 #include <stack>
->>>>>>> e6a97155b6daade40c77cec9928812a877290a6a
 
 namespace Rocket {
 namespace Core {

@@ -33,7 +33,7 @@
 #include "../../Include/Rocket/Core/PropertyDefinition.h"
 #include "../../Include/Rocket/Core/PropertyDictionary.h"
 #include "../../Include/Rocket/Core/StyleSheetSpecification.h"
-#include "../../Include/Rocket/Core/FontFaceHandle.h"
+#include "FontFaceHandle.h"
 #include "ElementStyle.h"
 #include "ElementStyleCache.h"
 #include "ElementBackground.h"

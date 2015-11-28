@@ -63,14 +63,10 @@ bool SystemInterface::LogMessage(Log::Type logtype, const String& message)
 	return true;
 }
 #else
-<<<<<<< HEAD
-	(void)(logtype);
-=======
 bool SystemInterface::LogMessage(Log::Type ROCKET_UNUSED_PARAMETER(logtype), const String& message)
 {
 	ROCKET_UNUSED(logtype);
 
->>>>>>> e6a97155b6daade40c77cec9928812a877290a6a
 	fprintf(stderr,"%s\n", message.CString());
 	return true;
 }

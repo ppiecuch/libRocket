@@ -105,21 +105,12 @@ void ElementTextDefault::OnRender()
 	Vector2i clip_dimensions;
 	if (GetContext()->GetActiveClipRegion(clip_origin, clip_dimensions))
 	{
-<<<<<<< HEAD
 		float clip_top = float(clip_origin.y);
 		float clip_left = float(clip_origin.x);
 		float clip_right = float((clip_origin.x + clip_dimensions.x));
 		float clip_bottom = float((clip_origin.y + clip_dimensions.y));
 		float line_height = float(GetFontFaceHandle()->GetLineHeight());
 
-=======
-		float clip_top = (float)clip_origin.y;
-		float clip_left = (float)clip_origin.x;
-		float clip_right = (float)(clip_origin.x + clip_dimensions.x);
-		float clip_bottom = (float)(clip_origin.y + clip_dimensions.y);
-		float line_height = (float)GetFontFaceHandle()->GetLineHeight();
-		
->>>>>>> e6a97155b6daade40c77cec9928812a877290a6a
 		render = false;
 		for (size_t i = 0; i < lines.size(); ++i)
 		{

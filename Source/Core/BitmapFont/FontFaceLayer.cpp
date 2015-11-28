@@ -14,7 +14,7 @@
  *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -27,7 +27,6 @@
 
 #include "../precompiled.h"
 #include "FontFaceLayer.h"
-#include <Rocket/Core/FontFaceHandle.h>
 #include "FontFaceHandle.h"
 
 namespace Rocket {
@@ -42,28 +41,21 @@ FontFaceLayer::FontFaceLayer() : Rocket::Core::FontFaceLayer()
 
 FontFaceLayer::~FontFaceLayer()
 {
-	if (effect != NULL)
-		effect->RemoveReference();
 }
 
 // Generates the character and texture data for the layer.
 bool FontFaceLayer::Initialise(const Rocket::Core::FontFaceHandle* _handle, FontEffect* _effect, const Rocket::Core::FontFaceLayer* clone, bool deep_clone)
 {
+	(void)(_effect);
+
 	Rocket::Core::BitmapFont::FontFaceHandle
 		* bm_font_face_handle;
 
 	handle = _handle;
-	//effect = _effect;
 
 	bm_font_face_handle = ( Rocket::Core::BitmapFont::FontFaceHandle * ) handle;
 
-	if (effect != NULL)
-	{
-		//effect->AddReference();
-		//Log::Message( Log::LT_WARNING, "Effects are not supported" );
-	}
-
-	const FontGlyphMap& glyphs = handle->GetGlyphs();
+	const FontGlyphList& glyphs = handle->GetGlyphs();
 
 	// Clone the geometry and textures from the clone layer.
 	if (clone != NULL)
@@ -77,42 +69,55 @@ bool FontFaceLayer::Initialise(const Rocket::Core::FontFaceHandle* _handle, Font
 	}
 	else
 	{
+		// Load texture from file
+		Texture texture;
+		if (!texture.Load( bm_font_face_handle->GetTextureSource() ))
+			return false;
+
+		textures.push_back(texture);
+
 		// Initialise the texture layout for the glyphs.
-		for (FontGlyphMap::const_iterator i = glyphs.begin(); i != glyphs.end(); ++i)
+		characters.resize(glyphs.size(), Character());
+		for (FontGlyphList::const_iterator i = glyphs.begin(); i != glyphs.end(); ++i)
 		{
-			const FontGlyph& glyph = i->second;
+			const FontGlyph& glyph = *i;
+
+			if(glyph.dimensions.x <= 0 || glyph.dimensions.y <= 0)
+				continue;
 
 			Vector2i glyph_origin( glyph.bitmap_dimensions.x, glyph.bitmap_dimensions.y ); // position in texture
+			Vector2i glyph_dimensions = glyph.dimensions; // size of char
 
 			Character character;
-            character.origin = Vector2f((float) (glyph.bearing.x), (float) (glyph.bearing.y) - bm_font_face_handle->GetLineHeight() + bm_font_face_handle->GetBaseline() );
+			character.origin = Vector2f((float) (glyph.bearing.x), (float) (glyph.bearing.y) - handle->GetBaseline()*3 );
 			character.dimensions = Vector2f((float) glyph.dimensions.x, (float) glyph.dimensions.y);
 
 			// Set the character's texture index.
 			character.texture_index = 0;
 
 			// Generate the character's texture coordinates.
-			character.texcoords[0].x = float(glyph_origin.x) / float(bm_font_face_handle->GetTextureSize().x);
-			character.texcoords[0].y = float(glyph_origin.y) / float(bm_font_face_handle->GetTextureSize().y);
-			character.texcoords[1].x = float(glyph_origin.x + character.dimensions.x) / float(bm_font_face_handle->GetTextureSize().x);
-			character.texcoords[1].y = float(glyph_origin.y + character.dimensions.y) / float(bm_font_face_handle->GetTextureSize().y);
+			character.texcoords[0].x = float(glyph_origin.x) / float(bm_font_face_handle->GetTextureWidth());
+			character.texcoords[0].y = float(glyph_origin.y) / float(bm_font_face_handle->GetTextureHeight());
+			character.texcoords[1].x = float(glyph_origin.x + character.dimensions.x) / float(bm_font_face_handle->GetTextureWidth());
+			character.texcoords[1].y = float(glyph_origin.y + character.dimensions.y) / float(bm_font_face_handle->GetTextureHeight());
 
-			characters[i->first] = character;
+			characters[glyph.character] = character;
 
+			// Add the character's dimensions into the texture layout engine.
+			texture_layout.AddRectangle(glyph.character, glyph_dimensions);
 		}
 
-		Texture texture;
-		if (!texture.Load( bm_font_face_handle->GetTextureFullName(), bm_font_face_handle->GetTextureDirectory() ) )
+		// Generate the texture layout; this will position the glyph rectangles efficiently and
+		// allocate the texture data ready for writing.
+		if (!texture_layout.GenerateLayout(512))
 			return false;
-		textures.push_back(texture); 
+
 	}
-
-
 	return true;
 }
 
 // Generates the texture data for a layer (for the texture database).
-bool FontFaceLayer::GenerateTexture(const byte*& texture_data, Vector2i& texture_dimensions, int layout_id, int texture_id)
+bool FontFaceLayer::GenerateTexture(const byte*& texture_data, Vector2i& texture_dimensions, int texture_id)
 {
 	return true;
 }

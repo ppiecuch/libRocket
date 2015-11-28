@@ -14,7 +14,7 @@
  *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -28,48 +28,20 @@
 #include "../precompiled.h"
 #include "FontFace.h"
 #include "FontFaceHandle.h"
-#include "../../Include/Rocket/Core/Log.h"
+#include "../../../Include/Rocket/Core/Log.h"
 
 namespace Rocket {
 namespace Core {
 namespace BitmapFont {
 
-FontFace::FontFace(BM_Font *_face, Font::Style _style, Font::Weight _weight, bool _release_stream)
+FontFace::FontFace(BitmapFontDefinitions *_face, Font::Style _style, Font::Weight _weight, bool _release_stream) : Rocket::Core::FontFace(_style, _weight, _release_stream)
 {
 	face = _face;
-	style = _style;
-	weight = _weight;
-
-	release_stream = _release_stream;
 }
 
 FontFace::~FontFace()
 {
-	for (HandleMap::iterator iterator = handles.begin(); iterator != handles.end(); ++iterator)
-	{
-		HandleList& handle_list = (*iterator).second;
-		for (size_t i = 0; i < handle_list.size(); ++i)
-			handle_list[i]->RemoveReference();
-	}
-
 	ReleaseFace();
-}
-
-// Returns the style of the font face.
-Font::Style FontFace::GetStyle() const
-{
-	return style;
-}
-
-// Returns the weight of the font face.
-Font::Weight FontFace::GetWeight() const
-{
-	return weight;
-}
-
-int FontFace::GetSize() const
-{
-	return face->Face.Size;
 }
 
 // Returns a handle for positioning and rendering this face at the given size.
@@ -90,7 +62,7 @@ Rocket::Core::FontFaceHandle* FontFace::GetHandle(const String& _raw_charset, in
 			if (handles[i]->GetRawCharset() == _raw_charset)
 			{
 				handles[i]->AddReference();
-				return handles[i];
+				return (FontFaceHandle*)handles[i];
 			}
 		}
 
@@ -115,7 +87,7 @@ Rocket::Core::FontFaceHandle* FontFace::GetHandle(const String& _raw_charset, in
 			if (range_contained)
 			{
 				handles[i]->AddReference();
-				return handles[i];
+				return (FontFaceHandle*)handles[i];
 			}
 		}
 	}

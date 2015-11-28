@@ -14,7 +14,7 @@
  *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -25,36 +25,27 @@
  *
  */
 
-#ifndef ROCKETCOREFONTFACE_H
-#define ROCKETCOREFONTFACE_H
-#include <Rocket/Core/Font.h>
-#include "BM_Font.h"
+#ifndef ROCKETCOREBITMAPFONTFACE_H
+#define ROCKETCOREBITMAPFONTFACE_H
+
+#include "../../../Include/Rocket/Core/FontFace.h"
+#include "BitmapFontDefinitions.h"
 
 namespace Rocket {
 namespace Core {
+namespace BitmapFont {
 
 class FontFaceHandle;
-
-namespace BitmapFont {
 
 /**
 	@author Peter Curry
  */
 
-class FontFace
+class FontFace : public Rocket::Core::FontFace
 {
 public:
-	FontFace(BM_Font *_face, Font::Style style, Font::Weight weight, bool release_stream);
+	FontFace(BitmapFontDefinitions *_face, Font::Style style, Font::Weight weight, bool release_stream);
 	~FontFace();
-
-	/// Returns the style of the font face.
-	/// @return The font face's style.
-	Font::Style GetStyle() const;
-	/// Returns the weight of the font face.
-	/// @return The font face's weight.
-	Font::Weight GetWeight() const;
-
-	int GetSize() const;
 
 	/// Returns a handle for positioning and rendering this face at the given size.
 	/// @param[in] charset The set of characters in the handle, as a comma-separated list of unicode ranges.
@@ -67,15 +58,7 @@ public:
 	void ReleaseFace();
 
 private:
-	BM_Font *face;
-	Font::Style style;
-	Font::Weight weight;
-
-	bool release_stream;
-
-	typedef Container::vector< FontFaceHandle* >::Type HandleList;
-	typedef Container::map< int, HandleList >::Type HandleMap;
-	HandleMap handles;
+	BitmapFontDefinitions *face;
 };
 
 }

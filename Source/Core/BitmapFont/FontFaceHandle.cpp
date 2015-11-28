@@ -26,9 +26,9 @@
  */
 
 #include "../precompiled.h"
+#include "../TextureLayout.h"
 #include "FontFaceHandle.h"
 #include "FontFaceLayer.h"
-#include "../TextureLayout.h"
 #include <algorithm>
 #include <vector>
 
@@ -64,13 +64,30 @@ FontFaceHandle::~FontFaceHandle()
 }
 
 // Initialises the handle so it is able to render text.
-bool FontFaceHandle::Initialise(BM_Font *bm_face, const String& _charset, int _size)
+bool FontFaceHandle::Initialise(BitmapFontDefinitions *bm_face, const String& _charset, int _size)
 {
+	this->bm_face = bm_face;
 	size = _size;
-	TextureFullName = bm_face->PagesInfo[ 0 ].FileName;
-	TextureDirectory = bm_face->Face.Directory;
-	TextureSize = Vector2i( bm_face->CommonCharactersInfo.ScaleWidth, bm_face->CommonCharactersInfo.ScaleHeight );
+	line_height = _size;
+	texture_width = bm_face->CommonCharactersInfo.ScaleWidth;
+	texture_height = bm_face->CommonCharactersInfo.ScaleHeight;
 	raw_charset = _charset;
+
+	// Construct proper path to texture
+	URL fnt_source = bm_face->Face.Source;
+	URL bitmap_source = bm_face->Face.BitmapSource;
+	if(bitmap_source.GetPath().Empty())
+	{
+		texture_source = fnt_source.GetPath() + bitmap_source.GetFileName();
+		if(!bitmap_source.GetExtension().Empty())
+		{
+			texture_source += "." + bitmap_source.GetExtension();
+		}
+	}
+	else
+	{
+		texture_source = bitmap_source.GetPathedFileName();
+	}
 
 	if (!UnicodeRange::BuildList(charset, raw_charset))
 	{
@@ -85,18 +102,16 @@ bool FontFaceHandle::Initialise(BM_Font *bm_face, const String& _charset, int _s
 	// Generate the metrics for the handle.
 	GenerateMetrics(bm_face);
 
-
 	// Generate the default layer and layer configuration.
 	base_layer = GenerateLayer(NULL);
 	layer_configurations.push_back(LayerConfiguration());
 	layer_configurations.back().push_back(base_layer);
 
-
 	return true;
 }
 
 // Returns the width a string will take up if rendered with this handle.
-int FontFaceHandle::GetStringWidth(const WString& string, word prior_character, word default_character)
+int FontFaceHandle::GetStringWidth(const WString& string, word prior_character, word default_character) const
 {
 	int width = 0;
 
@@ -104,32 +119,15 @@ int FontFaceHandle::GetStringWidth(const WString& string, word prior_character, 
 	{
 		word character_code = string[i];
 
-		FontGlyphMap::const_iterator iterator = glyphs.find(character_code);
-		if (iterator == glyphs.end())
-		{
-			if (default_character >= 32)
-			{
-				iterator = glyphs.find(default_character);
-				if (iterator == glyphs.end())
-				{
-					continue;
-				}
-				else
-				{
-					character_code = default_character;
-				}
-			}
-			else
-			{
-				continue;
-			}
-		}
+		if (character_code >= glyphs.size())
+			continue;
+		const FontGlyph &glyph = glyphs[character_code];
 
 		// Adjust the cursor for the kerning between this character and the previous one.
 		if (prior_character != 0)
 			width += GetKerning(prior_character, string[i]);
 		// Adjust the cursor for this character's advance.
-		width += iterator->second.advance;
+		width += glyph.advance;
 
 		prior_character = character_code;
 	}
@@ -209,17 +207,17 @@ int FontFaceHandle::GenerateLayerConfiguration(FontEffectMap& font_effects)
 }
 
 // Generates the texture data for a layer (for the texture database).
-bool FontFaceHandle::GenerateLayerTexture(const byte*& texture_data, Vector2i& texture_dimensions, Rocket::Core::FontEffect* layer_id, int layout_id, int texture_id)
+bool FontFaceHandle::GenerateLayerTexture(const byte*& texture_data, Vector2i& texture_dimensions, Rocket::Core::FontEffect* layer_id, int texture_id)
 {
 	FontLayerMap::iterator layer_iterator = layers.find(layer_id);
 	if (layer_iterator == layers.end())
 		return false;
 
-	return layer_iterator->second->GenerateTexture(texture_data, texture_dimensions, layout_id, texture_id);
+	return layer_iterator->second->GenerateTexture(texture_data, texture_dimensions, texture_id);
 }
 
 // Generates the geometry required to render a single line of text.
-int FontFaceHandle::GenerateString(GeometryList& geometry, const WString& string, const Vector2f& position, const Colourb& colour, int layer_configuration_index, word default_character)
+int FontFaceHandle::GenerateString(GeometryList& geometry, const WString& string, const Vector2f& position, const Colourb& colour, int layer_configuration_index, word default_character) const
 {
 	int geometry_index = 0;
 	int line_width = 0;
@@ -237,10 +235,7 @@ int FontFaceHandle::GenerateString(GeometryList& geometry, const WString& string
 		if (layer == base_layer)
 			layer_colour = colour;
 		else
-		{
 			layer_colour = layer->GetColour();
-			layer_colour.alpha *= colour.alpha / 255.0f;
-		}
 
 		// Resize the geometry list if required.
 		if ((int) geometry.size() < geometry_index + layer->GetNumTextures())
@@ -251,49 +246,25 @@ int FontFaceHandle::GenerateString(GeometryList& geometry, const WString& string
 			geometry[geometry_index + i].SetTexture(layer->GetTexture(i));
 
 		line_width = 0;
-
 		word prior_character = 0;
 
 		const word* string_iterator = string.CString();
 		const word* string_end = string.CString() + string.Length();
-		word final_character;
 
 		for (; string_iterator != string_end; string_iterator++)
 		{
-			final_character = *string_iterator;
-
-			FontGlyphMap::const_iterator iterator = glyphs.find(final_character);
-
-			if (iterator == glyphs.end())
-			{
-				if (default_character >= 32)
-				{
-					iterator = glyphs.find(default_character);
-					if (iterator == glyphs.end())
-					{
-						continue;
-					}
-					else
-					{
-						final_character = default_character;
-					}
-				}
-				else
-				{
-					continue;
-				}
-			}
+			if (*string_iterator >= glyphs.size())
+				continue;
+			const FontGlyph &glyph = glyphs[*string_iterator];
 
 			// Adjust the cursor for the kerning between this character and the previous one.
 			if (prior_character != 0)
-			{
-				line_width += GetKerning(prior_character, final_character);
-			}
+				line_width += GetKerning(prior_character, *string_iterator);
 
-			layer->GenerateGeometry(&geometry[geometry_index], final_character, Vector2f(position.x + line_width, position.y), layer_colour);
+			layer->GenerateGeometry(&geometry[geometry_index], *string_iterator, Vector2f(position.x + line_width, position.y), layer_colour);
 
-			line_width += iterator->second.advance;
-			prior_character = final_character;
+			line_width += glyph.advance;
+			prior_character = *string_iterator;
 		}
 
 		geometry_index += layer->GetNumTextures();
@@ -308,7 +279,7 @@ int FontFaceHandle::GenerateString(GeometryList& geometry, const WString& string
 // Generates the geometry required to render a line above, below or through a line of text.
 void FontFaceHandle::GenerateLine(Geometry* geometry, const Vector2f& position, int width, Font::Line height, const Colourb& colour) const
 {
-    std::vector< Vertex >& line_vertices = geometry->GetVertices();
+	std::vector< Vertex >& line_vertices = geometry->GetVertices();
 	std::vector< int >& line_indices = geometry->GetIndices();
 
 	float offset;
@@ -331,20 +302,18 @@ void FontFaceHandle::OnReferenceDeactivate()
 	delete this;
 }
 
-void FontFaceHandle::GenerateMetrics(BM_Font *bm_face)
+void FontFaceHandle::GenerateMetrics(BitmapFontDefinitions *bm_face)
 {
 	line_height = bm_face->CommonCharactersInfo.LineHeight;
-	baseline = line_height - bm_face->CommonCharactersInfo.BaseLine;
+	baseline = bm_face->CommonCharactersInfo.BaseLine;
 
-	underline_position = (float)line_height - bm_face->CommonCharactersInfo.BaseLine;//FT_MulFix(ft_face->underline_position, ft_face->size->metrics.y_scale) / float(1 << 6);
-	/*underline_thickness = FT_MulFix(ft_face->underline_thickness, ft_face->size->metrics.y_scale) / float(1 << 6);
-	underline_thickness = Math::Max(underline_thickness, 1.0f);
-*/
-
+	underline_position = (float)line_height - bm_face->CommonCharactersInfo.BaseLine;
+	baseline += int( underline_position / 1.6f );
 	underline_thickness = 1.0f;
+
 	average_advance = 0;
-	for (FontGlyphMap::iterator i = glyphs.begin(); i != glyphs.end(); ++i)
-		average_advance += i->second.advance;
+	for (FontGlyphList::iterator i = glyphs.begin(); i != glyphs.end(); ++i)
+		average_advance += i->advance;
 
 	// Bring the total advance down to the average advance, but scaled up 10%, just to be on the safe side.
 	average_advance = Math::RealToInteger((float) average_advance / (glyphs.size() * 0.9f));
@@ -359,15 +328,12 @@ void FontFaceHandle::GenerateMetrics(BM_Font *bm_face)
 		x_height = 0;
 }
 
-void FontFaceHandle::BuildGlyphMap(BM_Font *bm_face, const UnicodeRange& unicode_range)
+void FontFaceHandle::BuildGlyphMap(BitmapFontDefinitions *bm_face, const UnicodeRange& unicode_range)
 {
+	glyphs.resize(unicode_range.max_codepoint + 1);
+
 	for (word character_code = (word) (Math::Max< unsigned int >(unicode_range.min_codepoint, 32)); character_code <= unicode_range.max_codepoint; ++character_code)
 	{
-		if( !bm_face->BM_Helper_IsUnicodeCodeInsideFontBoundaries( character_code ) )
-		{
-			break;
-		}
-
 		int index = bm_face->BM_Helper_GetCharacterTableIndex( character_code );
 
 		if ( index < 0 )
@@ -395,11 +361,6 @@ void Rocket::Core::BitmapFont::FontFaceHandle::BuildGlyph(FontGlyph& glyph, Char
 	// Set the glyph's advance.
 	glyph.advance = bm_glyph->Advance;
 
-	if ( bm_glyph->PageId > 0 )
-	{
-		Log::Message( Log::LT_WARNING, "Multiple page not supported" );
-	}
-
 	// Set the glyph's bitmap position.
 	glyph.bitmap_dimensions.x = bm_glyph->X;
 	glyph.bitmap_dimensions.y = bm_glyph->Y;
@@ -407,44 +368,15 @@ void Rocket::Core::BitmapFont::FontFaceHandle::BuildGlyph(FontGlyph& glyph, Char
 	glyph.bitmap_data = NULL;
 }
 
-void Rocket::Core::BitmapFont::FontFaceHandle::BuildKerning(BM_Font *bm_face)
-{
-	// Compile the kerning information for this character if the font includes it.
-	if ( bm_face->CommonCharactersInfo.KerningCount > 0 )
-	{
-		for (size_t i = 0; i < charset.size(); ++i)
-		{
-			for (word rhs = (word) (Math::Max< unsigned int >(charset[i].min_codepoint, 32)); rhs <= charset[i].max_codepoint; ++rhs)
-			{
-				GlyphKerningMap& glyph_kerning = kerning.insert(FontKerningMap::value_type(rhs, GlyphKerningMap())).first->second;
-
-				for (size_t j = 0; j < charset.size(); ++j)
-				{
-					for (word lhs = (word) (Math::Max< unsigned int >(charset[j].min_codepoint, 32)); lhs <= charset[j].max_codepoint; ++lhs)
-					{
-						int kerning = bm_face->BM_Helper_GetXKerning( lhs, rhs );
-						if (kerning != 0)
-							glyph_kerning[lhs] = kerning;
-					}
-				}
-			}
-		}
-	}
-}
-
 int Rocket::Core::BitmapFont::FontFaceHandle::GetKerning(word lhs, word rhs) const
 {
-	FontKerningMap::const_iterator rhs_iterator = kerning.find(rhs);
-	if (rhs_iterator == kerning.end())
-		return 0;
+	if( bm_face != NULL)
+	{
+		return bm_face->BM_Helper_GetXKerning(lhs, rhs);
+	}
 
-	GlyphKerningMap::const_iterator lhs_iterator = rhs_iterator->second.find(lhs);
-	if (lhs_iterator == rhs_iterator->second.end())
-		return 0;
-
-	return lhs_iterator->second;
+	return 0;
 }
-
 
 // Generates (or shares) a layer derived from a font effect.
 Rocket::Core::FontFaceLayer* FontFaceHandle::GenerateLayer( FontEffect* font_effect)

@@ -14,7 +14,7 @@
  *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -29,51 +29,38 @@
 #include "FontFamily.h"
 #include "FontFace.h"
 
+#if defined(WITH_SYS_FREETYPE)
+#include <ft2build.h>
+#include FT_FREETYPE_H
+#elif defined(WITH_FONTSTASH)
+#include "fontstash.h"
+#else
+// use embedded ft2
+#include "ft2/FreeTypeAmalgam.h"
+#endif
+
 namespace Rocket {
 namespace Core {
-namespace FreeType {
-
-FontFamily::FontFamily(const String& name) : name(name)
+namespace FreeType
 {
+
+FontFamily::FontFamily(const String& name) : Rocket::Core::FontFamily(name)
+{
+
 }
 
 FontFamily::~FontFamily()
 {
-	for (size_t i = 0; i < font_faces.size(); ++i)
-		delete font_faces[i];
+
 }
 
 // Adds a new face to the family.
-bool FontFamily::AddFace(FT_Face ft_face, Font::Style style, Font::Weight weight, bool release_stream)
+bool FontFamily::AddFace(void* ft_face, Font::Style style, Font::Weight weight, bool release_stream)
 {
-	FontFace* face = new FontFace(ft_face, style, weight, release_stream);
+	FontFace* face = new FontFace((FT_Face)ft_face, style, weight, release_stream);
 	font_faces.push_back(face);
 
 	return true;
-}
-
-// Returns a handle to the most appropriate font in the family, at the correct size.
-Rocket::Core::FontFaceHandle* FontFamily::GetFaceHandle(const String& charset, Font::Style style, Font::Weight weight, int size)
-{
-	// Search for a face of the same style, and match the weight as closely as we can.
-	FontFace* matching_face = NULL;
-	for (size_t i = 0; i < font_faces.size(); i++)
-	{
-		// If we've found a face matching the style, then ... great! We'll match it regardless of the weight. However,
-		// if it's a perfect match, then we'll stop looking altogether.
-		if (font_faces[i]->GetStyle() == style)
-		{
-			matching_face = font_faces[i];
-
-			if (font_faces[i]->GetWeight() == weight)
-				break;
-		}
-	}
-
-	if (matching_face == NULL)
-		return NULL;
-
-	return matching_face->GetHandle(charset, size);
 }
 
 }

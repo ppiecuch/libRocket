@@ -99,6 +99,16 @@ void Colour< ColourType, AlphaDefault >::operator*=(float rhs)
 	alpha = (ColourType)(alpha * rhs);
 }
 
+// Multiply this colour component-wise in-place.
+template < typename ColourType, int AlphaDefault >
+void Colour< ColourType, AlphaDefault >::operator*=(const Colour &rhs)
+{
+	red = (ColourType)(red * rhs.red);
+	green = (ColourType)(green * rhs.green);
+	blue = (ColourType)(blue * rhs.blue);
+	alpha = (ColourType)(alpha * rhs.alpha);
+}
+
 // Scales this colour component-wise in-place by the inverse of a value.
 template < typename ColourType, int AlphaDefault >
 void Colour< ColourType, AlphaDefault >::operator/=(float rhs)
@@ -111,9 +121,3 @@ Colour< float, 1 > ROCKETCORE_API Colour< float, 1 >::operator*(const Colour< fl
 
 template < >
 Colour< byte, 255 > ROCKETCORE_API Colour< byte, 255 >::operator*(const Colour< byte, 255 >& rhs) const;
-
-template < >
-void ROCKETCORE_API Colour< float, 1 >::operator*=(const Colour& rhs);
-
-template < >
-void ROCKETCORE_API Colour< byte, 255 >::operator*=(const Colour& rhs);

@@ -27,7 +27,6 @@
 
 #include "precompiled.h"
 #include "StyleSheetParser.h"
-#include <Rocket/Core/ContainerWrapper.h>
 #include "StyleSheetFactory.h"
 #include "StyleSheetNode.h"
 #include "../../Include/Rocket/Core/Log.h"

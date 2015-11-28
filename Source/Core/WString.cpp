@@ -75,7 +75,7 @@ WString::WString(const char* utf8_string)
 // Constructs a string from a sequence of UTF-8 encoded characters.
 	WString::WString(const String& utf8_string)
 {
-	vector< word > ucs2_string;
+	std::vector< word > ucs2_string;
 	StringUtilities::UTF8toUCS2(utf8_string, ucs2_string);
 
 	if (ucs2_string.size() > 1)

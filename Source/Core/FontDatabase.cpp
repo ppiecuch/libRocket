@@ -28,8 +28,10 @@
 #include "precompiled.h"
 
 #include "../../Include/Rocket/Core/FontDatabase.h"
+#include "../../Include/Rocket/Core/FontFamily.h"
 #include "../../Include/Rocket/Core.h"
-#include "FontFamily.h"
+#include "../../Include/Rocket/Core/FreeType/FontProvider.h"
+#include "../../Include/Rocket/Core/BitmapFont/FontProvider.h"
 #include <vector>
 #include <map>
 
@@ -59,91 +61,128 @@ bool FontDatabase::Initialise()
 	if (instance == NULL)
 	{
 		new FontDatabase();
-	}
+		
+		bool ret = true;
+        if(!FreeType::FontProvider::Initialise())
+            ret = false;
+        if(!BitmapFont::FontProvider::Initialise())
+            ret = false;
 
-	BitmapFont::FontProvider::Initialise();
-	FreeType::FontProvider::Initialise();
+        return ret;
+	}
 
 	return true;
 }
 
 void FontDatabase::Shutdown()
 {
-	BitmapFont::FontProvider::Shutdown();
-	FreeType::FontProvider::Shutdown();
-
 	if (instance != NULL)
 	{
+        FreeType::FontProvider::Shutdown();
+        BitmapFont::FontProvider::Shutdown();
+
 		delete instance;
-		font_effect_cache.clear();
-		font_provider_table.clear();
 	}
 }
 
 // Loads a new font face.
 bool FontDatabase::LoadFontFace(const String& file_name)
 {
-	if( file_name.Find( ".fnt" ) != String::npos )
-	{
-		return BitmapFont::FontProvider::LoadFontFace( file_name );
-	}
-	else
-	{
-		return FreeType::FontProvider::LoadFontFace( file_name );
-	}
+    FontProviderType font_provider_type = GetFontProviderType(file_name);
+
+    switch(font_provider_type)
+    {
+        case FreeType:
+            return FreeType::FontProvider::LoadFontFace(file_name);
+
+        case BitmapFont:
+            return BitmapFont::FontProvider::LoadFontFace(file_name);
+
+        default:
+            return false;
+    }
 }
 
 // Adds a new font face to the database, ignoring any family, style and weight information stored in the face itself.
 bool FontDatabase::LoadFontFace(const String& file_name, const String& family, Font::Style style, Font::Weight weight)
 {
-	if( file_name.Find( ".fnt" ) != String::npos )
-	{
-		return BitmapFont::FontProvider::LoadFontFace( file_name, family, style, weight );
-	}
-	else
-	{
-		return FreeType::FontProvider::LoadFontFace( file_name, family, style, weight );
-	}
+    FontProviderType font_provider_type = GetFontProviderType(file_name);
+
+    switch(font_provider_type)
+    {
+        case FreeType:
+            return FreeType::FontProvider::LoadFontFace(file_name, family, style, weight);
+
+        case BitmapFont:
+            return BitmapFont::FontProvider::LoadFontFace(file_name, family, style, weight);
+
+        default:
+            return false;
+    }
 }
 
 // Adds a new font face to the database, loading from memory.
-bool FontDatabase::LoadFontFace(FontProviderType font_type, const byte* data, int data_length, const String& family, Font::Style style, Font::Weight weight)
+bool FontDatabase::LoadFontFace(FontProviderType font_provider_type, const byte* data, int data_length)
 {
-	if( font_type == BITMAP_FONT )
-	{
-		return BitmapFont::FontProvider::LoadFontFace( data, data_length, family, style, weight );
-	}
-	else if( font_type == FREETYPE_FONT )
-	{
-		return FreeType::FontProvider::LoadFontFace( data, data_length, family, style, weight );
-	}
-	else
-	{
-		Log::Message(Log::LT_ERROR, "Invalid font provider type");
-		return false;
-	}
+    switch(font_provider_type)
+    {
+        case FreeType:
+            return FreeType::FontProvider::LoadFontFace(data, data_length);
+
+        case BitmapFont:
+            return BitmapFont::FontProvider::LoadFontFace(data, data_length);
+
+        default:
+            return false;
+    }
+}
+
+// Adds a new font face to the database, loading from memory, ignoring any family, style and weight information stored in the face itself.
+bool FontDatabase::LoadFontFace(FontProviderType font_provider_type, const byte* data, int data_length, const String& family, Font::Style style, Font::Weight weight)
+{
+    switch(font_provider_type)
+    {
+        case FreeType:
+            return FreeType::FontProvider::LoadFontFace(data, data_length, family, style, weight);
+
+        case BitmapFont:
+            return BitmapFont::FontProvider::LoadFontFace(data, data_length, family, style, weight);
+
+        default:
+            return false;
+    }
+}
+
+FontDatabase::FontProviderType FontDatabase::GetFontProviderType(const String& file_name)
+{
+    if(file_name.Find(".fnt") != String::npos)
+    {
+        return BitmapFont;
+    }
+    else
+    {
+        return FreeType;
+    }
 }
 
 // Returns a handle to a font face that can be used to position and render text.
 FontFaceHandle* FontDatabase::GetFontFaceHandle(const String& family, const String& charset, Font::Style style, Font::Weight weight, int size)
 {
-	size_t provider_index, provider_count;
-	
-	provider_count = font_provider_table.size();
-	
-	for(provider_index = 0; provider_index < provider_count; ++provider_index)
-	{
-		FontFaceHandle * face_handle;
-		
-		face_handle = font_provider_table[ provider_index ]->GetFontFaceHandle(family, charset, style, weight, size);
-		
-		if(face_handle)
-		{
-			return face_handle;
-		}
-	}
-	
-	return NULL; 
+    size_t provider_index, provider_count;
+
+    provider_count = font_provider_table.size();
+
+    for(provider_index = 0; provider_index < provider_count; ++provider_index)
+    {
+        FontFaceHandle * face_handle = font_provider_table[ provider_index ]->GetFontFaceHandle(family, charset, style, weight, size);
+
+        if(face_handle)
+        {
+            return face_handle;
+        }
+    }
+
+    return NULL;
 }
 
 // Returns a font effect, either a newly-instanced effect from the factory or an identical shared
@@ -156,7 +195,7 @@ FontEffect* FontDatabase::GetFontEffect(const String& name, const PropertyDictio
 	//  * could be shared with decorators as well
 
 	// Generate a key so we can distinguish unique property sets quickly.
-	typedef std::list< std::pair< String, String >::Type >::Type PropertyList;
+	typedef std::list< std::pair< String, String > > PropertyList;
 	PropertyList sorted_properties;
 	for (PropertyMap::const_iterator property_iterator = properties.GetProperties().begin(); property_iterator != properties.GetProperties().end(); ++property_iterator)
 	{
@@ -215,14 +254,14 @@ void FontDatabase::AddFontProvider(FontProvider * provider)
 
 void FontDatabase::RemoveFontProvider(FontProvider * provider)
 {
-	for(FontProviderTable::iterator i = instance->font_provider_table.begin(); i != instance->font_provider_table.end(); ++i)
-	{
-		if(*i == provider)
-		{
-			instance->font_provider_table.erase(i);
-			return;
-		}
-	}
+    for(FontProviderTable::iterator i = instance->font_provider_table.begin(); i != instance->font_provider_table.end(); ++i)
+    {
+        if(*i == provider)
+        {
+            instance->font_provider_table.erase(i);
+            return;
+        }
+    }
 }
 
 }

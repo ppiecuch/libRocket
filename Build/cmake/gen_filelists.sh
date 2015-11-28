@@ -101,7 +101,9 @@ printluafiles() {
 
 pushd $basedir
 echo -e "# This file was auto-generated with gen_filelists.sh\n" >$file
-echo -e "isEmpty(PROJECT_SOURCE_DIR):PROJECT_SOURCE_DIR = ../../..\n" >>$file
+if [ "$1" == "qt" ]; then
+	echo -e "isEmpty(PROJECT_SOURCE_DIR):PROJECT_SOURCE_DIR = ../../..\n" >>$file
+fi
 for lib in "Core;BitmapFont;FreeType" "Controls" "Debugger" "Ext"; do
     printfiles $lib
 done
@@ -113,8 +115,23 @@ for lib in "Core" "Controls"; do
     printluafiles $lib
 done
 
-echo -e "" >>$file
-echo -e "INCLUDEPATH += $$PROJECT_SOURCE_DIR/Include" >>$file
-echo -e "LIBS += -lm" >>$file
+# external code:
+echo ${hdr/lib/Ft} >>$file
+find  $srcpath/Core/FreeType/ft2 -iname "*.h" -exec echo '    '$srcdir/{} $endl \; 2>/dev/null | sort -f >>$file
+echo -e $ends >>$file
+echo ${src/lib/Ft} >>$file
+find  $srcpath/Core/FreeType/ft2 -iname "*.cpp" -o -iname "*.c" -exec echo '    '$srcdir/{} $endl \; 2>/dev/null | sort -f >>$file
+echo -e $ends >>$file
+echo ${hdr/lib/Fs} >>$file
+find  $srcpath/Core/FreeType/fontstash -iname "*.h" -exec echo '    '$srcdir/{} $endl \; 2>/dev/null | sort -f >>$file
+echo -e $ends >>$file
+echo ${src/lib/Fs} >>$file
+find  $srcpath/Core/FreeType/fontstash -iname "*.cpp" -iname "*.c" -exec echo '    '$srcdir/{} $endl \; 2>/dev/null | sort -f >>$file
+echo -e $ends >>$file
 
+if [ "$1" == "qt" ]; then
+	echo -e "" >>$file
+	echo -e 'INCLUDEPATH += $$PROJECT_SOURCE_DIR/Include' >>$file
+	echo -e 'LIBS += -lm' >>$file
+fi
 popd

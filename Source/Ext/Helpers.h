@@ -8,10 +8,19 @@
 #ifdef __cplusplus
 
 template<typename t>
-t clamp(t v, t min, t max);
+t clamp(t v, t min, t max) {
+	if (v > max) {
+		return max;
+	} else if (v < min) {
+		return min;
+	}
+	return v;
+}
 
 template<typename t1, typename t2>
-t2 lerp(t1 a, t1 b, t2 k);
+t2 lerp(t1 a, t1 b, t2 k) {
+	return (t2)(a + (b-a)*k);
+}
 
 struct rgb {
     double r;       // percent
@@ -35,7 +44,7 @@ double clampd(double v, double min, double max);
 
 
 #ifdef __cplusplus
-}
+} // extern "C"
 #endif
 
 #endif /* HELPERS_H */

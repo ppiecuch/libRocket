@@ -70,7 +70,7 @@ public:
 	/// @param[out] texture_dimensions The dimensions of the texture.
 	/// @param[in] glyphs The glyphs required by the font face handle.
 	/// @param[in] texture_id The index of the texture within the layer to generate.
-	virtual bool GenerateTexture(const byte*& texture_data, Vector2i& texture_dimensions, int layout_id, int texture_id);
+	virtual bool GenerateTexture(const byte*& texture_data, Vector2i& texture_dimensions, int texture_id);
 	/// Generates the geometry required to render a single character.
 	/// @param[out] geometry An array of geometries this layer will write to. It must be at least as big as the number of textures in this layer.
 	/// @param[in] character_code The character to generate geometry for.
@@ -78,15 +78,16 @@ public:
 	/// @param[in] colour The colour of the string.
 	inline void GenerateGeometry(Geometry* geometry, const word character_code, const Vector2f& position, const Colourb& colour) const
 	{
-		CharacterMap::const_iterator iterator = characters.find(character_code);
-		if (iterator == characters.end())
-			return;
-
-		const Character& character = (*iterator).second;
+		if (character_code >= characters.size())
+			return;		
+		
+		const Character& character = characters[character_code];
+		if (character.texture_index < 0)
+			return;		
 
 		// Generate the geometry for the character.
-		std::vector< Vertex >::Type& character_vertices = geometry[character.texture_index].GetVertices();
-		std::vector< int >::Type& character_indices = geometry[character.texture_index].GetIndices();
+		std::vector< Vertex >& character_vertices = geometry[character.texture_index].GetVertices();
+		std::vector< int >& character_indices = geometry[character.texture_index].GetIndices();
 
 		character_vertices.resize(character_vertices.size() + 4);
 		character_indices.resize(character_indices.size() + 6);
@@ -109,8 +110,6 @@ public:
 	/// @return The layer's colour.
 	const Colourb& GetColour() const;
 
-	bool AddNewGlyphs(void);
-
 // protected:
 	struct Character
 	{
@@ -125,16 +124,15 @@ public:
 		int texture_index;
 	};
 
-	typedef std::map< word, Character >::Type CharacterMap;
-	typedef std::vector< Texture >::Type TextureList;
-	typedef std::vector< TextureLayout* >::Type TextureLayoutList;
+	typedef std::vector< Character > CharacterList;
+	typedef std::vector< Texture > TextureList;
 
 	const FontFaceHandle* handle;
 	FontEffect* effect;
 
-	TextureLayoutList texture_layouts;
+	TextureLayout texture_layout;
 
-	CharacterMap characters;
+	CharacterList characters;
 	TextureList textures;
 	Colourb colour;
 };

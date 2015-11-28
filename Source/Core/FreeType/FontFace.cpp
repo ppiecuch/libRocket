@@ -26,43 +26,22 @@
  */
 
 #include "../precompiled.h"
-#include "FontFace.h"
-#include "FontFaceHandle.h"
-#include <Rocket/Core/Log.h>
+#include "../FreeType/FontFace.h"
+#include "../FreeType/FontFaceHandle.h"
+#include "../../../Include/Rocket/Core/Log.h"
 
 namespace Rocket {
 namespace Core {
 namespace FreeType {
 
-FontFace::FontFace(FT_Face _face, Font::Style _style, Font::Weight _weight, bool _release_stream)
+FontFace::FontFace(FT_Face _face, Font::Style _style, Font::Weight _weight, bool _release_stream) : Rocket::Core::FontFace(_style, _weight, _release_stream)
 {
 	face = _face;
-	style = _style;
-	weight = _weight;
-
-	release_stream = _release_stream;
 }
 
 FontFace::~FontFace()
 {
-	for (HandleMap::iterator iterator = handles.begin(); iterator != handles.end(); ++iterator)
-	{
-		iterator->second->RemoveReference();
-	}
-
 	ReleaseFace();
-}
-
-// Returns the style of the font face.
-Font::Style FontFace::GetStyle() const
-{
-	return style;
-}
-
-// Returns the weight of the font face.
-Font::Weight FontFace::GetWeight() const
-{
-	return weight;
 }
 
 // Returns a handle for positioning and rendering this face at the given size.
@@ -73,9 +52,44 @@ Rocket::Core::FontFaceHandle* FontFace::GetHandle(const String& _raw_charset, in
 	HandleMap::iterator iterator = handles.find(size);
 	if (iterator != handles.end())
 	{
-		Rocket::Core::FontFaceHandle* handle = (*iterator).second;
-		handle->AddReference();
-		return handle;
+		const HandleList& handles = (*iterator).second;
+
+		// Check all the handles if their charsets match the requested one exactly (ie, were specified by the same
+		// string).
+		String raw_charset(_raw_charset);
+		for (size_t i = 0; i < handles.size(); ++i)
+		{
+			if (handles[i]->GetRawCharset() == _raw_charset)
+			{
+				handles[i]->AddReference();
+				return (Rocket::Core::FreeType::FontFaceHandle*)handles[i];
+			}
+		}
+
+		// Check all the handles if their charsets contain the requested charset.
+		if (!UnicodeRange::BuildList(charset, raw_charset))
+		{
+			Log::Message(Log::LT_ERROR, "Invalid font charset '%s'.", _raw_charset.CString());
+			return NULL;
+		}
+
+		for (size_t i = 0; i < handles.size(); ++i)
+		{
+			bool range_contained = true;
+
+			const UnicodeRangeList& handle_charset = handles[i]->GetCharset();
+			for (size_t j = 0; j < charset.size() && range_contained; ++j)
+			{
+				if (!charset[j].IsContained(handle_charset))
+					range_contained = false;
+			}
+
+			if (range_contained)
+			{
+				handles[i]->AddReference();
+				return (Rocket::Core::FreeType::FontFaceHandle*)handles[i];
+			}
+		}
 	}
 
 	// See if this face has been released.
@@ -95,7 +109,10 @@ Rocket::Core::FontFaceHandle* FontFace::GetHandle(const String& _raw_charset, in
 
 	// Save the handle, and add a reference for the callee. The initial reference will be removed when the font face
 	// releases it.
-		handles[size] = handle;
+	if (iterator != handles.end())
+		(*iterator).second.push_back(handle);
+	else
+		handles[size] = HandleList(1, handle);
 
 	handle->AddReference();
 

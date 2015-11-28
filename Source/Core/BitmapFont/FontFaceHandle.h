@@ -28,15 +28,15 @@
 #ifndef ROCKETCOREBITMAPFONTFONTFACEHANDLE_H
 #define ROCKETCOREBITMAPFONTFONTFACEHANDLE_H
 
-#include <Rocket/Core/UnicodeRange.h>
-#include <Rocket/Core/Font.h>
-#include <Rocket/Core/FontEffect.h>
-#include <Rocket/Core/FontGlyph.h>
-#include <Rocket/Core/Geometry.h>
-#include <Rocket/Core/String.h>
-#include <Rocket/Core/Texture.h>
-#include <Rocket/Core/FontFaceHandle.h>
-#include "BM_Font.h"
+#include "../UnicodeRange.h"
+#include "../../../Include/Rocket/Core/Font.h"
+#include "../../../Include/Rocket/Core/FontEffect.h"
+#include "../../../Include/Rocket/Core/FontGlyph.h"
+#include "../../../Include/Rocket/Core/Geometry.h"
+#include "../../../Include/Rocket/Core/String.h"
+#include "../../../Include/Rocket/Core/Texture.h"
+#include "../FontFaceHandle.h"
+#include "BitmapFontDefinitions.h"
 
 namespace Rocket {
 namespace Core {
@@ -57,13 +57,14 @@ public:
 	/// @param[in] charset The comma-separated list of unicode ranges this handle must support.
 	/// @param[in] size The size, in points, of the face this handle should render at.
 	/// @return True if the handle initialised successfully and is ready for rendering, false if an error occured.
-	bool Initialise(BM_Font *ft_face, const String& charset, int size);
+	bool Initialise(BitmapFontDefinitions *bm_face, const String& charset, int size);
 
 	/// Returns the width a string will take up if rendered with this handle.
 	/// @param[in] string The string to measure.
 	/// @param[in] prior_character The optionally-specified character that immediately precedes the string. This may have an impact on the string width due to kerning.
+	/// @param[in] default_character Replace non exisiting chars with default one
 	/// @return The width, in pixels, this string will occupy if rendered with this handle.
-	int GetStringWidth(const WString& string, word prior_character = 0, word default_character = 0);
+	int GetStringWidth(const WString& string, word prior_character = 0, word default_character = 0) const;
 
 	/// Generates, if required, the layer configuration for a given array of font effects.
 	/// @param[in] font_effects The list of font effects to generate the configuration for.
@@ -75,7 +76,7 @@ public:
 	/// @param[out] texture_dimensions The dimensions of the texture.
 	/// @param[in] layer_id The id of the layer to request the texture data from.
 	/// @param[in] texture_id The index of the texture within the layer to generate.
-	bool GenerateLayerTexture(const byte*& texture_data, Vector2i& texture_dimensions, FontEffect* layer_id, int layout_id, int texture_id);
+	bool GenerateLayerTexture(const byte*& texture_data, Vector2i& texture_dimensions, FontEffect* layer_id, int texture_id);
 
 	/// Generates the geometry required to render a single line of text.
 	/// @param[out] geometry An array of geometries to generate the geometry into.
@@ -83,7 +84,7 @@ public:
 	/// @param[in] position The position of the baseline of the first character to render.
 	/// @param[in] colour The colour to render the text.
 	/// @return The width, in pixels, of the string geometry.
-	int GenerateString(GeometryList& geometry, const WString& string, const Vector2f& position, const Colourb& colour, int layer_configuration = 0, word default_character = 0);
+	int GenerateString(GeometryList& geometry, const WString& string, const Vector2f& position, const Colourb& colour, int layer_configuration = 0, word default_character = 0) const;
 
 	/// Generates the geometry required to render a line above, below or through a line of text.
 	/// @param[out] geometry The geometry to append the newly created geometry into.
@@ -93,40 +94,40 @@ public:
 	/// @param[in] colour The colour to draw the line in.
 	void GenerateLine(Geometry* geometry, const Vector2f& position, int width, Font::Line height, const Colourb& colour) const;
 
-    const String & GetTextureFullName() const
-    {
-        return TextureFullName;
-    }
+	const String & GetTextureSource() const
+	{
+		return texture_source;
+	}
 
-    const String & GetTextureDirectory() const
-    {
-        return TextureDirectory;
-    }
+	unsigned int GetTextureWidth() const
+	{
+		return texture_width;
+	}
 
-    Vector2i GetTextureSize() const
-    {
-        return TextureSize;
-    }
+	unsigned int GetTextureHeight() const
+	{
+		return texture_height;
+	}
 
 protected:
 	/// Destroys the handle.
 	virtual void OnReferenceDeactivate();
 
 private:
-	void GenerateMetrics(BM_Font *bm_face);
+	void GenerateMetrics(BitmapFontDefinitions *bm_face);
 
-	void BuildGlyphMap(BM_Font *bm_face, const UnicodeRange& unicode_range);
+	void BuildGlyphMap(BitmapFontDefinitions *bm_face, const UnicodeRange& unicode_range);
 	void BuildGlyph(FontGlyph& glyph, CharacterInfo *ft_glyph);
+	int GetKerning(word lhs, word rhs) const;
 
-	void BuildKerning(BM_Font *bm_face);
-    int GetKerning(word lhs, word rhs) const;
+	// Generates (or shares) a layer derived from a font effect.
+	virtual FontFaceLayer* GenerateLayer(FontEffect* font_effect);
 
-    // Generates (or shares) a layer derived from a font effect.
-    virtual FontFaceLayer* GenerateLayer(FontEffect* font_effect);
-
-    String TextureFullName;
-    String TextureDirectory;
-    Vector2i TextureSize;
+	BitmapFontDefinitions * bm_face;
+	String texture_source;
+	String texture_directory;
+	unsigned int texture_width;
+	unsigned int texture_height;
 };
 
 }

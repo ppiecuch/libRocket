@@ -27,9 +27,9 @@
 
 #include "precompiled.h"
 #include "TextureResource.h"
-#include <Rocket/Core/FontFaceHandle.h>
 #include "TextureDatabase.h"
 #include "../../Include/Rocket/Core.h"
+#include "../Core/FontFaceHandle.h"
 
 namespace Rocket {
 namespace Core {
@@ -133,15 +133,13 @@ bool TextureResource::Load(RenderInterface* render_interface) const
 
 			FontFaceHandle* handle;
 			FontEffect* layer_id;
-			int layout_id;
 			int texture_id;
 
-			if (sscanf(source.CString(), "?font::%p/%p/%d/%d", &handle, &layer_id, &layout_id, &texture_id) == 4)
+			if (sscanf(source.CString(), "?font::%p/%p/%d", &handle, &layer_id, &texture_id) == 3)
 			{
 				handle->GenerateLayerTexture(data,
 											 dimensions,
 											 layer_id,
-											 layout_id,
 											 texture_id);
 			}
 		}

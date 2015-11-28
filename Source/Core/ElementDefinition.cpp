@@ -405,14 +405,8 @@ void BuildPropertyGroup(PropertyGroupMap& groups, const String& group_type, cons
 }
 
 // Updates a property dictionary of all properties for a single group.
-<<<<<<< HEAD
-int BuildPropertyGroupDictionary(PropertyDictionary& group_properties, const String& ROCKET_UNUSED(group_type), const String& group_name, const PropertyDictionary& element_properties)
-=======
-int ElementDefinition::BuildPropertyGroupDictionary(PropertyDictionary& group_properties, const String& ROCKET_UNUSED_PARAMETER(group_type), const String& group_name, const PropertyDictionary& element_properties)
->>>>>>> e6a97155b6daade40c77cec9928812a877290a6a
+int BuildPropertyGroupDictionary(PropertyDictionary& group_properties, const String& ROCKET_UNUSED_PARAMETER(group_type), const String& group_name, const PropertyDictionary& element_properties)
 {
-	ROCKET_UNUSED(group_type);
-
 	int num_properties = 0;
 
 	for (PropertyMap::const_iterator property_iterator = element_properties.GetProperties().begin(); property_iterator != element_properties.GetProperties().end(); ++property_iterator)

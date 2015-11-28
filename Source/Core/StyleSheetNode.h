@@ -32,6 +32,7 @@
 #include "../../Include/Rocket/Core/StyleSheet.h"
 #include "../../Include/Rocket/Core/Types.h"
 #include <map>
+#include <vector>
 
 namespace Rocket {
 namespace Core {
@@ -111,7 +112,7 @@ public:
 	/// Returns true if this node is applicable to the given element, given its IDs, classes and heritage.
 	bool IsApplicable(const Element* element) const;
 	/// Appends all applicable non-tag descendants of this node into the given element list.
-	void GetApplicableDescendants(Container::vector< const StyleSheetNode* >::Type& applicable_nodes, const Element* element) const;
+	void GetApplicableDescendants(std::vector< const StyleSheetNode* >& applicable_nodes, const Element* element) const;
 
 	/// Returns true if this node employs a structural selector, and therefore generates element definitions that are
 	/// sensitive to sibling changes.
@@ -146,7 +147,7 @@ private:
 	PropertyDictionary properties;
 
 	// This node's child nodes, whether standard tagged children, or further derivations of this tag by ID or class.
-	typedef Container::map< String, StyleSheetNode* >::Type NodeMap;
+	typedef std::map< String, StyleSheetNode* > NodeMap;
 	NodeMap children[NUM_NODE_TYPES];
 };
 

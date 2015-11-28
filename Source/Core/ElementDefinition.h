@@ -30,10 +30,10 @@
 
 #include "../../Include/Rocket/Core/Dictionary.h"
 #include "../../Include/Rocket/Core/ReferenceCountable.h"
-#include <map>
-#include <set>
 #include "../../Include/Rocket/Core/FontEffect.h"
 #include "StyleSheetNode.h"
+#include <map>
+#include <set>
 
 namespace Rocket {
 namespace Core {
