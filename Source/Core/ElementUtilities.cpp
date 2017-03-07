@@ -136,7 +136,13 @@ int ElementUtilities::GetFontSize(Element* element)
 // Returns an element's line height, if it has a font defined.
 int ElementUtilities::GetLineHeight(Element* element)
 {
-	FontFaceHandle* font_face_handle = element->GetFontFaceHandle();
+	const Property* line_height_property = element->GetLineHeightProperty();
+
+	Element* font_element = element;
+	if (line_height_property->unit == Property::REM)
+		font_element = element->GetOwnerDocument();
+
+	FontFaceHandle* font_face_handle = font_element->GetFontFaceHandle();
 	if (font_face_handle == NULL)
 	{
 		return Math::Round(element->GetProperty(LINE_HEIGHT)->value.Get< float >());
@@ -144,7 +150,6 @@ int ElementUtilities::GetLineHeight(Element* element)
 
 	int line_height = font_face_handle->GetLineHeight();
 	float inch = element->GetRenderInterface()->GetPixelsPerInch();
-	const Property* line_height_property = element->GetLineHeightProperty();
 
 	switch (line_height_property->unit)
 	{
@@ -157,6 +162,7 @@ int ElementUtilities::GetLineHeight(Element* element)
 	ROCKET_UNUSED_SWITCH_ENUM(Property::RELATIVE_UNIT);
 	case Property::NUMBER:
 	case Property::EM:
+	case Property::REM:
 		// If the property is a straight number or an em measurement, then it scales the line height.
 		return Math::Round(line_height_property->value.Get< float >() * line_height);
 	case Property::PERCENT:
