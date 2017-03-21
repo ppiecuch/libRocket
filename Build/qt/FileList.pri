@@ -1,6 +1,6 @@
 # This file was auto-generated with gen_filelists.sh
 
-isEmpty(PROJECT_SOURCE_DIR):PROJECT_SOURCE_DIR = ../../..
+isEmpty(PROJECT_SOURCE_DIR):PROJECT_SOURCE_DIR = $$PWD/../..
 
 Core_HDR_FILES = \
     $$PROJECT_SOURCE_DIR/Source/Core/Clock.h \

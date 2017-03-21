@@ -102,7 +102,7 @@ printluafiles() {
 pushd $basedir
 echo -e "# This file was auto-generated with gen_filelists.sh\n" >$file
 if [ "$1" == "qt" ]; then
-	echo -e "isEmpty(PROJECT_SOURCE_DIR):PROJECT_SOURCE_DIR = ../../..\n" >>$file
+	echo -e "isEmpty(PROJECT_SOURCE_DIR):PROJECT_SOURCE_DIR = \$\$PWD/$basedir\n" >>$file
 fi
 for lib in "Core;BitmapFont;FreeType" "Controls" "Debugger" "Ext"; do
     printfiles $lib
