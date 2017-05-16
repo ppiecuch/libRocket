@@ -43,6 +43,8 @@ public slots:
 
     void fileHasChanged(const QString &path);
 
+    void addLogMsg(QString msg);
+
 private:
     void setupToolsMenu();
     void setupHelpMenu();

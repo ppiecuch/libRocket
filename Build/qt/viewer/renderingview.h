@@ -266,6 +266,7 @@ public:
 
 signals:
     void emitMouseSize(QPoint pos);
+    void emitLogMsg(QString msg);
 
 public slots:
     void zoomIn();

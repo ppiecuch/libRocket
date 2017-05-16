@@ -84,9 +84,18 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 {
     instance = this;
 
-    log = new QLogTable(2);
+    log = new QLogTable(3);
+
+    addLogMsg(QString("Qt;%1").arg(qVersion()));
 
     renderingView = new RenderingView(this);
+    connect(renderingView, &RenderingView::emitMouseSize, [this](QPoint pos){
+        setMousePos(pos);
+    });
+    connect(renderingView, &RenderingView::emitLogMsg, [this](QString msg){
+        addLogMsg(msg);
+    });
+
     toolbar = addToolBar("Main");
     toolbar->setIconSize(QSize(16,16));
 
@@ -118,12 +127,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     toolbar->addSeparator();
 
     setupHelpMenu();
-
     buildCentralWidget();
-
-    connect(renderingView, &RenderingView::emitMouseSize, [this](QPoint pos){
-        setMousePos(pos);
-    });
 
     connect(&RocketSystem::getInstance(), &RocketSystem::emitRocketEvent, [](Rocket::Core::Event &event){
         ToolManager::getInstance().getCurrentTool()->onElementClicked(event.GetTargetElement());
@@ -233,6 +237,16 @@ void MainWindow::setZoomLevel(float level)
 void MainWindow::setMousePos(QPoint pos)
 {
     labelMousePos->setText(QString("Pos: %1x%2").arg(pos.x()).arg(pos.y()));
+}
+
+void MainWindow::addLogMsg(QString msg)
+{
+    QStringList list;
+    list
+        << QDateTime::currentDateTime().toString("dd/MM/yyyy hh:mm:ss")
+        << msg.split(';');
+
+    log->appendRow(list);
 }
 
 void MainWindow::about()

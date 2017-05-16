@@ -38,14 +38,14 @@ void RenderingView::setDebugVisibility(bool visible)
 {
     Rocket::Debugger::SetVisible(visible);
     Settings::setValue("display_debugger", visible);
-    repaint();
+    update();
 }
 
 void RenderingView::setGridVisibility(bool visible)
 {
     displayGrid = visible;
     Settings::setValue("display_grid", visible);
-    repaint();
+    update();
 }
 
 void RenderingView::keyPressEvent(QKeyEvent* event)
@@ -81,7 +81,7 @@ void RenderingView::changeCurrentDocument(OpenedDocument *document)
     if (document)
         document->rocketDocument->Show();
 
-    repaint();
+    update();
 }
 
 void RenderingView::reloadDocument()
@@ -97,13 +97,13 @@ void RenderingView::reloadDocument()
     currentDocument->rocketDocument = RocketHelper::loadDocumentFromMemory(currentDocument->toPlainText());
     currentDocument->rocketDocument->RemoveReference();
     currentDocument->rocketDocument->Show();
-    repaint();
+    update();
 }
 
 void RenderingView::SetClearColor( float red, float green, float blue, float alpha )
 {
     glClearColor( red, green, blue, alpha );
-    repaint();
+    update();
 }
 
 // Public slots:
@@ -116,7 +116,7 @@ void RenderingView::zoomIn()
         GraphicSystem::scaleFactor = 2.0f;
     }
     MainWindow::getInstance().setZoomLevel(GraphicSystem::scaleFactor);
-    repaint();
+    update();
 }
 
 void RenderingView::zoomOut()
@@ -127,14 +127,14 @@ void RenderingView::zoomOut()
         GraphicSystem::scaleFactor = 0.5f;
     }
     MainWindow::getInstance().setZoomLevel(GraphicSystem::scaleFactor);
-    repaint();
+    update();
 }
 
 void RenderingView::zoomReset()
 {
     GraphicSystem::scaleFactor = 1.0f;
     MainWindow::getInstance().setZoomLevel(GraphicSystem::scaleFactor);
-    repaint();
+    update();
 }
 
 // Protected:
@@ -143,6 +143,8 @@ void RenderingView::initializeGL()
 {
     qInfo() << "Initialize Graphic System";
     GraphicSystem::initialize();
+    emit emitLogMsg(QString("OpenGL;%1").arg((char*)glGetString(GL_RENDERER)));
+    emit emitLogMsg(QString("OpenGL;%1").arg((char*)glGetString(GL_VERSION)));
 }
 
 void RenderingView::resizeGL(int w, int h) 

@@ -89,6 +89,14 @@ bool RocketRenderInterface::LoadTexture(Rocket::Core::TextureHandle& texture_han
         QFileInfo base_file_info = file_info;
         foreach(QString path, RocketFileInterface::GetSearchPaths())
         {
+            // check if we can find the file directly:
+            if (QFile::exists(QDir(path).filePath(real_path)))
+            {
+                file_info = QDir(path).filePath(real_path);
+                break;
+            }
+
+            // iterate:
             QDirIterator directory_walker(path, QDir::Files | QDir::NoSymLinks, QDirIterator::Subdirectories);
 
             while(directory_walker.hasNext())
@@ -111,7 +119,7 @@ bool RocketRenderInterface::LoadTexture(Rocket::Core::TextureHandle& texture_han
         }
     }
 
-    QImage img(file_info.filePath());
+    QImage img(file_info.canonicalFilePath());
 
     if (img.isNull()) {
         QFile file(file_info.filePath());
