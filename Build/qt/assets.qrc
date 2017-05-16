@@ -1,0 +1,7 @@
+<RCC>
+  <qresource>
+    <file alias="lacuna_0.tga">../../assets/BitmapFont/lacuna_0.tga</file>
+    <file alias="lacuna-italic.ttf">../../assets/FreeType/lacuna-italic.ttf</file>
+    <file alias="lacuna.ttf">../../assets/FreeType/lacuna.ttf</file>
+  </qresource>
+</RCC>
