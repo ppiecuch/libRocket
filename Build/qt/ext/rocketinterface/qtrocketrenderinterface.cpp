@@ -26,17 +26,19 @@ void RocketRenderInterface::RenderGeometry(Rocket::Core::Vertex* vertices, int R
     {
         glDisable(GL_TEXTURE_2D);
         glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+        glEnableClientState(GL_COLOR_ARRAY);
     }
     else
     {
         glEnable(GL_TEXTURE_2D);
         glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+        glDisableClientState(GL_COLOR_ARRAY);
         glBindTexture(GL_TEXTURE_2D, (GLuint) texture);
         glTexCoordPointer(2, GL_FLOAT, sizeof(Rocket::Core::Vertex), &vertices[0].tex_coord);
     }
 
     glDrawElements(GL_TRIANGLES, num_indices, GL_UNSIGNED_INT, indices);
-#if 0 // triangles outline
+#if 1 // triangles outline
     glDisable(GL_TEXTURE_2D);
     glDisableClientState(GL_COLOR_ARRAY);
     glColor4f(0,0.5,0.5,0.8); glLineWidth(2);
@@ -47,8 +49,8 @@ void RocketRenderInterface::RenderGeometry(Rocket::Core::Vertex* vertices, int R
     glColor4f(1,1,1,1); glLineWidth(1);
 #endif
 
-    glDisableClientState(GL_TEXTURE_COORD_ARRAY);
     glDisableClientState(GL_COLOR_ARRAY);
+    glDisableClientState(GL_TEXTURE_COORD_ARRAY);
     glPopMatrix();
 }
 

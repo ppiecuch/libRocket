@@ -177,7 +177,7 @@ void MainWindow::buildCentralWidget()
 }
 
 OpenedDocument *MainWindow::getCurrentDocument() { return renderingView->getCurrentDocument(); }
-void MainWindow::repaintRenderingView() { return renderingView->repaint(); }
+void MainWindow::repaintRenderingView() { return renderingView->update(); }
 
 void MainWindow::selectElement(Element *element)
 {
@@ -211,7 +211,6 @@ void MainWindow::reloadCurrentDocument()
     if (getCurrentDocument())
     {
         renderingView->reloadDocument();
-        // TODO: getCurrentDocument()->populateHierarchyTreeView(ui.documentHierarchyTreeWidget);
     }
 }
 
@@ -304,7 +303,6 @@ bool MainWindow::openDocument(QString file_path)
 
     fileWatcher->addPath(file_info.filePath());
 
-    repaintRenderingView();
     return true;
 }
 
@@ -364,6 +362,14 @@ void MainWindow::setupHelpMenu()
 
     helpMenu->addAction(tr("&About"), this, SLOT(about()));
     helpMenu->addAction(tr("About &Qt"), qApp, SLOT(aboutQt()));
+}
+
+void MainWindow::keyPressEvent(QKeyEvent* event) {
+    switch(event->key()) {
+        case Qt::Key_Escape: log->setVisible(log->isHidden()); break;
+        default: event->ignore();
+        break;
+    }
 }
 
 MainWindow *MainWindow::instance;

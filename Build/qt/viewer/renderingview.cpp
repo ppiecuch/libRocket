@@ -1,5 +1,6 @@
 #include <QDebug>
 #include <QMouseEvent>
+#include <QTimer>
 #include <QFileDialog>
 #include <QMessageBox>
 #include <QInputDialog>

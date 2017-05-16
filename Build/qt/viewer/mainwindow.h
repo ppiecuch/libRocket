@@ -62,6 +62,8 @@ private:
     QString filePath;
 
 protected:
+    void keyPressEvent(QKeyEvent* event);
+
     static MainWindow *instance;
 };
 
