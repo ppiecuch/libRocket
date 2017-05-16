@@ -28,8 +28,8 @@
 #ifndef ROCKETCOREVECTOR2_H
 #define ROCKETCOREVECTOR2_H
 
-#include "Debug.h"
-#include "Math.h"
+#include "../Core/Debug.h"
+#include "../Core/MathFunc.h"
 
 namespace Rocket {
 namespace Core {

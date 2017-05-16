@@ -30,7 +30,7 @@
 #include "Pool.h"
 #include "LayoutBlockBoxSpace.h"
 #include "LayoutInlineBoxText.h"
-#include "../../Include/Rocket/Core/Math.h"
+#include "../../Include/Rocket/Core/MathFunc.h"
 #include "../../Include/Rocket/Core/Element.h"
 #include "../../Include/Rocket/Core/ElementScroll.h"
 #include "../../Include/Rocket/Core/ElementText.h"

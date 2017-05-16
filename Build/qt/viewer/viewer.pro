@@ -1,34 +1,53 @@
 TARGET = rmlviewer
 QT += widgets xml
-CONFIG += object_parallel_to_source
+CONFIG += debug
 
 HEADERS += \
-	mainwindow.h \
-	codeeditor.h highlighter.h xmlhighlighter.h \
+	mainwindow.h settings.h documents.h actions.h tools.h \
+	graphicsystem.h rockethelper.h renderingview.h activelabel.h qlogwidgets.h \
 	qtplist/PListParser.h qtplist/PListSerializer.h \
-	RocketInterface/qtGraphicSystem.h RocketInterface/qtRocketFileInterface.h RocketInterface/qtRocketRenderInterface.h RocketInterface/qtRocketSystem.h
+	\
+	../ext/rocketinterface/qtrocketfileinterface.h \
+	../ext/rocketinterface/qtrocketrenderinterface.h \
+	../ext/rocketinterface/qtrocketsystem.h
 SOURCES += \
-	mainwindow.cpp \
-	main.cpp codeeditor.cpp highlighter.cpp xmlhighlighter.cpp \
+	main.cpp settings.cpp mainwindow.cpp documents.cpp actions.cpp tools.cpp \
+	graphicsystem.cpp rockethelper.cpp renderingview.cpp activelabel.cpp qlogwidgets.cpp \
 	qtplist/PListParser.cpp qtplist/PListSerializer.cpp \
-	RocketInterface/qtGraphicSystem.cpp RocketInterface/qtRocketFileInterface.cpp RocketInterface/qtRocketRenderInterface.cpp RocketInterface/qtRocketSystem.cpp
+	\
+	../ext/rocketinterface/qtrocketfileinterface.cpp \
+	../ext/rocketinterface/qtrocketrenderinterface.cpp \
+	../ext/rocketinterface/qtrocketsystem.cpp
 
 include("../config.pri")
 include("../FileList.pri")
 
-Lua_SRC_FILES += ../ext/lua.c
+Lua_SRC_FILES += ../ext/lua/lua.c
 
-INCLUDEPATH += $$PWD/../ext
+INCLUDEPATH += \
+    $$PWD/../ext/lua \
+    $$PWD/../ext/rocketinterface
 
-SOURCES += \
+LIB_SOURCES += \
   $$Core_SRC_FILES \
   $$Controls_SRC_FILES \
   $$Debugger_SRC_FILES \
   $$Ext_SRC_FILES \
   $$LuaCore_SRC_FILES \
   $$LuaControls_SRC_FILES \
-  \ # use included ft2 sources
-  $$Ft_SRC_FILES
+
+*xcode: SOURCES += $$LIB_SOURCES
+else {
+    message("*** Building library sources")
+    UNITY_BUILD_FILE = $$SRC_DIR/$$TARGET-unity.cpp
+    write_file($$UNITY_BUILD_FILE)
+    for(f, LIB_SOURCES) {
+        ff = $$absolute_path($$f)
+        INC_FILE = "$${LITERAL_HASH}include \"$$ff\""
+        write_file($$UNITY_BUILD_FILE, INC_FILE, append)
+    }
+    SOURCES += $$UNITY_BUILD_FILE
+}
 
 HEADERS += \
   $$Core_HDR_FILES \
@@ -61,6 +80,11 @@ CONFIG(with_python): {
 }
 
 SOURCES += \
+    $$Ft_SRC_FILES \
     $$Lua_SRC_FILES
 
+exists($(HOME)/Private/Projekty/0.rt/_applicationSupport/Qt/kdecode/kimageformats/kimageformats.pri): include($(HOME)/Private/Projekty/0.rt/_applicationSupport/Qt/kdecode/kimageformats/kimageformats.pri)
+else:exists($(HOME)/Private/Projekty/_applicationSupport/Qt/kdecode/kimageformats/kimageformats.pri): include($(HOME)/Private/Projekty/_applicationSupport/Qt/kdecode/kimageformats/kimageformats.pri)
+
 ICON += res/rocket.icns
+RESOURCES += viewer.qrc

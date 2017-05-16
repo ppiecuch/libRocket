@@ -63,9 +63,9 @@ typedef unsigned __int64 uint64_t;
 #include <inttypes.h>
 #endif
 
-#include "Colour.h"
-#include "Vector2.h"
-#include "String.h"
+#include "../Core/Colour.h"
+#include "../Core/Vector2.h"
+#include "../Core/StringFunc.h"
 
 namespace Rocket {
 namespace Core {

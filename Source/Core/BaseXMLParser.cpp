@@ -32,7 +32,7 @@ namespace Rocket {
 namespace Core {
 
 // Most file layers cache 4k.
-const int DEFAULT_BUFFER_SIZE = 4096;
+const int DEFAULT_FILE_BUFFER_SIZE = 4096;
 
 BaseXMLParser::BaseXMLParser()
 {
@@ -59,7 +59,7 @@ void BaseXMLParser::RegisterCDATATag(const String& tag)
 void BaseXMLParser::Parse(Stream* stream)
 {
 	xml_source = stream;
-	buffer_size = DEFAULT_BUFFER_SIZE;
+	buffer_size = DEFAULT_FILE_BUFFER_SIZE;
 
 	buffer = (unsigned char*) malloc(buffer_size);
 	read = buffer;

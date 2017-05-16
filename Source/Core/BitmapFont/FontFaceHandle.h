@@ -33,7 +33,7 @@
 #include "../../../Include/Rocket/Core/FontEffect.h"
 #include "../../../Include/Rocket/Core/FontGlyph.h"
 #include "../../../Include/Rocket/Core/Geometry.h"
-#include "../../../Include/Rocket/Core/String.h"
+#include "../../../Include/Rocket/Core/StringFunc.h"
 #include "../../../Include/Rocket/Core/Texture.h"
 #include "../FontFaceHandle.h"
 #include "BitmapFontDefinitions.h"

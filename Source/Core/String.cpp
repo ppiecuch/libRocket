@@ -26,7 +26,7 @@
  */
 
 #include "precompiled.h"
-#include "../../Include/Rocket/Core/String.h"
+#include "../../Include/Rocket/Core/StringFunc.h"
 #include "../../Include/Rocket/Core/StringBase.h"
 
 namespace Rocket {

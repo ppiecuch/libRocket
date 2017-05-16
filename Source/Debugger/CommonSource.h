@@ -24,6 +24,7 @@
  * THE SOFTWARE.
  *
  */
+#pragma once
 
 static const char* common_rcss =
 "body\n"

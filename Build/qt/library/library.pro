@@ -1,6 +1,6 @@
 TARGET = Rocket
 TEMPLATE = lib
-CONFIG += static object_parallel_to_source
+CONFIG += static
 
 include("../config.pri")
 
@@ -9,9 +9,9 @@ include("../config.pri")
 
 include("../FileList.pri")
 
-Lua_SRC_FILES += ../ext/lua.c
+Lua_SRC_FILES += ../ext/lua/lua.c
 
-INCLUDEPATH += $$PWD/../ext
+INCLUDEPATH += $$PWD/../ext/lua
 
 
 LuaJit_SRC_FILES +=
@@ -29,12 +29,22 @@ FT_LIB_PATH +=tellEd
 INCLUDEPATH += $$LuaJit_INC_PATH
 
 
-SOURCES += \
+LIB_SOURCES += \
   $$Controls_SRC_FILES \
   $$Debugger_SRC_FILES \
   $$Ext_SRC_FILES \
   $$LuaCore_SRC_FILES \
   $$LuaControls_SRC_FILES
+
+message("*** Building library sources")
+UNITY_BUILD_FILE = $$SRC_DIR/$$TARGET-unity.cpp
+write_file($$UNITY_BUILD_FILE)
+for(f, LIB_SOURCES) {
+    ff = $$absolute_path($$f)
+    INC_FILE = "$${LITERAL_HASH}include \"$$ff\""
+    write_file($$UNITY_BUILD_FILE, INC_FILE, append)
+}
+SOURCES += $$UNITY_BUILD_FILE
 
 HEADERS += \
   $$Core_HDR_FILES \

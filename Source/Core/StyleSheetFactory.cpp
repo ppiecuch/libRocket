@@ -45,6 +45,8 @@
 namespace Rocket {
 namespace Core {
 
+#define instance factory_instance
+
 static StyleSheetFactory* instance = NULL;
 
 StyleSheetFactory::StyleSheetFactory()
@@ -215,6 +217,8 @@ StyleSheet* StyleSheetFactory::LoadStyleSheet(const String& sheet)
 	stream->RemoveReference();
 	return new_style_sheet;
 }
+
+#undef instance
 
 }
 }

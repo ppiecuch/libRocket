@@ -1,33 +1,30 @@
-#include "RenderingView.h"
-
-#include <QtGui/QMouseEvent>
 #include <QDebug>
+#include <QMouseEvent>
 #include <QFileDialog>
 #include <QMessageBox>
 #include <QInputDialog>
 #include <QUrl>
 #include <QLabel>
 #include <QMimeData>
+
 #include "Rocket/Core/Types.h"
 #include "Rocket/Debugger.h"
-#include "RocketSystem.h"
-#include "GraphicSystem.h"
-#include "RocketHelper.h"
-#include "Settings.h"
-#include "ToolManager.h"
-#include "QDRuler.h"
-#include "GLGrid.h"
 
-// Public:
+#include "mainwindow.h"
+#include "qtrocketsystem.h"
+#include "renderingview.h"
+#include "rockethelper.h"
+#include "tools.h"
+#include "settings.h"
 
-RenderingView::RenderingView(QWidget *parent) : QGLWidget(parent), vertRuler(NULL), horzRuler(NULL)
+
+RenderingView::RenderingView(QWidget *parent) : QOpenGLWidget(parent), vertRuler(NULL), horzRuler(NULL)
 {
     setMouseTracking(true);
     setAcceptDrops(true);
     currentDocument = NULL;
     itMustUpdatePositionOffset = false;
-    positionOffset.x=0;
-    positionOffset.y=0;
+    positionOffset.x=positionOffset.y=0;
     displayGrid = true;
 }
 
@@ -35,11 +32,6 @@ void RenderingView::setRulers(QDRuler *horzRuler, QDRuler *vertRuler)
 {
     this->horzRuler = horzRuler;
     this->vertRuler = vertRuler;
-}
-
-void RenderingView::setPosLabel(QLabel *posLabel)
-{
-    this->posLabel = posLabel;
 }
 
 void RenderingView::setDebugVisibility(bool visible)
@@ -63,13 +55,13 @@ void RenderingView::keyPressEvent(QKeyEvent* event)
 
     switch (event->key()) {
     case Qt::Key_Escape:
-        Rockete::getInstance().unselectElement();
+        MainWindow::getInstance().unselectElement();
         break;
 
     case Qt::Key_Delete:
         if (currentDocument->selectedElement) {
             currentDocument->selectedElement->GetParentNode()->RemoveChild(currentDocument->selectedElement);
-            Rockete::getInstance().unselectElement();
+            MainWindow::getInstance().unselectElement();
         }
         break;
 
@@ -123,7 +115,7 @@ void RenderingView::zoomIn()
     {
         GraphicSystem::scaleFactor = 2.0f;
     }
-    Rockete::getInstance().setZoomLevel(GraphicSystem::scaleFactor);
+    MainWindow::getInstance().setZoomLevel(GraphicSystem::scaleFactor);
     repaint();
 }
 
@@ -134,14 +126,14 @@ void RenderingView::zoomOut()
     {
         GraphicSystem::scaleFactor = 0.5f;
     }
-    Rockete::getInstance().setZoomLevel(GraphicSystem::scaleFactor);
+    MainWindow::getInstance().setZoomLevel(GraphicSystem::scaleFactor);
     repaint();
 }
 
 void RenderingView::zoomReset()
 {
     GraphicSystem::scaleFactor = 1.0f;
-    Rockete::getInstance().setZoomLevel(GraphicSystem::scaleFactor);
+    MainWindow::getInstance().setZoomLevel(GraphicSystem::scaleFactor);
     repaint();
 }
 
@@ -149,26 +141,30 @@ void RenderingView::zoomReset()
 
 void RenderingView::initializeGL() 
 {
+    qInfo() << "Initialize Graphic System";
     GraphicSystem::initialize();
 }
 
 void RenderingView::resizeGL(int w, int h) 
 {
-    GraphicSystem::resize(w, h);
+    GraphicSystem::resize(w, h, devicePixelRatio());
 }
 
 void RenderingView::paintGL() 
 {
     glDisable(GL_SCISSOR_TEST);
     glClear(GL_COLOR_BUFFER_BIT);
+    glUseProgram(0);
 
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
 
-    RocketSystem::getInstance().getContext()->Update();
+    if (currentDocument)
+        RocketSystem::getInstance().getContext()->Update();
 
-    glScalef(GraphicSystem::scaleFactor,GraphicSystem::scaleFactor,1.0f);
-    glTranslatef(positionOffset.x,positionOffset.y,0.0f);
+    glScalef(GraphicSystem::scaleFactor, GraphicSystem::scaleFactor, 1.0f);
+    glTranslatef(positionOffset.x, positionOffset.y, 0.0f);
+
     GraphicSystem::scissorOffset = positionOffset;
 
     glEnable(GL_TEXTURE_2D);
@@ -181,15 +177,16 @@ void RenderingView::paintGL()
     if (displayGrid)
         RenderGrid(RocketSystem::getInstance().getContext()->GetDimensions().x, RocketSystem::getInstance().getContext()->GetDimensions().y, GraphicSystem::scaleFactor, 10, 10, 4, true);
 
-    RocketSystem::getInstance().getContext()->Render();
+    if (currentDocument)
+        RocketSystem::getInstance().getContext()->Render();
 
     glDisable(GL_TEXTURE_2D);
     glDisable(GL_SCISSOR_TEST);
 
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
-    glScalef(GraphicSystem::scaleFactor,GraphicSystem::scaleFactor,1.0f);
-    glTranslatef(positionOffset.x,positionOffset.y,0.0f);
+    glScalef(GraphicSystem::scaleFactor, GraphicSystem::scaleFactor, 1.0f);
+    glTranslatef(positionOffset.x, positionOffset.y, 0.0f);
 
     if (!currentDocument)
         return;
@@ -199,7 +196,7 @@ void RenderingView::paintGL()
 
 void RenderingView::mousePressEvent(QMouseEvent *event) 
 {
-    Rockete::getInstance().setFocus(Qt::MouseFocusReason);
+    MainWindow::getInstance().setFocus(Qt::MouseFocusReason);
 
     if (!currentDocument)
         return;
@@ -209,7 +206,7 @@ void RenderingView::mousePressEvent(QMouseEvent *event)
         startMousePosition.x = event->x();
         startMousePosition.y = event->y();
         oldPositionOffset = positionOffset;
-        itMustUpdatePositionOffset=true;
+        itMustUpdatePositionOffset = true;
         return;
     }
 
@@ -219,13 +216,13 @@ void RenderingView::mousePressEvent(QMouseEvent *event)
 
     ToolManager::getInstance().getCurrentTool()->onMousePress(event->button(), mouse_position);
 
-    repaint();
+    update();
 }
 
 void RenderingView::mouseReleaseEvent(QMouseEvent *event) 
 {
     if (event->button()==Qt::RightButton) {
-        itMustUpdatePositionOffset=false;
+        itMustUpdatePositionOffset = false;
         return;
     }
 
@@ -235,19 +232,21 @@ void RenderingView::mouseReleaseEvent(QMouseEvent *event)
 
     ToolManager::getInstance().getCurrentTool()->onMouseRelease(event->button(), mouse_position);
 
-    repaint();
+    update();
 }
 
 void RenderingView::mouseMoveEvent(QMouseEvent *event) 
 {
     if (horzRuler) horzRuler->setCursorPos(this->mapToGlobal(event->pos()));
     if (vertRuler) vertRuler->setCursorPos(this->mapToGlobal(event->pos()));
-    if (posLabel) posLabel->setText(QString("Pos: %1x%2").arg(event->x()).arg(event->y()));
+
+    emit emitMouseSize(QPoint(event->x(), event->y()));
+
     if (itMustUpdatePositionOffset) {
         mousePositionOffset.x=event->x()-startMousePosition.x;
         mousePositionOffset.y=event->y()-startMousePosition.y;
-        positionOffset=oldPositionOffset+mousePositionOffset;
-        repaint();
+        positionOffset = oldPositionOffset+mousePositionOffset;
+        update();
         return;
     }
 
@@ -257,7 +256,7 @@ void RenderingView::mouseMoveEvent(QMouseEvent *event)
 
     ToolManager::getInstance().getCurrentTool()->onMouseMove(mouse_position);
 
-    repaint();
+    update();
 }
 
 void RenderingView::dragEnterEvent(QDragEnterEvent *event)
@@ -297,4 +296,100 @@ void RenderingView::drawAxisGrid()
     GraphicSystem::putYAxisVertices(RocketSystem::getInstance().getContext()->GetDimensions().x);
 
     glEnd();
+}
+
+
+//
+// ++==+==+==++==+==+==++
+// ||  |  |  ||  |  |  ||
+// ||  |  |  ||  |  |  ||
+// ++--+--+--++--+--+--++
+// ||  |  |  ||  |  |  ||
+// ||  |  |  ||  |  |  ||
+// ++==+==+==++==+==+==++
+// ||  |  |  ||  |  |  ||
+// ||  |  |  ||  |  |  ||
+// ++--+--+--++--+--+--++
+// ||  |  |  ||  |  |  ||
+// ||  |  |  ||  |  |  ||
+// ++==+==+==++==+==+==++
+//
+
+void RenderGrid(int main_window_width, int main_window_height, float scale, int rows, int columns, int subdivs, bool bg) {
+
+    GLboolean isDepth = glIsEnabled(GL_DEPTH_TEST);
+    glDisable(GL_DEPTH_TEST);
+
+    /* background gradient */
+    glBegin(GL_QUADS);
+    {
+        glColor3ub(194, 227, 253);
+        glVertex2f(0, 0);
+        glVertex2f(main_window_width, 0);
+        glColor3ub(243, 250, 255);
+        glVertex2f(main_window_width, main_window_height);
+        glVertex2f(0, main_window_height);
+    }
+    glEnd();
+
+    /* Render grid over 0..rows, 0..columns. */
+    GLboolean isBlend = glIsEnabled(GL_BLEND);
+    glEnable(GL_BLEND);
+
+    /* Subdivisions */
+    glColor4f(0, 0, 0, 0.25);
+    // glLineStipple(0, 0x8888); glEnable(GL_LINE_STIPPLE);
+    glBegin(GL_LINES);
+    {
+        /* Horizontal lines. */
+        float stepx = float(main_window_height) / float(rows*subdivs);
+        for (int i=0; i<=rows*subdivs; i++) {
+            glVertex2f(0, i*stepx);
+            glVertex2f(main_window_width, i*stepx);
+        }
+
+        /* Vertical lines. */
+        float stepy = float(main_window_width) / float(columns*subdivs);
+        for (int i=0; i<=columns*subdivs; i++) {
+            glVertex2f(i*stepy, 0);
+            glVertex2f(i*stepy, main_window_height);
+        }
+    }
+    glEnd(); glDisable(GL_LINE_STIPPLE);
+
+    /* Regular grid */
+    glColor4f(0, 0, 0, 0.25);
+    glBegin(GL_LINES);
+    {
+        /* Horizontal lines. */
+        float stepx = float(main_window_height) / float(rows);
+        for (int i=0; i<=rows; i++) {
+            glVertex2f(0, i*stepx);
+            glVertex2f(main_window_width, i*stepx);
+        }
+
+        /* Vertical lines. */
+        float stepy = float(main_window_width) / float(columns);
+        for (int i=0; i<=columns; i++) {
+            glVertex2f(i*stepy, 0);
+            glVertex2f(i*stepy, main_window_height);
+        }
+    }
+    glEnd();
+    /* Borders */
+    glColor4f(0, 0, 0, 0.2);
+    glLineWidth(2.5); glBegin(GL_LINES);
+    {
+        { glVertex2f(0, 0); glVertex2f(main_window_width, 0); }
+        { glVertex2f(main_window_width, 0); glVertex2f(main_window_width, main_window_height); }
+        { glVertex2f(main_window_width, main_window_height); glVertex2f(0, main_window_height); }
+        { glVertex2f(0, main_window_height); glVertex2f(0, 0); }
+        { glVertex2f(main_window_width/2, 0); glVertex2f(main_window_width/2, main_window_height); }
+        { glVertex2f(0, main_window_height/2); glVertex2f(main_window_width, main_window_height/2); }
+    }
+    glEnd();
+
+    glLineWidth(1.0); glColor4f(1, 1, 1, 1);
+    if (!isBlend) glDisable(GL_BLEND);
+    if (isDepth) glEnable(GL_DEPTH_TEST);
 }

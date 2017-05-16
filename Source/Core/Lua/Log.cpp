@@ -28,7 +28,7 @@
 #include "precompiled.h"
 #include "Log.h"
 #include "../../../Include/Rocket/Core/Log.h"
-#include "../../../Include/Rocket/Core/String.h"
+#include "../../../Include/Rocket/Core/StringFunc.h"
 #include "../../../Include/Rocket/Core/StringUtilities.h"
 
 

@@ -33,6 +33,8 @@
 namespace Rocket {
 namespace Core {
 
+#define instance texdb_instance
+
 static TextureDatabase* instance = NULL;
 
 TextureDatabase::TextureDatabase()
@@ -112,6 +114,8 @@ void TextureDatabase::ReleaseTextures(RenderInterface* render_interface)
 			i->second->Release(render_interface);
 	}
 }
+
+#undef instance
 
 }
 }

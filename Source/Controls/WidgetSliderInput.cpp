@@ -26,7 +26,7 @@
  */
 
 #include "WidgetSliderInput.h"
-#include "../../Include/Rocket/Core/Math.h"
+#include "../../Include/Rocket/Core/MathFunc.h"
 #include "../../Include/Rocket/Core/Element.h"
 
 namespace Rocket {

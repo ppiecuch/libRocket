@@ -34,6 +34,8 @@
 namespace Rocket {
 namespace Core {
 
+#define instance temp_instance
+
 static TemplateCache* instance = NULL;
 
 TemplateCache::TemplateCache()
@@ -122,6 +124,8 @@ void TemplateCache::Clear()
 	instance->templates.clear();
 	instance->template_ids.clear();
 }
+
+#undef instance
 
 }
 }

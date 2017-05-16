@@ -29,7 +29,7 @@
 #include "../../../Include/Rocket/Core/Lua/Interpreter.h"
 #include "../../../Include/Rocket/Core/Lua/Utilities.h"
 #include "../../../Include/Rocket/Core/Log.h"
-#include "../../../Include/Rocket/Core/String.h"
+#include "../../../Include/Rocket/Core/StringFunc.h"
 #include "../../../Include/Rocket/Core/FileInterface.h"
 #include "../../../Include/Rocket/Core/Lua/LuaType.h"
 #include "../../../Include/Rocket/Core/Factory.h"

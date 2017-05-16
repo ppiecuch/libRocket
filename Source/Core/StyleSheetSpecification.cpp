@@ -35,6 +35,8 @@
 namespace Rocket {
 namespace Core {
 
+#define instance spec_instance
+
 static StyleSheetSpecification* instance = NULL;
 
 StyleSheetSpecification::StyleSheetSpecification()
@@ -264,6 +266,8 @@ void StyleSheetSpecification::RegisterDefaultProperties()
 	RegisterProperty(SCROLLBAR_MARGIN, "0", false, false).AddParser("number");
 	RegisterProperty(OPACITY, "1", true).AddParser("number");
 }
+
+#undef instance
 
 }
 }

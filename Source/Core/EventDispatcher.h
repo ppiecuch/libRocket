@@ -28,7 +28,7 @@
 #ifndef ROCKETCOREEVENTDISPATCHER_H
 #define ROCKETCOREEVENTDISPATCHER_H
 
-#include "../../Include/Rocket/Core/String.h"
+#include "../../Include/Rocket/Core/StringFunc.h"
 #include "../../Include/Rocket/Core/Event.h"
 #include <vector>
 #include <map>

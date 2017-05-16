@@ -27,7 +27,7 @@
 
 #include "../../Include/Rocket/Controls/ElementDataGrid.h"
 #include "../../Include/Rocket/Controls/DataSource.h"
-#include "../../Include/Rocket/Core/Math.h"
+#include "../../Include/Rocket/Core/MathFunc.h"
 #include "../../Include/Rocket/Core/XMLParser.h"
 #include "../../Include/Rocket/Core/Event.h"
 #include "../../Include/Rocket/Core/ElementDocument.h"

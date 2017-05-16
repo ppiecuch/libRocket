@@ -28,7 +28,7 @@
 #ifndef ROCKETCORESTRINGCACHE_H
 #define ROCKETCORESTRINGCACHE_H
 
-#include "../../Include/Rocket/Core/String.h"
+#include "../../Include/Rocket/Core/StringFunc.h"
 
 namespace Rocket {
 namespace Core {

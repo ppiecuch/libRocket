@@ -29,7 +29,7 @@
 #define ROCKETCONTROLSDATAFORMATTER_H
 
 #include "../Core/ScriptInterface.h"
-#include "../Core/String.h"
+#include "../Core/StringFunc.h"
 #include "Header.h"
 
 namespace Rocket {

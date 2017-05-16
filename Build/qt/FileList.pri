@@ -145,7 +145,7 @@ Core_PUB_HDR_FILES = \
     $$PROJECT_SOURCE_DIR/Include/Rocket/Core/Header.h \
     $$PROJECT_SOURCE_DIR/Include/Rocket/Core/Input.h \
     $$PROJECT_SOURCE_DIR/Include/Rocket/Core/Log.h \
-    $$PROJECT_SOURCE_DIR/Include/Rocket/Core/Math.h \
+    $$PROJECT_SOURCE_DIR/Include/Rocket/Core/MathFunc.h \
     $$PROJECT_SOURCE_DIR/Include/Rocket/Core/MathTypes.h \
     $$PROJECT_SOURCE_DIR/Include/Rocket/Core/Platform.h \
     $$PROJECT_SOURCE_DIR/Include/Rocket/Core/Plugin.h \
@@ -159,7 +159,7 @@ Core_PUB_HDR_FILES = \
     $$PROJECT_SOURCE_DIR/Include/Rocket/Core/ScriptInterface.h \
     $$PROJECT_SOURCE_DIR/Include/Rocket/Core/Stream.h \
     $$PROJECT_SOURCE_DIR/Include/Rocket/Core/StreamMemory.h \
-    $$PROJECT_SOURCE_DIR/Include/Rocket/Core/String.h \
+    $$PROJECT_SOURCE_DIR/Include/Rocket/Core/StringFunc.h \
     $$PROJECT_SOURCE_DIR/Include/Rocket/Core/StringBase.h \
     $$PROJECT_SOURCE_DIR/Include/Rocket/Core/StringUtilities.h \
     $$PROJECT_SOURCE_DIR/Include/Rocket/Core/StyleSheet.h \

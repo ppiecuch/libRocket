@@ -26,7 +26,7 @@
  */
 
 #include "../../Include/Rocket/Controls/ElementFormControlTextArea.h"
-#include "../../Include/Rocket/Core/Math.h"
+#include "../../Include/Rocket/Core/MathFunc.h"
 #include "../../Include/Rocket/Core/ElementUtilities.h"
 #include "../../Include/Rocket/Core/ElementText.h"
 #include "WidgetTextInputMultiLine.h"

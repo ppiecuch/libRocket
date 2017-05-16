@@ -2,26 +2,26 @@
 #include <QtCore/qabstractanimation.h>
 #include <QtCore/qdir.h>
 #include <QtCore/qmath.h>
+#include <QtCore/qtimer.h>
 #include <QtCore/qdatetime.h>
+#include <QtCore/qsettings.h>
 #include <QtCore/qpointer.h>
 #include <QtCore/qscopedpointer.h>
 #include <QtCore/qtextstream.h>
 
-#include <QtGui/QGuiApplication>
-#include <QtGui/QWindow>
+#include <QtWidgets/QApplication>
+#include <QtWidgets/QFileDialog>
+#include <QtWidgets/QDialogButtonBox>
+#include <QtWidgets/QFormLayout>
+#include <QtWidgets/QComboBox>
+#include <QtWidgets/QCheckBox>
 
-#ifdef QT_WIDGETS_LIB
-# include <QtWidgets/QApplication>
-# include <QtWidgets/QFileDialog>
-# include <QtWidgets/QDialogButtonBox>
-# include <QtWidgets/QFormLayout>
-# include <QtWidgets/QComboBox>
-# include <QtWidgets/QCheckBox>
-#endif
-
-#include <QtCore/QTranslator>
 #include <QtCore/QLibraryInfo>
 
+#include "qtrocketsystem.h"
+#include "mainwindow.h"
+#include "settings.h"
+#include "tools.h"
 
 struct Options
 {
@@ -57,33 +57,18 @@ struct Options
     QString translationFile;
 };
 
-class QRmlWindow : public QWindow
-{
-    public:
-        QRmlWindow(QWindow *parent = NULL) : QWindow(parent) {}
-    
-    public:
-        QColor color() const { return m_color; }
-        void setColor(const QColor & color) { m_color = color; }
-        void setClearBeforeRendering(bool enabled) { m_clearBeforeRendering = enabled; }
-        
-    protected:
-        QColor m_color;
-        bool m_clearBeforeRendering;
-};
-
-QFileInfoList findQmlFiles(const QString &dirName)
+QFileInfoList findRmlFiles(const QString &dirName)
 {
     QDir dir(dirName);
 
     QFileInfoList ret;
     if (dir.exists()) {
-        QFileInfoList fileInfos = dir.entryInfoList(QStringList() << "*.qml",
+        QFileInfoList fileInfos = dir.entryInfoList(QStringList() << "*.rml",
                                                     QDir::Files | QDir::AllDirs | QDir::NoDotAndDotDot);
 
         foreach (QFileInfo fileInfo, fileInfos) {
             if (fileInfo.isDir())
-                ret += findQmlFiles(fileInfo.filePath());
+                ret += findRmlFiles(fileInfo.filePath());
             else if (fileInfo.fileName().length() > 0 && fileInfo.fileName().at(0).isLower())
                 ret.append(fileInfo);
         }
@@ -94,13 +79,12 @@ QFileInfoList findQmlFiles(const QString &dirName)
 
 static int displayOptionsDialog(Options *options)
 {
-#ifdef QT_WIDGETS_LIB
     QDialog dialog;
 
     QFormLayout *layout = new QFormLayout(&dialog);
 
     QComboBox *qmlFileComboBox = new QComboBox(&dialog);
-    QFileInfoList fileInfos = findQmlFiles(":/bundle") + findQmlFiles("./qmlscene-resources");
+    QFileInfoList fileInfos = findRmlFiles(":/bundle") + findRmlFiles("./qmlscene-resources");
 
     foreach (QFileInfo fileInfo, fileInfos)
         qmlFileComboBox->addItem(fileInfo.dir().dirName() + "/" + fileInfo.fileName(), QVariant::fromValue(fileInfo));
@@ -123,7 +107,7 @@ static int displayOptionsDialog(Options *options)
     QObject::connect(buttonBox, SIGNAL(accepted()), &dialog, SLOT(accept()));
     QObject::connect(buttonBox, SIGNAL(rejected()), &dialog, SLOT(reject()));
 
-    layout->addRow("Qml file:", qmlFileComboBox);
+    layout->addRow("Rml file:", qmlFileComboBox);
     layout->addWidget(originalCheckBox);
     layout->addWidget(maximizedCheckBox);
     layout->addWidget(fullscreenCheckBox);
@@ -143,30 +127,17 @@ static int displayOptionsDialog(Options *options)
         options->fullscreen = fullscreenCheckBox->isChecked();
     }
     return result;
-#endif
 }
 
 static void displayFileDialog(Options *options)
 {
-#if defined(QT_WIDGETS_LIB) && !defined(QT_NO_FILEDIALOG)
-    QString fileName = QFileDialog::getOpenFileName(0, "Open RML file", QString(), "RML Files (*.rml)");
+    QString fileName = QFileDialog::getOpenFileName(0, "Open RML file", Settings::getLastPath(), "RML Files (*.rml)");
     if (!fileName.isEmpty()) {
         QFileInfo fi(fileName);
         options->file = QUrl::fromLocalFile(fi.canonicalFilePath());
+        Settings::setLastPath(fi.absolutePath());
     }
-#else
-    Q_UNUSED(options);
-    puts("No filename specified...");
-#endif
 }
-
-#ifndef QT_NO_TRANSLATION
-static void loadTranslationFile(QTranslator &translator, const QString& directory)
-{
-    translator.load(QLatin1String("qml_" )+QLocale::system().name(), directory + QLatin1String("/i18n"));
-    QCoreApplication::installTranslator(&translator);
-}
-#endif
 
 static void usage()
 {
@@ -233,26 +204,11 @@ int main(int argc, char ** argv)
         }
     }
 
-    // Shared context in order for the GPU thread to upload textures.
-    QCoreApplication::setAttribute(Qt::AA_ShareOpenGLContexts, options.contextSharing);
-#ifdef QT_WIDGETS_LIB
     QApplication app(argc, argv);
-#else
-    QGuiApplication app(argc, argv);
-#endif
-    app.setApplicationName("QtQmlViewer");
-    app.setOrganizationName("QtProject");
-    app.setOrganizationDomain("qt-project.org");
 
-#ifndef QT_NO_TRANSLATION
-    QTranslator translator;
-    QTranslator qtTranslator;
-    QString sysLocale = QLocale::system().name();
-    if (qtTranslator.load(QLatin1String("qt_") + sysLocale, QLibraryInfo::location(QLibraryInfo::TranslationsPath)))
-        app.installTranslator(&qtTranslator);
-    if (translator.load(QLatin1String("qmlscene_") + sysLocale, QLibraryInfo::location(QLibraryInfo::TranslationsPath)))
-        app.installTranslator(&translator);
-#endif
+    app.setApplicationName("QtRmlViewer");
+    app.setOrganizationName("KomSoft");
+    app.setOrganizationDomain("komsoft.ath.cx");
 
     if (options.file.isEmpty())
 #if defined(RMLSCENE_BUNDLE)
@@ -264,39 +220,38 @@ int main(int argc, char ** argv)
     int exitCode = 0;
 
     if (!options.file.isEmpty()) {
-#ifndef QT_NO_TRANSLATION
-        QTranslator translator;
-#endif
-        QScopedPointer<QRmlWindow> window;
-        if (window) {
-            QSurfaceFormat surfaceFormat = window->requestedFormat();
-            if (options.multisample)
-                surfaceFormat.setSamples(16);
-            if (options.transparent) {
-                surfaceFormat.setAlphaBufferSize(8);
-                window->setClearBeforeRendering(true);
-                window->setColor(QColor(Qt::transparent));
-                window->setFlags(Qt::FramelessWindowHint);
+        QScopedPointer<MainWindow> window(new MainWindow);
+
+        int winw = Settings::getInt("ScreenSizeWidth", 800);
+        int winh = Settings::getInt("ScreenSizeHeight", 600);
+
+        ToolManager::getInstance().changeCurrentTool(0);
+
+        if(RocketSystem::getInstance().initialize(winw, winh))
+        {
+            if (window) {
+                window->resize(winw, winh);
+
+                if (options.fullscreen)
+                    window->showFullScreen();
+                else if (options.maximized)
+                    window->showMaximized();
+                else if (!window->isVisible())
+                    window->show();
+
+                window->setFilename(options.file.path());
+                QTimer::singleShot(0, window.data(), SLOT(openDocument()));
             }
-            window->setFormat(surfaceFormat);
 
-            if (window->flags() == Qt::Window) // Fix window flags
-                window->setFlags(Qt::Window | Qt::WindowSystemMenuHint | Qt::WindowTitleHint | Qt::WindowMinMaxButtonsHint | Qt::WindowCloseButtonHint | Qt::WindowFullscreenButtonHint);
+            if (options.quitImmediately)
+                QMetaObject::invokeMethod(QCoreApplication::instance(), "quit", Qt::QueuedConnection);
 
-            if (options.fullscreen)
-                window->showFullScreen();
-            else if (options.maximized)
-                window->showMaximized();
-            else if (!window->isVisible())
-                window->show();
+            // Now would be a good time to inform the debug service to start listening.
+
+            exitCode = app.exec();
+
+            RocketSystem::getInstance().finalize();
         }
-
-        if (options.quitImmediately)
-            QMetaObject::invokeMethod(QCoreApplication::instance(), "quit", Qt::QueuedConnection);
-
-        // Now would be a good time to inform the debug service to start listening.
-
-        exitCode = app.exec();
     }
 
     return exitCode;

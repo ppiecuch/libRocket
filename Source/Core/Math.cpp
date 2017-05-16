@@ -26,7 +26,7 @@
  */
 
 #include "precompiled.h"
-#include "../../Include/Rocket/Core/Math.h"
+#include "../../Include/Rocket/Core/MathFunc.h"
 #include <time.h>
 #include <math.h>
 

@@ -32,7 +32,7 @@
 namespace Rocket {
 namespace Core {
 
-const int DEFAULT_BUFFER_SIZE = 256;
+const int DEFAULT_MEM_BUFFER_SIZE = 256;
 const int BUFFER_INCREMENTS = 256;
 
 StreamMemory::StreamMemory() 
@@ -42,7 +42,7 @@ StreamMemory::StreamMemory()
 	buffer_size = 0;
 	buffer_used = 0;
 	owns_buffer = true;
-	Reallocate(DEFAULT_BUFFER_SIZE);
+	Reallocate(DEFAULT_MEM_BUFFER_SIZE);
 }
 
 StreamMemory::StreamMemory(size_t initial_size)

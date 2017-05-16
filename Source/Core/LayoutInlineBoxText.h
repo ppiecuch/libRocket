@@ -29,7 +29,7 @@
 #define ROCKETCORELAYOUTINLINEBOXTEXT_H
 
 #include "LayoutInlineBox.h"
-#include "../../Include/Rocket/Core/String.h"
+#include "../../Include/Rocket/Core/StringFunc.h"
 
 namespace Rocket {
 namespace Core {
