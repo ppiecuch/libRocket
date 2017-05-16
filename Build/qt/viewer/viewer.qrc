@@ -1,0 +1,17 @@
+<RCC>
+    <qresource prefix="/">
+        <file>res/tool_image.png</file>
+        <file>res/tool_div.png</file>
+        <file>res/tool_select.png</file>
+        <file>res/frame-android-medium.png</file>
+        <file>res/frame-android-small.png</file>
+        <file>res/frame-android-xsmall.png</file>
+        <file>res/frame-ipad.png</file>
+        <file>res/frame-iphone.png</file>
+        <file>res/frame-iphone5.png</file>
+        <file>res/frame-playbook.png</file>
+        <file>res/frame-z10.png</file>
+        <file>res/frame-monitor.png</file>
+        <file>res/zoom1.png</file>
+    </qresource>
+</RCC>
