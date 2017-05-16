@@ -1,0 +1,16 @@
+Package: libRocket
+Version: 1.0.0
+Revision: 4
+Maintainer: Pawel Piecuch <piecuch.pawel@gmail.com>
+Description: |
+ libRocket
+Homepage: http://libRocket
+Type: platform-independant
+Contents:
+ - libRocket.mkf
+ - Source
+ - Include
+ - readme.md
+#Contents-platform:
+# win32:
+#  - lib/x86/README
