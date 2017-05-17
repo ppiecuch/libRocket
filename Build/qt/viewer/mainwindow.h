@@ -41,6 +41,7 @@ public slots:
     void setContextSize(QSize context);
     void repaintRenderingView();
     void reloadCurrentDocument();
+    void orientationChange(QAction *action);
     void newScreenSizeAction();
 
     void fileHasChanged(const QString &path);

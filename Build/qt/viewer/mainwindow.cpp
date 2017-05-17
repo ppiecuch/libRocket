@@ -141,12 +141,15 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     portrait_action->setProperty("orientation", 0);
     portrait_action->setCheckable(true);
     if (orient == 0) portrait_action->setChecked( true );
-    toolbar->addAction(portrait_action);
     QAction *landscape_action = new QAction(QIcon(":/res/orientation-landscapeleft.png"), "Landscape", this);
     landscape_action->setProperty("orientation", 1);
     landscape_action->setCheckable(true);
     if (orient == 1) landscape_action->setChecked( true );
-    toolbar->addAction(landscape_action);
+    QActionGroup * group = new QActionGroup( this );
+    group->addAction(portrait_action);
+    group->addAction(landscape_action);
+    connect(group, SIGNAL(triggered(QAction*)), this, SLOT(orientationChange(QAction*)));
+    toolbar->addActions(group->actions());
     toolbar->addSeparator();
 
     setupHelpMenu();
@@ -341,6 +344,16 @@ bool MainWindow::openDocument(QString file_path)
     fileWatcher->addPath(file_info.filePath());
 
     return true;
+}
+
+void MainWindow::orientationChange(QAction *action)
+{
+    const int index = action->property("orientation").toInt();
+    const int curr = Settings::getInt("Rocket/ScreenOrient");
+    // reload document if orientation changed
+    if (index != curr)
+        setScreenSize(RocketSystem::getInstance().context_width(), RocketSystem::getInstance().context_height(), index);
+    Settings::setValue("ScreenSizeOrient", index);
 }
 
 void MainWindow::newScreenSizeAction()
