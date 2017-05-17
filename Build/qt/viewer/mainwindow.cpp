@@ -109,6 +109,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 
     ToolManager::getInstance().initialize();
 
+    setupFileMenu();
     setupToolsMenu();
 
     // quick resolution change:
@@ -123,7 +124,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
         if (e->toolbar)
             toolbar->addAction(res_action);
         dimMenu->addAction(res_action);
-        dimCombo->addAction(res_action);
+        dimCombo->addItem(QIcon(e->image), e->size.displayedString, (quintptr)res_action);
         ++e; ++x;
     }
     toolbar->addWidget(dimCombo);
@@ -381,6 +382,15 @@ void MainWindow::setScreenSize(int width, int height, int orientation)
 
         repaintRenderingView();
     }
+}
+
+void MainWindow::setupFileMenu()
+{
+    QMenu *fileMenu = new QMenu(tr("&File"), this);
+    menuBar()->addMenu(fileMenu);
+
+    toolbar->addAction(fileMenu->addAction(QIcon(":/res/reload.png"), tr("&Reload document"), this, SLOT(reloadCurrentDocument())));
+    toolbar->addSeparator();
 }
 
 void MainWindow::setupToolsMenu()

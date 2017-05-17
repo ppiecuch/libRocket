@@ -1,5 +1,6 @@
 <RCC>
     <qresource prefix="/">
+        <file>res/reload.png</file>
         <file>res/tool_image.png</file>
         <file>res/tool_div.png</file>
         <file>res/tool_select.png</file>

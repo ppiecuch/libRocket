@@ -48,6 +48,7 @@ public slots:
     void addLogMsg(QString msg);
 
 private:
+    void setupFileMenu();
     void setupToolsMenu();
     void setupHelpMenu();
 
