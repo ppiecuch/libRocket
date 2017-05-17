@@ -263,6 +263,7 @@ public:
     OpenedDocument *getCurrentDocument() const { return currentDocument; };
     void reloadDocument();
     void SetClearColor(float red, float green, float blue, float alpha);
+    void setAutoResize(bool v) { autoResize = v; if(autoResize) reloadDocument(); }
 
 signals:
     void emitMouseSize(QPoint pos);
@@ -308,7 +309,7 @@ private:
 
     QDRuler *vertRuler, *horzRuler;
 
-    bool displayGrid;
+    bool displayGrid, autoResize;
 };
 
 #endif

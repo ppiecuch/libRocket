@@ -5,6 +5,8 @@
 #include <QFileDialog>
 #include <QGridLayout>
 #include <QLabel>
+#include <QCheckBox>
+#include <QComboBox>
 #include <QStatusBar>
 #include <QToolBar>
 #include <QMenuBar>
@@ -113,16 +115,23 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     QMenu *dimMenu = new QMenu(tr("Dimension"));
     menuBar()->addMenu(dimMenu);
 
+    QComboBox *dimCombo = new QComboBox; dimCombo->setAttribute(Qt::WA_MacSmallSize);
     TestFrameInfo *e = &testFrames[0]; int x = 0; while(e->image) {
-        if (e->toolbar) {
-            QAction *res_action = new QAction(QIcon(e->image), e->size.displayedString, this);
-            res_action->setProperty("index", x);
-            connect(res_action, SIGNAL(triggered()), (QObject*)this, SLOT(newScreenSizeAction()));
+        QAction *res_action = new QAction(QIcon(e->image), e->size.displayedString, this);
+        res_action->setProperty("index", x);
+        connect(res_action, SIGNAL(triggered()), (QObject*)this, SLOT(newScreenSizeAction()));
+        if (e->toolbar)
             toolbar->addAction(res_action);
-            dimMenu->addAction(res_action);
-        }
+        dimMenu->addAction(res_action);
+        dimCombo->addAction(res_action);
         ++e; ++x;
     }
+    toolbar->addWidget(dimCombo);
+    QCheckBox *fitWin = new QCheckBox(tr("Follow window size")); fitWin->setAttribute(Qt::WA_MacSmallSize);
+    connect(fitWin, &QCheckBox::stateChanged, [=](int state){
+        renderingView->setAutoResize(state);
+    });
+    toolbar->addWidget(fitWin);
     toolbar->addSeparator();
 
     int orient = Settings::getInt("Rocket/ScreenOrient", 0);
@@ -357,18 +366,21 @@ void MainWindow::setScreenSize(int width, int height, int orientation)
             int t = width; width = height; height = t;
         }
     };
-    RocketSystem::getInstance().resizeContext(width, height);
-
-    if(getCurrentDocument())
+    if (RocketSystem::getInstance().context_width() != width || RocketSystem::getInstance().context_height() != height)
     {
-        reloadCurrentDocument();
+        RocketSystem::getInstance().resizeContext(width, height);
+
+        if(getCurrentDocument())
+        {
+            reloadCurrentDocument();
+        }
+        Settings::setValue("Rocket/ScreenWidth", width);
+        Settings::setValue("Rocket/ScreenHeight", height);
+
+        statusBar()->showMessage(QString("Screen: %1x%2").arg(width).arg(height), 2500);
+
+        repaintRenderingView();
     }
-    Settings::setValue("Rocket/ScreenWidth", width);
-    Settings::setValue("Rocket/ScreenHeight", height);
-
-    statusBar()->showMessage(QString("Screen: %1x%2").arg(width).arg(height), 2500);
-
-    repaintRenderingView();
 }
 
 void MainWindow::setupToolsMenu()
