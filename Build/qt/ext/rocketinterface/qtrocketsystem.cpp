@@ -96,6 +96,8 @@ bool RocketSystem::createContext(const int width, const int height)
 
     context->AddEventListener("click", eventListener, true);
 
+    emit emitContextSize(QSize(context_w, context_h));
+
     return true;
 }
 
@@ -111,6 +113,8 @@ void RocketSystem::resizeContext(const int width, const int height)
 
     context_w = width;
     context_h = height;
+
+    emit emitContextSize(QSize(context_w, context_h));
 }
 
 void RocketSystem::loadFonts(const QString &directory_path)

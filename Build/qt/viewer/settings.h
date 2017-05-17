@@ -21,10 +21,12 @@ public:
     static QString getString(const QString &key, const QString def = "");
     static int getInt(const QString &key, const int def = 0);
 
+    static QSettings *instance() { return &settings; }
 private:
     static QSettings settings;
 };
 
 #define DEF_FONT_INFO "Courier",10
+#define appSettings Settings::instance()
 
 #endif

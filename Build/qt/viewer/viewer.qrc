@@ -13,5 +13,10 @@
         <file>res/frame-z10.png</file>
         <file>res/frame-monitor.png</file>
         <file>res/zoom1.png</file>
+        <file>res/zoom1.png</file>
+        <file>res/orientation-landscapeleft.png</file>
+        <file>res/orientation-landscaperight.png</file>
+        <file>res/orientation-portrait.png</file>
+        <file>res/orientation-upsidedown.png</file>
     </qresource>
 </RCC>

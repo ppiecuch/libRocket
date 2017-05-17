@@ -89,12 +89,9 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     addLogMsg(QString("Qt;%1").arg(qVersion()));
 
     renderingView = new RenderingView(this);
-    connect(renderingView, &RenderingView::emitMouseSize, [this](QPoint pos){
-        setMousePos(pos);
-    });
-    connect(renderingView, &RenderingView::emitLogMsg, [this](QString msg){
-        addLogMsg(msg);
-    });
+    connect(renderingView, SIGNAL(emitMouseSize(QPoint)), SLOT(setMousePos(QPoint)));
+    connect(renderingView, SIGNAL(emitLogMsg(QString)), SLOT(addLogMsg(QString)));
+    connect(&RocketSystem::getInstance(), SIGNAL(emitContextSize(QSize)), SLOT(setContextSize(QSize)));
 
     toolbar = addToolBar("Main");
     toolbar->setIconSize(QSize(16,16));
@@ -103,8 +100,10 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     statusBar()->setAttribute(Qt::WA_MacSmallSize);
     labelZoom = new QLabel;
     labelMousePos = new QLabel;
+    labelScreenSize = new QLabel;
     statusBar()->addPermanentWidget(labelZoom);
     statusBar()->addPermanentWidget(labelMousePos);
+    statusBar()->addPermanentWidget(labelScreenSize);
 
     ToolManager::getInstance().initialize();
 
@@ -126,6 +125,20 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     }
     toolbar->addSeparator();
 
+    int orient = Settings::getInt("Rocket/ScreenOrient", 0);
+
+    QAction *portrait_action = new QAction(QIcon(":/res/orientation-portrait.png"), "Portrait", this);
+    portrait_action->setProperty("orientation", 0);
+    portrait_action->setCheckable(true);
+    if (orient == 0) portrait_action->setChecked( true );
+    toolbar->addAction(portrait_action);
+    QAction *landscape_action = new QAction(QIcon(":/res/orientation-landscapeleft.png"), "Landscape", this);
+    landscape_action->setProperty("orientation", 1);
+    landscape_action->setCheckable(true);
+    if (orient == 1) landscape_action->setChecked( true );
+    toolbar->addAction(landscape_action);
+    toolbar->addSeparator();
+
     setupHelpMenu();
     buildCentralWidget();
 
@@ -138,6 +151,10 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     setZoomLevel(1);
     setMousePos(QPoint(0,0));
 
+    resize(appSettings->value("MainWindow/size", QSize(800, 600)).toSize());
+    move(appSettings->value("MainWindow/position", QPoint(200, 200)).toPoint());
+    setWindowState((Qt::WindowStates)appSettings->value("MainWindow/windowState", Qt::WindowActive).toInt());
+    restoreState(appSettings->value("MainWindow/widgetsState").toByteArray());
 
     fileWatcher = new QFileSystemWatcher();
 
@@ -220,6 +237,11 @@ void MainWindow::fileHasChanged(const QString &path)
     reloadCurrentDocument();
 }
 
+void MainWindow::resetZoom()
+{
+    renderingView->zoomReset();
+}
+
 void MainWindow::setZoomLevel(float level)
 {
     QString string_level;
@@ -236,6 +258,11 @@ void MainWindow::setZoomLevel(float level)
 void MainWindow::setMousePos(QPoint pos)
 {
     labelMousePos->setText(QString("Pos: %1x%2").arg(pos.x()).arg(pos.y()));
+}
+
+void MainWindow::setContextSize(QSize context)
+{
+    labelScreenSize->setText(QString("Screen: %1x%2").arg(context.width()).arg(context.height()));
 }
 
 void MainWindow::addLogMsg(QString msg)
@@ -316,7 +343,7 @@ void MainWindow::newScreenSizeAction()
 
 void MainWindow::setScreenSize(int width, int height)
 {
-    setScreenSize(width, height, Settings::getInt("ScreenSizeOrient"));
+    setScreenSize(width, height, Settings::getInt("Rocket/ScreenOrient"));
 }
 
 void MainWindow::setScreenSize(int width, int height, int orientation)
@@ -331,16 +358,16 @@ void MainWindow::setScreenSize(int width, int height, int orientation)
         }
     };
     RocketSystem::getInstance().resizeContext(width, height);
+
     if(getCurrentDocument())
     {
         reloadCurrentDocument();
     }
-    Settings::setValue("ScreenSizeWidth", width);
-    Settings::setValue("ScreenSizeHeight", height);
+    Settings::setValue("Rocket/ScreenWidth", width);
+    Settings::setValue("Rocket/ScreenHeight", height);
 
     statusBar()->showMessage(QString("Screen: %1x%2").arg(width).arg(height), 2500);
 
-    renderingView->resize(width, height);
     repaintRenderingView();
 }
 

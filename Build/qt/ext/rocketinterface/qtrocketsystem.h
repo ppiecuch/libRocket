@@ -50,6 +50,7 @@ public:
 
 signals:
     void emitRocketEvent(Rocket::Core::Event &event);
+    void emitContextSize(QSize context);
 
 private:
 

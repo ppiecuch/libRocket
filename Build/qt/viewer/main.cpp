@@ -222,16 +222,15 @@ int main(int argc, char ** argv)
     if (!options.file.isEmpty()) {
         QScopedPointer<MainWindow> window(new MainWindow);
 
-        int winw = Settings::getInt("ScreenSizeWidth", 800);
-        int winh = Settings::getInt("ScreenSizeHeight", 600);
+        // context size
+        int winw = Settings::getInt("Rocket/ScreenWidth", 640);
+        int winh = Settings::getInt("Rocket/ScreenHeight", 480);
 
         ToolManager::getInstance().changeCurrentTool(0);
 
         if(RocketSystem::getInstance().initialize(winw, winh))
         {
             if (window) {
-                window->resize(winw, winh);
-
                 if (options.fullscreen)
                     window->showFullScreen();
                 else if (options.maximized)

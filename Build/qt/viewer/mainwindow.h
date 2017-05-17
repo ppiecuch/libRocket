@@ -36,7 +36,9 @@ public slots:
     void unselectElement();
     void selectElement(Element *element);
     void setZoomLevel(float level);
+    void resetZoom();
     void setMousePos(QPoint pos);
+    void setContextSize(QSize context);
     void repaintRenderingView();
     void reloadCurrentDocument();
     void newScreenSizeAction();
@@ -54,7 +56,7 @@ private:
 
     RenderingView *renderingView;
     QDRuler *horzRuler, *vertRuler;
-    QLabel *labelZoom, *labelMousePos;
+    QLabel *labelZoom, *labelMousePos, *labelScreenSize;
     QLogTable *log;
     QFileSystemWatcher *fileWatcher;
     QToolBar *toolbar;

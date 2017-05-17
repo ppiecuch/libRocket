@@ -4,6 +4,7 @@
 #include <QDebug>
 #include <QDir>
 #include <QDirIterator>
+#include <QSettings>
 #include <QtOpenGL/qgl.h>
 
 #include <Rocket/Core.h>
@@ -38,16 +39,17 @@ void RocketRenderInterface::RenderGeometry(Rocket::Core::Vertex* vertices, int R
     }
 
     glDrawElements(GL_TRIANGLES, num_indices, GL_UNSIGNED_INT, indices);
-#if 1 // triangles outline
-    glDisable(GL_TEXTURE_2D);
-    glDisableClientState(GL_COLOR_ARRAY);
-    glColor4f(0,0.5,0.5,0.8); glLineWidth(2);
-    for (int t=0; t<num_indices/3; ++t)
-        glDrawElements(GL_LINE_LOOP, 3, GL_UNSIGNED_SHORT, indices+t*3);
-    if (texture)
-        glEnable(GL_TEXTURE_2D);
-    glColor4f(1,1,1,1); glLineWidth(1);
-#endif
+    if (QSettings().value("Debug/Outline", 0).toInt()) // triangles outline
+    {
+        glDisable(GL_TEXTURE_2D);
+        glDisableClientState(GL_COLOR_ARRAY);
+        glColor4f(0,0.5,0.5,0.8); glLineWidth(2);
+        for (int t=0; t<num_indices/3; ++t)
+            glDrawElements(GL_LINE_LOOP, 3, GL_UNSIGNED_SHORT, indices+t*3);
+        if (texture)
+            glEnable(GL_TEXTURE_2D);
+        glColor4f(1,1,1,1); glLineWidth(1);
+    }
 
     glDisableClientState(GL_COLOR_ARRAY);
     glDisableClientState(GL_TEXTURE_COORD_ARRAY);
