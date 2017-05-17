@@ -399,4 +399,12 @@ void MainWindow::keyPressEvent(QKeyEvent* event) {
     }
 }
 
+void MainWindow::closeEvent(QCloseEvent* event)
+{
+    appSettings->setValue("MainWindow/size", size());
+    appSettings->setValue("MainWindow/position", pos());
+    appSettings->setValue("MainWindow/windowState", (int)windowState());
+    appSettings->setValue("MainWindow/widgetsState", saveState());
+}
+
 MainWindow *MainWindow::instance;

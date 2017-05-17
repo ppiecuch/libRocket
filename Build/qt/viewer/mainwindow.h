@@ -65,6 +65,7 @@ private:
 
 protected:
     void keyPressEvent(QKeyEvent* event);
+    void closeEvent(QCloseEvent* event);
 
     static MainWindow *instance;
 };
