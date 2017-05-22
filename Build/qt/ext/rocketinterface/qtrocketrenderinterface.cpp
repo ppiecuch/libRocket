@@ -15,7 +15,7 @@ RocketRenderInterface::RocketRenderInterface()
 {
 }
 
-void RocketRenderInterface::RenderGeometry(Rocket::Core::Vertex* vertices, int ROCKET_UNUSED(num_vertices), int* indices, int num_indices, const Rocket::Core::TextureHandle texture, const Rocket::Core::Vector2f& translation)
+void RocketRenderInterface::RenderGeometry(Rocket::Core::Vertex* vertices, int ROCKET_UNUSED_PARAMETER(num_vertices), int* indices, int num_indices, const Rocket::Core::TextureHandle texture, const Rocket::Core::Vector2f& translation)
 {
     glPushMatrix();
     glTranslatef(translation.x, translation.y, 0);
@@ -56,16 +56,16 @@ void RocketRenderInterface::RenderGeometry(Rocket::Core::Vertex* vertices, int R
     glPopMatrix();
 }
 
-Rocket::Core::CompiledGeometryHandle RocketRenderInterface::CompileGeometry(Rocket::Core::Vertex* ROCKET_UNUSED(vertices), int ROCKET_UNUSED(num_vertices), int* ROCKET_UNUSED(indices), int ROCKET_UNUSED(num_indices), const Rocket::Core::TextureHandle ROCKET_UNUSED(texture))
+Rocket::Core::CompiledGeometryHandle RocketRenderInterface::CompileGeometry(Rocket::Core::Vertex* ROCKET_UNUSED_PARAMETER(vertices), int ROCKET_UNUSED_PARAMETER(num_vertices), int* ROCKET_UNUSED_PARAMETER(indices), int ROCKET_UNUSED_PARAMETER(num_indices), const Rocket::Core::TextureHandle ROCKET_UNUSED_PARAMETER(texture))
 {
     return (Rocket::Core::CompiledGeometryHandle) NULL;
 }
 
-void RocketRenderInterface::RenderCompiledGeometry(Rocket::Core::CompiledGeometryHandle ROCKET_UNUSED(geometry), const Rocket::Core::Vector2f& ROCKET_UNUSED(translation))
+void RocketRenderInterface::RenderCompiledGeometry(Rocket::Core::CompiledGeometryHandle ROCKET_UNUSED_PARAMETER(geometry), const Rocket::Core::Vector2f& ROCKET_UNUSED_PARAMETER(translation))
 {
 }
 
-void RocketRenderInterface::ReleaseCompiledGeometry(Rocket::Core::CompiledGeometryHandle ROCKET_UNUSED(geometry))
+void RocketRenderInterface::ReleaseCompiledGeometry(Rocket::Core::CompiledGeometryHandle ROCKET_UNUSED_PARAMETER(geometry))
 {
 }
 
